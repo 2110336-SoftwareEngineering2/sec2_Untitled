@@ -8,8 +8,8 @@ async function bootstrap() {
     AppModule,
   );
 
-  app.useStaticAssets(join(dirname, '..', 'public'));
-  app.setBaseViewsDir(join(dirname, '..', 'views'));
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
 
   await app.listen(3000);
