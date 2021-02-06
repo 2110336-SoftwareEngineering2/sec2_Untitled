@@ -25,5 +25,5 @@ export class PetSitter {
     @Column({ length: 45 })
         bank: string;
     @Column({ length: 10 })
-        bankAcount: string;
+        bankAccount: string;
 }
