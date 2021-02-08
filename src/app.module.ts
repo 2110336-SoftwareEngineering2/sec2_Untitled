@@ -8,6 +8,7 @@ import { AccountModule } from './account/account.module';
 import { ReviewModule } from './review/review.module';
 import { BookingModule } from './booking/booking.module';
 import { SearchModule } from './search/search.module';
+import { Pet } from './entities/pet.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { SearchModule } from './search/search.module';
       username: 'se2',
       password: 'se2',
       database: 'se2',
-      entities: [PetOwner, PetSitter],
+      entities: [PetOwner, PetSitter, Pet],
       synchronize: true // this should be false in production
     }),TypeOrmModule.forFeature([PetOwner]), AccountModule, ReviewModule, BookingModule, SearchModule
   ],
