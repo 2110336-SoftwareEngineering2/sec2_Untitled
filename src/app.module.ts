@@ -9,6 +9,9 @@ import { ReviewModule } from './review/review.module';
 import { BookingModule } from './booking/booking.module';
 import { SearchModule } from './search/search.module';
 import { Pet } from './entities/pet.entity';
+import { Booking } from './entities/booking.entity';
+import { SitterReview } from './entities/sitterreview.entity';
+import { OwnerReview } from './entities/ownerreview.entity';
 
 @Module({
   imports: [
@@ -19,7 +22,7 @@ import { Pet } from './entities/pet.entity';
       username: 'se2',
       password: 'se2',
       database: 'se2',
-      entities: [PetOwner, PetSitter, Pet],
+      entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview] ,
       synchronize: true // this should be false in production
     }),TypeOrmModule.forFeature([PetOwner]), AccountModule, ReviewModule, BookingModule, SearchModule
   ],
