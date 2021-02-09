@@ -1,6 +1,8 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Booking } from "./booking.entity";
+import { OwnerReview } from "./ownerreview.entity";
 import { PetOwner } from "./petowner.entity";
+import { SitterReview } from "./sitterreview.entity";
 
 @Entity()
 export class PetSitter {
@@ -42,4 +44,10 @@ export class PetSitter {
 
     @OneToMany(type => Booking, booking => booking.sitter)
         booking: Booking;
+
+    @OneToMany(type => OwnerReview, ownerreview => ownerreview.sitter)
+        ownerreview: OwnerReview;
+
+    @OneToMany(type => SitterReview, sitterreview => sitterreview.sitter)
+        sitterreview: SitterReview;
 }

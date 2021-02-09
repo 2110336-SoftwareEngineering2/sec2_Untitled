@@ -1,4 +1,19 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Response } from '@nestjs/common';
+import { AccountService } from './account.service'
 
-@Controller('account')
-export class AccountController {}
+@Controller()
+export class AccountController {
+  constructor(private readonly accountService: AccountService) { }
+
+  @Get('/login')
+  renderLogin(@Response() res): any {
+    res.render('account/login')
+  }
+
+  @Get('/register')
+  renderRegister(@Response() res): any {
+    res.render('account/register')
+  }
+
+}
+
