@@ -9,6 +9,5 @@ export class AppController {
   getAllUser(): any {
     return this.appService.getHello();
   }
-
   
 }
