@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import { Booking } from "./booking.entity";
 import { PetOwner } from "./petowner.entity";
 
 @Entity()
@@ -23,4 +24,7 @@ export class Pet{
     
     @Column({length: 200})
         appearance: string;
+
+    @OneToMany(type => Booking, booking => booking.pet)
+        booking: Booking;
 }

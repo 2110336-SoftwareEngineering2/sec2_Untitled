@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Booking } from "./booking.entity";
 import { PetOwner } from "./petowner.entity";
 
 @Entity()
@@ -39,4 +40,6 @@ export class PetSitter {
     @Column({ length: 10 })
         bankAccount: string;
 
+    @OneToMany(type => Booking, booking => booking.sitter)
+        booking: Booking;
 }
