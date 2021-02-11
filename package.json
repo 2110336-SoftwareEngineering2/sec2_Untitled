@@ -27,7 +27,11 @@
     "@nestjs/passport": "^7.1.5",
     "@nestjs/platform-express": "^7.5.1",
     "@nestjs/typeorm": "^7.1.5",
+<<<<<<< HEAD
+    "dayjs": "^1.10.4",
+=======
     "bcryptjs": "^2.4.3",
+>>>>>>> main
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "hbs": "^4.1.1",

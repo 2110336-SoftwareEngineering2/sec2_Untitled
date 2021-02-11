@@ -50,4 +50,12 @@ export class PetSitter {
 
     @OneToMany(type => SitterReview, sitterreview => sitterreview.sitter)
         sitterreview: SitterReview;
+
+    public get fullGender(): string{
+        return this.gender == "F" ? "Female" : "Male"
+    }
+
+    public get fullName(): string{
+        return this.fname + ' ' + this.lname
+    }
 }
