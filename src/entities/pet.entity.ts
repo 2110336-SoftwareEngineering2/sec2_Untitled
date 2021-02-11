@@ -1,3 +1,4 @@
+import * as dayjs from "dayjs";
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
 import { Booking } from "./booking.entity";
 import { PetOwner } from "./petowner.entity";
@@ -27,4 +28,13 @@ export class Pet{
 
     @OneToMany(type => Booking, booking => booking.pet)
         booking: Booking;
+
+    public get age(): number{
+        let now = dayjs()
+        let yob = dayjs().year(this.yearOfBirth)
+        return now.diff(yob, "year")
+    }
+    public get fullGender(): string{
+        return this.gender == "F" ? "Female" : "Male"
+    }
 }
