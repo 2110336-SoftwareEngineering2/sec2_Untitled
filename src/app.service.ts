@@ -5,7 +5,7 @@ import { PetOwner } from './entities/petowner.entity';
 
 @Injectable()
 export class AppService {
-  constructor(@InjectRepository(PetOwner) private readonly repo: Repository<PetOwner>){}
+  constructor(@InjectRepository(PetOwner) private readonly repo: Repository<PetOwner>) { }
 
   getHello(): string {
     return 'Hello World!';
