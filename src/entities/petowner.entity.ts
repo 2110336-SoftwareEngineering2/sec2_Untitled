@@ -41,7 +41,6 @@ export class PetOwner {
     ownerreview: OwnerReview;
 
     @OneToMany(type => SitterReview, sitterreview => sitterreview.owner)
-<<<<<<< HEAD
     sitterreview: SitterReview;
 
     @Column({default:0})
@@ -55,15 +54,6 @@ export class PetOwner {
     }
 
     public get fullName(): string {
-=======
-        sitterreview: SitterReview;
-
-    public get fullGender(): string{
-        return this.gender == "F" ? "Female" : "Male"
-    }
-
-    public get fullName(): string{
->>>>>>> main
         return this.fname + ' ' + this.lname
     }
 }
