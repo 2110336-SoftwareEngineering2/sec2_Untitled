@@ -8,7 +8,7 @@ export class AuthMiddleware implements NestMiddleware {
   constructor(private readonly authService: AuthService){}
 
   use(req: Request, _: Response, next: () => void) {
-    const token = (req.headers.authorization ?? '').split('Bearer ')[1];
+    const token = (req.headers.cookie ?? '').split('token=')[1];
     console.log(token);
     try{
       const {uid} = this.authService.verifyToken(token);

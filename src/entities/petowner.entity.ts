@@ -7,40 +7,55 @@ import { SitterReview } from "./sitterreview.entity";
 
 @Entity()
 export class PetOwner {
-    @PrimaryGeneratedColumn() 
-        id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-    @Column({ length: 20, nullable: false})
-        username: string;
+    @Column({ length: 20, nullable: false })
+    username: string;
 
-    @Column({ length: 120, nullable: false})
-        password: string;
+    @Column({ length: 120, nullable: false })
+    password: string;
 
-    @Column({ length: 45, nullable: false})
-        fname: string;
+    @Column({ length: 45, nullable: false })
+    fname: string;
 
-    @Column({ length: 45, nullable: false})
-        lname: string;
+    @Column({ length: 45, nullable: false })
+    lname: string;
 
     @CreateDateColumn()
-        signUpDate: Date;
+    signUpDate: Date;
 
     @Column({ type: "decimal", nullable: true, precision: 2, scale: 1 })
-        rating: number;
+    rating: number;
 
     @Column({ nullable: true, length: 1 })
-        gender: string;
-    
+    gender: string;
+
     @OneToMany(type => Pet, pet => pet.owner)
-        pet: Pet;
+    pet: Pet;
 
     @OneToMany(type => Booking, booking => booking.owner)
-        booking: Booking;
+    booking: Booking;
 
     @OneToMany(type => OwnerReview, ownerreview => ownerreview.owner)
-        ownerreview: OwnerReview;
+    ownerreview: OwnerReview;
 
     @OneToMany(type => SitterReview, sitterreview => sitterreview.owner)
+<<<<<<< HEAD
+    sitterreview: SitterReview;
+
+    @Column({default:0})
+    reviewerAmount: number;
+
+    @Column({ length: 200 })
+    picUrl: string;
+
+    public get fullGender(): string {
+        return this.gender == "F" ? "Female" : "Male"
+    }
+
+    public get fullName(): string {
+=======
         sitterreview: SitterReview;
 
     public get fullGender(): string{
@@ -48,6 +63,7 @@ export class PetOwner {
     }
 
     public get fullName(): string{
+>>>>>>> main
         return this.fname + ' ' + this.lname
     }
 }
