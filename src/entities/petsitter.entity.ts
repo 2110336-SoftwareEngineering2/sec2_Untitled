@@ -60,10 +60,10 @@ export class PetSitter {
     @Column({default:0})
     reviewerAmount : number;
 
-    @Column( {length: 200 })
+    @Column( {length: 200 , nullable: true})
     description: string;
 
-    @Column({ length: 200 })
+    @Column({ length: 200 , nullable: true})
     services: string;
 
     public get fullGender(): string {
