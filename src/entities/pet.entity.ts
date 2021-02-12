@@ -1,5 +1,5 @@
 import * as dayjs from "dayjs";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
 import { Booking } from "./booking.entity";
 import { PetOwner } from "./petowner.entity";
 
