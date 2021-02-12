@@ -13,6 +13,7 @@ import { Booking } from './entities/booking.entity';
 import { SitterReview } from './entities/sitterreview.entity';
 import { OwnerReview } from './entities/ownerreview.entity';
 import { AuthModule } from './auth/auth.module';
+import { DummyModule } from './dummy/dummy.module';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { AuthModule } from './auth/auth.module';
       database: 'se2',
       entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview] ,
       synchronize: true // this should be false in production
-    }),TypeOrmModule.forFeature([PetOwner]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule
+    }),TypeOrmModule.forFeature([PetOwner]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule
   ],
   controllers: [AppController],
   providers: [AppService]
