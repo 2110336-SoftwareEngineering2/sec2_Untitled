@@ -29,7 +29,7 @@ export class Pet {
     @OneToMany(type => Booking, booking => booking.pet)
     booking: Booking;
 
-    @Column({ length: 200 })
+    @Column({ length: 200, nullable:true })
     picUrl: string;
 
     public get age(): number {
