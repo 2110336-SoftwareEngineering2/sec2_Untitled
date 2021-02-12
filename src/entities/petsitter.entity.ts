@@ -6,48 +6,71 @@ import { SitterReview } from "./sitterreview.entity";
 
 @Entity()
 export class PetSitter {
-    @PrimaryGeneratedColumn() 
-        id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column({ length: 20 })
-        username: string;
+    username: string;
 
     @Column({ length: 120 })
-        password: string;
+    password: string;
 
     @Column({ length: 45 })
-        fname: string;
+    fname: string;
 
     @Column({ length: 45 })
-        lname: string;
+    lname: string;
 
     @CreateDateColumn()
-        signUpDate: Date;
+    signUpDate: Date;
 
     @Column({ type: "decimal", precision: 2, scale: 1 })
-        rating: number;
+    rating: number;
 
     @Column({ length: 1 })
-        gender: string;
+    gender: string;
 
     @Column({ type: "decimal", precision: 10, scale: 2 })
-        priceRate: number;
+    priceRate: number;
 
     @Column({ length: 200 })
-        location: string;
+    location: string;
 
     @Column({ length: 45 })
-        bank: string;
+    bank: string;
 
     @Column({ length: 10 })
-        bankAccount: string;
+    bankAccount: string;
 
     @OneToMany(type => Booking, booking => booking.sitter)
-        booking: Booking;
+    booking: Booking;
 
     @OneToMany(type => OwnerReview, ownerreview => ownerreview.sitter)
-        ownerreview: OwnerReview;
+    ownerreview: OwnerReview;
 
     @OneToMany(type => SitterReview, sitterreview => sitterreview.sitter)
-        sitterreview: SitterReview;
+    sitterreview: SitterReview;
+
+    @Column({ length: 45 })
+    locationName: string;
+
+    @Column({ length: 200 })
+    picUrl: string;
+
+    @Column({default:0})
+    reviewerAmount : number;
+
+    @Column( {length: 200 })
+    description: string;
+
+    @Column({ length: 200 })
+    services: string;
+
+    public get fullGender(): string {
+        return this.gender == "F" ? "Female" : "Male"
+    }
+
+    public get fullName(): string {
+        return this.fname + ' ' + this.lname
+    }
 }
