@@ -27,7 +27,7 @@ export class Pet {
     appearance: string;
 
     @OneToMany(type => Booking, booking => booking.pet)
-    booking: Booking[];
+    booking: Booking;
 
     @Column({ length: 200 })
     picUrl: string;
