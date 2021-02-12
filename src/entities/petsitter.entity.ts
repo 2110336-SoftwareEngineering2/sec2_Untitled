@@ -54,7 +54,7 @@ export class PetSitter {
     @Column({ length: 45 })
     locationName: string;
 
-    @Column({ length: 200 })
+    @Column({ length: 200, nullable:true })
     picUrl: string;
 
     @Column({default:0})

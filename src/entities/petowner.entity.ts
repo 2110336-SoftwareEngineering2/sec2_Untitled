@@ -46,7 +46,7 @@ export class PetOwner {
     @Column({default:0})
     reviewerAmount: number;
 
-    @Column({ length: 200 })
+    @Column({ length: 200, nullable:true })
     picUrl: string;
 
     public get fullGender(): string {
