@@ -24,7 +24,7 @@ export class PetSitter {
     @CreateDateColumn()
     signUpDate: Date;
 
-    @Column({ type: "decimal", precision: 2, scale: 1 })
+    @Column({ type: "decimal", nullable: true , precision: 2, scale: 1 })
     rating: number;
 
     @Column({ length: 1 })
