@@ -1,23 +1,41 @@
-import { Controller, Get, Param, Response } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { PetSitter } from 'src/entities/petsitter.entity';
-import { Repository } from 'typeorm';
+import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Post, Render, Req, Response } from '@nestjs/common';
 import { viewNames } from 'src/booking/viewnames';
 import { BookingService } from './booking.service';
+import { BookPetSitterDto } from './dto/pet_sitter.dto';
 
 @Controller('book')
 export class BookingController {
     constructor(
-        @InjectRepository(PetSitter)
-        private petSitterRepo: Repository<PetSitter>,
-        private bookingService: BookingService
+        private readonly bookingService: BookingService
     ){}
 
+    // show pet sitter info
     @Get(':pet_sitter_id')
-    async index(@Param('pet_sitter_id') psid: string, @Response() res) {
-        let ps = await this.petSitterRepo.findOne(psid)
-        res.render(viewNames.show_pet_sitter_info, {
-            pet_sitter: ps
-        })
+    @Render(viewNames.show_pet_sitter_info)
+    async index(@Param('pet_sitter_id') psid: number) {
+        this.bookingService.handlePetSitterInfo(psid)
+        let ps = await this.bookingService.findPetSitterById(psid)
+        return ps
+    }
+
+    @Get(':pet_sitter_id/options')
+    @Render(viewNames.show_booking_options)
+    async show_options(@Param('pet_sitter_id') psid: number){
+        let ownerId = 1000001; // this should be retrieved from auth
+        let pets = await this.bookingService.findPetsByOwnerId(ownerId)
+        return { pets: pets}
+    }
+
+    @Post()
+    async book_pet_sitter(@Body() request: any) {
+        if(await this.bookingService.handleIncomingRequest(request)) return {
+            code: HttpStatus.OK,
+            status: true
+        }
+
+        return {
+            code: HttpStatus.OK,
+            status: false
+        }
     }
 }
