@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -12,6 +12,9 @@ import { Pet } from './entities/pet.entity';
 import { Booking } from './entities/booking.entity';
 import { SitterReview } from './entities/sitterreview.entity';
 import { OwnerReview } from './entities/ownerreview.entity';
+import { AuthModule } from './auth/auth.module';
+import { AuthMiddleware } from './middleware/auth.middleware';
+import { SitterAnimal } from './entities/sitteranimal.entity';
 
 @Module({
   imports: [
@@ -22,11 +25,17 @@ import { OwnerReview } from './entities/ownerreview.entity';
       username: 'se2',
       password: 'se2',
       database: 'se2',
-      entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview] ,
+      entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview, SitterAnimal] ,
       synchronize: true // this should be false in production
-    }),TypeOrmModule.forFeature([PetOwner]), AccountModule, ReviewModule, BookingModule, SearchModule
+    }),TypeOrmModule.forFeature([PetOwner]), 
+    AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule
   ],
   controllers: [AppController],
   providers: [AppService]
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware).forRoutes('*');
+  }
+}
