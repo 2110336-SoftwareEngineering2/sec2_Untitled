@@ -9,10 +9,22 @@ async function bootstrap() {
     AppModule,
   );
 
+  hbs.registerHelper("gt", function(num1, num2){
+    return num1 > num2
+  })
+
+  hbs.registerHelper("capFirstChar", function(string: string){
+    let splitted = string.split(' ')
+    for(let i=0; i<splitted.length; i++){
+      splitted[i] = splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1)
+    }
+    return splitted.join(' ')
+  })
+
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   hbs.registerPartials(join(__dirname, '..', '/views/partials'));
-hbs.registerPartials(join(__dirname, '..', '/views/layouts'));
+  hbs.registerPartials(join(__dirname, '..', '/views/layouts'));
   app.setViewEngine('hbs');
 
   const port = 3000;
