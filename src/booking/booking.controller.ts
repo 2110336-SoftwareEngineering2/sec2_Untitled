@@ -13,9 +13,8 @@ export class BookingController {
     @Get(':pet_sitter_id')
     @Render(viewNames.show_pet_sitter_info)
     async index(@Param('pet_sitter_id') psid: number) {
-        this.bookingService.handlePetSitterInfo(psid)
-        let ps = await this.bookingService.findPetSitterById(psid)
-        return ps
+        let ps_info = await this.bookingService.handlePetSitterInfo(psid)
+        return ps_info
     }
 
     @Get(':pet_sitter_id/options')

@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { PetDto } from './dto/pet.dto';
 import { BookPetSitterDto } from './dto/pet_sitter.dto';
 import * as dayjs from "dayjs";
+import { SitterReview } from 'src/entities/sitterreview.entity';
 
 let customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
@@ -24,17 +25,19 @@ export class BookingService {
         @InjectRepository(Pet)
         private readonly petRepo: Repository<Pet>,
         @InjectRepository(Booking)
-        private readonly bookingRepo: Repository<Booking>
+        private readonly bookingRepo: Repository<Booking>,
+        @InjectRepository(SitterReview)
+        private readonly sitterReviewRepo: Repository<SitterReview>
     ){}
 
-    async findPetSitterById(id: number): Promise<any>{
+    async findPetSitterById(id: number): Promise<PetSitter>{
         let pet_sitter = await this.petSitterRepo.findOne(id)
-        if(!pet_sitter) throw new NotFoundException
+        if(!pet_sitter) throw new NotFoundException("Pet sitter not found, recheck id")
 
         return pet_sitter
     }
 
-    async findPetsByOwnerId(id: number): Promise<any> {
+    async findPetsByOwnerId(id: number): Promise<Pet[]> {
         let pets = await this.petRepo.find({
             where: {
                 owner: id
@@ -45,11 +48,19 @@ export class BookingService {
         return pets
     }
 
-    async handlePetSitterInfo(psid: number){
+    async handlePetSitterInfo(psid: number): Promise<BookPetSitterDto>{
         let ps = await this.findPetSitterById(psid)
-        let now = dayjs()
-        let year_of_exp = now.diff(ps.signUpDate, "year")
-        // ps.exp = year_of_exp
+
+        // get sitter reviews
+        let reviews = await this.sitterReviewRepo.find({
+            relations: ['owner'],
+            where: {
+                sitter: psid
+            }
+        })
+
+        let result = new BookPetSitterDto(ps, reviews)
+        return result
     }
 
     // po requests -> ps confirms -> paid by po
