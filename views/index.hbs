@@ -51,15 +51,43 @@
         <div class="card mx-2 login-popup d-none">
             <article class="card-body p-5">
                 <h4 class="card-title mb-4 mt-1">Login</h4>
-                <form action="/login" method="POST" class="validated-form" novalidate>
+
+                <div class="d-flex justify-content-between">
+                    <button class="btn rounded-0 actived" id="petowner-login-btn" onclick="displayPetOwnerLoginPopup()">Pet Owner</button>
+
+                    <button class="btn rounded-0 deactived" id="petsitter-login-btn" onclick="displayPetSitterLoginPopup()">Pet Sitter</button>
+                </div>
+
+                <form action="/login" method="POST" class="validated-form petowner-login" novalidate>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input name="username" class="form-control" placeholder="Username" type="text" id="username">
+                        <input name="username" class="form-control" placeholder="Pet Owner Username" type="text" id="username">
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input class="form-control" type="password" name="password" id="password">
                     </div>
+                    <input class="form-control d-none" type="text" name="role" value="owner">
+                    <div class="form-group">
+                        <label for="forgot"><a class="float-left" href="#" id="forgot">Forgot Password?</a></label>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-dark btn-block mt-4"> Login </button>
+                    </div>
+                    <small id="goRegister" class="form-text text-muted text-center">Don't Have An Account? <a
+                            class="register-button">Register</a></small>
+                </form>
+
+                <form action="/login" method="POST" class="validated-form petsitter-login d-none" novalidate>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input name="username" class="form-control" placeholder="Pet Sitter Username" type="text" id="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input class="form-control" type="password" name="password" id="password">
+                    </div>
+                    <input class="form-control d-none" type="text" name="role" value="sitter">
                     <div class="form-group">
                         <label for="forgot"><a class="float-left" href="#" id="forgot">Forgot Password?</a></label>
                     </div>
@@ -74,7 +102,14 @@
         <div class="card mx-2 register-popup d-none">
             <article class="card-body p-5">
                 <h4 class="card-title mb-4 mt-1">Register</h4>
-                <form action="/register" method="POST" class="validated-form" novalidate>
+
+                <div class="d-flex justify-content-between">
+                    <button class="btn rounded-0 actived" id="petowner-register-btn" onclick="displayPetOwnerRegisterPopup()">Pet Owner</button>
+
+                    <button class="btn rounded-0 deactived" id="petsitter-register-btn" onclick="displayPetSitterRegisterPopup()">Pet Sitter</button>
+                </div>
+
+                <form action="/register" method="POST" class="validated-form petowner-register" novalidate>
                     <div class="form-group">
                         <label for="fname">First Name</label>
                         <input name="fname" class="form-control" placeholder="First Name" type="text" id="fname">
@@ -91,6 +126,60 @@
                         <label for="password">Password</label>
                         <input class="form-control" type="password" name="password" id="password">
                     </div>
+                    <input class="form-control d-none" type="text" name="role" value="owner">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-dark btn-block mt-4">Register</button>
+                    </div>
+                    <small id="goLogin" class="form-text text-muted text-center">Already Have An Account? <a
+                            class="login-button">Login</a></small>
+                </form>
+
+                <form action="/register" method="POST" class="validated-form petsitter-register d-none" novalidate>
+                    <div class="form-group">
+                        <label for="fname">First Name</label>
+                        <input name="fname" class="form-control" placeholder="First Name" type="text" id="fname">
+                    </div>
+                    <div class="form-group">
+                        <label for="lname">Last Name</label>
+                        <input name="lname" class="form-control" placeholder="Last Name" type="text" id="lname">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input name="username" class="form-control" placeholder="Username" type="text" id="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input class="form-control" type="password" name="password" id="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select name="gender" class="form-control" placeholder="Gender" id="gender">
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="priceRate">Price Rate</label>
+                        <input name="priceRate" class="form-control" placeholder="Price Rate" type="text" id="priceRate">
+                    </div>
+                    <div class="form-group">
+                        <label for="locationName">Location Name</label>
+                        <input name="locationName" class="form-control" placeholder="Location Name" type="text" id="locationName">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location Address</label>
+                        <input name="location" class="form-control" placeholder="Address" type="text" id="location">
+                    </div>
+                    <div class="form-group">
+                        <label for="bank">Bank</label>
+                        <input name="bank" class="form-control" placeholder="Bank Name" type="text" id="bank">
+                    </div>
+                    <div class="form-group">
+                        <label for="bankAccount">Bank Account</label>
+                        <input name="bankAccount" class="form-control" placeholder="Bank Account" type="text" pattern="[0-9]{10}" id="bankAccount">
+                    </div>
+                    <input class="form-control d-none" type="text" name="role" value="sitter">
+                    
                     <div class="form-group">
                         <button type="submit" class="btn btn-dark btn-block mt-4">Register</button>
                     </div>
