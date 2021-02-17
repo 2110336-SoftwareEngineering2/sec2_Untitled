@@ -33,9 +33,12 @@ import { SitterAnimal } from './entities/sitteranimal.entity';
   controllers: [AppController],
   providers: [AppService]
 })
-export class AppModule implements NestModule{
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware).forRoutes('*');
-  }
-}
+
+export class AppModule {}
+
+// export class AppModule implements NestModule{
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer
+//       .apply(AuthMiddleware).forRoutes('/secret');
+//   }
+// }

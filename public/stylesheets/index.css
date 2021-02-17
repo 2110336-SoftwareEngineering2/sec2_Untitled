@@ -43,3 +43,13 @@ body {
     top: 1rem;
     font-size: 0.75rem;
 }
+
+.deactived {
+    color: #DCDCDC;
+    border-bottom: 0px solid #0275d8;
+}
+
+.actived {
+    color: black;
+    border-bottom: 2px solid #0275d8;
+}
