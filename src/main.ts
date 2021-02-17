@@ -3,6 +3,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import * as hbs from 'hbs'
+import * as dayjs from 'dayjs';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -19,6 +20,10 @@ async function bootstrap() {
       splitted[i] = splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1)
     }
     return splitted.join(' ')
+  })
+
+  hbs.registerHelper("formatDate", function(utcFormat: Date, format: string){
+    return dayjs(utcFormat).format(format)
   })
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
