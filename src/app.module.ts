@@ -13,7 +13,7 @@ import { Booking } from './entities/booking.entity';
 import { SitterReview } from './entities/sitterreview.entity';
 import { OwnerReview } from './entities/ownerreview.entity';
 import { AuthModule } from './auth/auth.module';
-import { AuthMiddleware } from './middleware/auth.middleware';
+  import { AuthMiddleware } from './middleware/auth.middleware';
 import { SitterAnimal } from './entities/sitteranimal.entity';
 
 @Module({
@@ -33,9 +33,12 @@ import { SitterAnimal } from './entities/sitteranimal.entity';
   controllers: [AppController],
   providers: [AppService]
 })
-export class AppModule implements NestModule{
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware).forRoutes('*');
-  }
-}
+
+export class AppModule {}
+
+// export class AppModule implements NestModule{
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer
+//       .apply(AuthMiddleware).forRoutes('/secret');
+//   }
+// }
