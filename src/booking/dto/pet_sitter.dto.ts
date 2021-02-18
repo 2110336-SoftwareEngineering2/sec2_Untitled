@@ -49,7 +49,7 @@ export class BookPetSitterDto {
         else this.exp = {value: -1, unit: "month"} // less than a month
 
         this.reviews = reviews // assign reviews
-        this.services = ps.services.split(', ').slice(0, -1) // assign services
+        this.services = ps.services == null ? [] : ps.services.split(', ').slice(0, -1) // assign services
 
         this.fullName = ps.fullName
         this.fullGender = ps.fullGender
