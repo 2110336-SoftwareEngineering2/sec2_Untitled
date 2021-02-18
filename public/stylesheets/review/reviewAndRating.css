@@ -14,8 +14,8 @@ body {
 .circular--landscape {
 	display: inline-block;
 	position: relative;
-	width: 200px;
-	height: 200px;
+	width: 150px;
+	height: 150px;
 	overflow: hidden;
 	border-radius: 50%;
   }
@@ -40,7 +40,6 @@ body {
 	width: auto;
 	height: 100%;
 	margin-left: 0px;
-	margin-top: -7.5px;
   }
 
   .circular--landscape--nav {

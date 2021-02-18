@@ -24,11 +24,12 @@
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="/stylesheets/review/reviewAndRating.css">
-    <script src="/javascripts/review/reviewAndRating.js"></script>
+    
     <title>reviews and Ratings</title>
 </head>
 
 <body class="vh-100">
+
 
     <nav class="navbar navbar-expand-lg navbar-dark" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);'>
         <a class="navbar-brand" href="#"></a>
@@ -49,7 +50,7 @@
                     <div class="d-flex flex-row">
                         <div class='d-flex flex-column mr-2'>
                             <div class='align-self-end' style='font-size: 10px'>pet owner</div>
-                            <div style='font-size: 15px'>COLIN BREKKE</div>
+                            <div style='font-size: 15px'>{{petOwner.fullName}}</div>
                         </div>
                         <div>
                             <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdownMenuLink" role="button"
@@ -76,7 +77,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb my-2 bg-white">
             <li class="breadcrumb-item"><a href="#">SEARCH RESULT</a></li>
-            <li class="breadcrumb-item"><a href="#">PETSITTER NAME</a></li>
+            <li class="breadcrumb-item"><a href="#">{{petSitter.fullName}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">REVIEWS AND RATINGS</li>
         </ol>
     </nav>
@@ -84,28 +85,25 @@
     <div class="vl-middle-page"></div>
 
     <div class="reviewAndRating d-flex mt-4 container" style='max-width:90%'>
-        <div class="row">
+        <div class="row m-auto">
             <div class="profileAndRatings col-12 col-lg-6 info-padding mb-5">
                 <div class='profile'>
                     <div class='row'>
-                        <div class="col col-xl-5 d-flex flex-column">
+                        <div class="col col-xl-4 d-flex flex-column">
                             <div class="circular--landscape align-self-center">
-                                <img src='https://randomuser.me/api/portraits/women/63.jpg'>
+                                <img src={{petSitter.picUrl}}>
                             </div>
+							
                             <div class='align-self-center mt-3'>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star"></span>
-                                <span class="fa fa-star"></span>
-                                <span class='font-weight-bolder ml-1' style="color: orange;">4.6</span>
+								<div rating={{petSitter.rating}}></div>
+                                <p class='text-center my-2'>Online Now</p>
                             </div>
                         </div>
-                        <div class="col col-xl-7  align-self-center">
-                            <h1 class='text-lg-center mb-3'>Buse Öztonga</h1>
-                            <p class='text-lg-center'>Dedicated pet sitter in the Portland Area !</h1>
-                            <p class='text-lg-center mt-4'>Portland, Maine</p>
-                            <p class='text-lg-center'>Online Now</p>
+                        <div class="col col-xl-8  align-self-center">
+                            <h1 class='text-lg-center mb-3'>{{petSitter.fullName}}</h1>
+                            <p class='text-lg-center'>{{petSitter.description}}</h1>
+                            <p class='text-lg-center mt-4 text-muted'><small>{{petSitter.location}}</small></p>
+                            
                         </div>
                     </div>
                 </div>
@@ -115,13 +113,9 @@
                         <h4 class="text-lg-center mb-3">Customer Reviews</h4>
                         <div class="d-flex justify-content-center bg-gray-info py-3 m-auto">
                             <div class='d-flex align-self-center mx-1 '>
-                                <span class="fa fa-star fa-2x fa-fw checked"></span>
-                                <span class="fa fa-star fa-2x fa-fw checked"></span>
-                                <span class="fa fa-star fa-2x fa-fw checked"></span>
-                                <span class="fa fa-star fa-2x fa-fw checked"></span>
-                                <span class="fa fa-star fa-2x fa-fw checked"></span>
+                                <div rating={{petSitter.rating}}></div>
                             </div>
-                            <p class="d-flex align-self-center mx-2 mb-0">4.7 out of 5</p>
+                            <p class="d-flex align-self-center mx-2 mb-0">{{petSitter.rating}} out of 5</p>
                         </div>
                         <p class="d-flex justify-content-center my-2">40 customer ratings</p>
                     </div>
@@ -214,29 +208,22 @@
             <div class="reviews col-12 col-lg-6 info-padding mb-5">
                 <h3 class="mb-4 pb-3">Reviews (82)</h3>
                 <div class="reviews-list">
+                    {{#each reviews}}
                     <div class="review">
-                        <div class=" d-flex flex-row">
-                            <div class='flex-fill'>
+                        <div class=" d-flex flex-row ">
+                            <div class=''>
                                 <div class="circular--landscape--review align-self-center">
-                                    <img src='https://images.unsplash.com/photo-1613053341085-db794820ce43?ixid=MXwxMjA3
-                                        fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'
-                                        style='width:75px;height:110px'>
+                                    <img src={{owner.picUrl}}
+                                        style=''>
                                 </div>
                             </div>
-
                             <div class='flex-fill ml-3'>
-                                <p class='mb-0'>COLIN BREKKE</p>
-                                <div class='my-1 mb-4'>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
+                                <p class='mb-0'>{{owner.fullName}}</p>
+								<p class='mb-0'>{{id}}</p>
+                                <div class='d-flex my-1 mb-1'>
+                                    <div rating={{owner.rating}}></div>
                                 </div>
-                                <p>
-                                    This is a wider card with supporting text below as a natural lead-in to
-                                    additional content. This content is a little bit longer.
-                                </p>
+                                <p>{{description}}</p>
                                 <p class='mt-2 mb-1 text-muted'>
                                     <small>Brooklyn, NY, US 27 sep - 30 sep 2019</small>
                                 </p>
@@ -244,68 +231,11 @@
                         </div>
                         <div class="hl my-3"></div>
                     </div>
-                    <div class="review">
-                        <div class=" d-flex flex-row">
-                            <div class='flex-fill'>
-                                <div class="circular--landscape--review align-self-center">
-                                    <img src='https://images.unsplash.com/photo-1613053341085-db794820ce43?ixid=MXwxMjA3
-                                        fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'
-                                        style='width:75px;height:110px'>
-                                </div>
-                            </div>
+                    {{/each}}
 
-                            <div class='flex-fill ml-3'>
-                                <p class='mb-0'>COLIN BREKKE</p>
-                                <div class='my-1 mb-4'>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                </div>
-                                <p>
-                                    This is a wider card with supporting text below as a natural lead-in to
-                                    additional content. This content is a little bit longer.
-                                </p>
-                                <p class='mt-2 mb-1 text-muted'>
-                                    <small>Brooklyn, NY, US 27 sep - 30 sep 2019</small>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="hl my-3"></div>
-                    </div>
-                    <div class="review">
-                        <div class=" d-flex flex-row">
-                            <div class='flex-fill'>
-                                <div class="circular--landscape--review align-self-center">
-                                    <img src='https://images.unsplash.com/photo-1613053341085-db794820ce43?ixid=MXwxMjA3
-                                        fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'
-                                        style='width:75px;height:110px'>
-                                </div>
-                            </div>
 
-                            <div class='flex-fill ml-3'>
-                                <p class='mb-0'>COLIN BREKKE</p>
-                                <div class='my-1 mb-4'>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                </div>
-                                <p>
-                                    This is a wider card with supporting text below as a natural lead-in to
-                                    additional content. This content is a little bit longer.
-                                </p>
-                                <p class='mt-2 mb-1 text-muted'>
-                                    <small>Brooklyn, NY, US 27 sep - 30 sep 2019</small>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="hl my-3"></div>
-                    </div>
 
-                </div>
+                <!--</div>
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
                         <li class="page-item">
@@ -322,13 +252,14 @@
                             </a>
                         </li>
                     </ul>
-                </nav>
+                </nav>-->
             </div>
 
 
         </div>
     </div>
-
+	<script src="/javascripts/review/reviewAndRating.js"></script>
+	<script src="/javascripts/review/starsHandler.js"></script>
 </body>
 
 </html>

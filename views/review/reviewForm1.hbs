@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Review page 1</title>
+		<!-- Required meta tags always come first -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+			crossorigin="anonymous"
+		/>
+
+		<!--font-awesome star icon-->
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<!--Golf's stylesheet-->
+		<link rel="stylesheet" href="/stylesheets/review/reviewAndRating.css" />
+
+		<!-- rating.js file -->
+		<script src="SE2-ReviewPage/sec2_Untitled/public/javascripts/review/rating2.js"></script>
+
+		<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
+		<style>
+			.checked {
+				color: orange;
+			}
+			.rating {
+				display: inline-block;
+				position: relative;
+				height: 50px;
+				line-height: 50px;
+				font-size: 50px;
+			}
+
+			.rating label {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				cursor: pointer;
+			}
+
+			.rating label:last-child {
+				position: static;
+			}
+
+			.rating label:nth-child(1) {
+				z-index: 5;
+			}
+
+			.rating label:nth-child(2) {
+				z-index: 4;
+			}
+
+			.rating label:nth-child(3) {
+				z-index: 3;
+			}
+
+			.rating label:nth-child(4) {
+				z-index: 2;
+			}
+
+			.rating label:nth-child(5) {
+				z-index: 1;
+			}
+
+			.rating label input {
+				position: absolute;
+				top: 0;
+				left: 0;
+				opacity: 0;
+			}
+
+			.rating label .icon {
+				float: left;
+				color: transparent;
+			}
+
+			.rating label:last-child .icon {
+				color: #000;
+			}
+
+			.rating:not(:hover) label input:checked ~ .icon,
+			.rating:hover label:hover input ~ .icon {
+				color: #09f;
+			}
+
+			.rating label input:focus:not(:checked) ~ .icon:last-child {
+				color: #000;
+				text-shadow: 0 0 5px #09f;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--navbar-->
+		<nav
+			class="navbar navbar-expand-md navbar-dark mb-3"
+			style="background-image: url(SE2-ReviewPage/sec2_Untitled/public/image/0home.png);"
+			id="navbar"
+		>
+			<a href=""></a>
+			<button
+				class="navbar-toggler"
+				type="button"
+				data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent"
+				aria-expanded="false"
+				aria-label="Toggle navigation"
+			>
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div
+				class="collapse navbar-collapse justify-content-end"
+				style="padding-top: 1%;"
+				id="navbarNavAltMarkup"
+			>
+				<ul class="navbar-nav font-weight-bolder">
+					<li class="nav-item mr-3">
+						<a class="nav-link text-white" href="#">HOME</a>
+					</li>
+					<li class="nav-item mr-3">
+						<a class="nav-link text-white" href="#">MY BOOKINGS</a>
+					</li>
+					<li class="nav-item dropdown mx-3">
+						<div class="d-flex flex-row">
+							<div class="d-flex flex-column mr-2">
+								<div class="align-self-end" style="font-size: 10px;">pet owner</div>
+								<div style="font-size: 15px;">{{petOwner.fullName}}</div>
+							</div>
+							<div>
+								<a
+									class="nav-link dropdown-toggle p-0"
+									href="#"
+									id="navbarDropdownMenuLink"
+									role="button"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false"
+								>
+									<div class="circular--landscape--nav align-self-center">
+										<img src="{{petSitter.picUrl}}" />
+									</div>
+								</a>
+								<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+									<a class="dropdown-item" href="#">Action</a>
+									<a class="dropdown-item" href="#">Another action</a>
+									<a class="dropdown-item" href="#">Something else here</a>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="nav-item" style="margin-top: 5px;">
+						<i class="fa fa-bell" style="font-size: 25px;" aria-hidden="true"></i>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb my-2 bg-white">
+				<li class="breadcrumb-item"><a href="#">NOTIFICATION</a></li>
+				<li class="breadcrumb-item">REVIEW PETSITTER</li>
+				<li class="breadcrumb-item active">{{petSitter.fullName}}</li>
+			</ol>
+		</nav>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h2 style="text-align: center;">Review your pet sitter</h2>
+				</div>
+				<div class="col-12">
+					<img
+						class="circular--landscape"
+						src="{{petSitter.picUrl}}"
+						style="
+							display: block;
+							margin-left: auto;
+							margin-right: auto;
+							width: 5cm;
+							height: 5cm;
+						"
+					/>
+				</div>
+				<div class="col-12">
+					<h2>Pet sitter's name : {{petSitter.fullName}}</h2>
+				</div>
+				<div class="col-12">
+					<h2>Service period : {{petSitter.booking}}</h2>
+				</div>
+			</div>
+			<hr />
+
+			<form action="/reviewForm" method="POST" class="validated-form" novalidate>
+				<div class="row" style="margin-top: 1%;">
+					<!-- fa-5x = size of star icon -->
+					<div class="col-3">
+						<h2>Your Rating :</h2>
+					</div>
+					<div class="col">
+						<div class="rating">
+							<label>
+								<input type="radio" name="stars" value="1" />
+								<span class="icon">★</span>
+							</label>
+							<label>
+								<input type="radio" name="stars" value="2" />
+								<span class="icon">★</span>
+								<span class="icon">★</span>
+							</label>
+							<label>
+								<input type="radio" name="stars" value="3" />
+								<span class="icon">★</span>
+								<span class="icon">★</span>
+								<span class="icon">★</span>
+							</label>
+							<label>
+								<input type="radio" name="stars" value="4" />
+								<span class="icon">★</span>
+								<span class="icon">★</span>
+								<span class="icon">★</span>
+								<span class="icon">★</span>
+							</label>
+							<label>
+								<input type="radio" name="stars" value="5" />
+								<span class="icon">★</span>
+								<span class="icon">★</span>
+								<span class="icon">★</span>
+								<span class="icon">★</span>
+								<span class="icon">★</span>
+							</label>
+						</div>
+					</div>
+				</div>
+				<hr />
+
+				<div class="row row-content" style="margin-top: 2%; margin-bottom: 1%;">
+					<div class="col-12">
+						<h2 style="padding-bottom:2%">Write Review</h2>
+					</div>
+					<div class="col-12">
+						<input
+							class="form-control"
+							type="text"
+							id="feedback"
+							name="feedback"
+							placeholder="write your review here.."
+							required
+							autofocus
+						/>
+					</div>
+					<div class="col-sm-auto" style="margin-top: 1%;">
+						<button type="submit" class="btn btn-primary">
+							SUBMIT
+						</button>
+					</div>
+					<div class="col-sm-auto" style="margin-top: 1%;" id="Report">
+						<ul class="navbar-nav ml-auto">
+							<li>
+								<a href="./index.html" style="color: red;">Report Pet Sitter</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<footer class="footer bg-dark text-white py-3 mt-auto fixed-bottom">
+			<div class="container">
+				<span class="text-scg">&copy;Untitled 2020</span>
+			</div>
+		</footer>
+
+		<script
+			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+			crossorigin="anonymous"
+		></script>
+		<!--include js/script.js-->
+		<script src="js/scripts.js"></script>
+		<!-- endbuild -->
+	</body>
+</html>
