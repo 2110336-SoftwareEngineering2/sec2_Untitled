@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Booking } from 'src/entities/booking.entity';
+import { Booking, Status } from 'src/entities/booking.entity';
 import { Pet } from 'src/entities/pet.entity';
 import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
@@ -13,7 +13,11 @@ let customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 
 const DATE_FORMAT = "DD/MM/YYYY"
-type BookingReponse = "ACCEPT" | "DENY"
+const BOOKING_ACTION = {
+    ACCEPT: "ACCEPT",
+    DENY: "DENY"
+}
+type BookingAction = "ACCEPT" | "DENY"
 
 @Injectable()
 export class BookingService {
@@ -103,31 +107,45 @@ export class BookingService {
         for(let i=0; i<incoming_booking.pets.length; i++){
             let {pets, ...temp} = incoming_booking
             temp.pet = incoming_booking.pets[i]
-            if(await this.bookingRepo.save(temp)) return true
+            console.log(temp)
+            await this.bookingRepo.save(temp)
         }
 
         return false
     }
 
     async handleShowingRequestForPetSitter(psid: number){
-        if(!psid) throw new BadRequestException("Pet sitter ID is required")
-        if(!this.isValidPetSitterId(psid)) throw new BadRequestException("Pet sitter ID is invalid")
         let requests = await this.bookingRepo.find({
             relations: ['pet', 'owner'],
             where: {
-                sitter: psid
+                sitter: psid,
+                status: Status.Requesting
             }
         })
 
         return requests
     }
 
-    handleBookingResponseForPetSitter(booking_id: number, action: BookingReponse, psid: number){
-        // verify psid
-        if(!psid) throw new BadRequestException("Pet sitter ID is required")
-        if(!this.isValidPetSitterId(psid)) throw new UnauthorizedException("Pet sitter ID is invalid")
-        // check if psid related to booking_id
-        // take action on booking_id
+    async handleBookingResponseForPetSitter(booking_id: number, action: BookingAction, psid: number){
+        let record = await this.bookingRepo.findOne({
+            relations: ['sitter'],
+            where: {id: booking_id}
+        })
+
+        // Error checking
+        if(!record) throw new NotFoundException(`Booking ID ${booking_id} not found`)
+        if(record.sitter.id != psid) throw new UnauthorizedException(`This booking record does not belong to sitter ${psid}`)
+        if(record.status != Status.Requesting) throw new BadRequestException(`Booking record ID ${booking_id} has already been accepted`)
+
+        // action taking
+        if(action == BOOKING_ACTION.ACCEPT){
+            record.status = Status.Pending
+            if(await this.bookingRepo.save(record)) return true
+            return false
+        }else if(action == BOOKING_ACTION.DENY){
+            // record.status = Status
+            return false
+        }   
     }
 
     isValidPetSitterId(id: number): boolean{
