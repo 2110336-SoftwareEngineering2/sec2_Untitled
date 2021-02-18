@@ -1,5 +1,8 @@
-import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Patch, Post, Render, Req, Response, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Patch, Post, Render, Req, Response, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { viewNames } from 'src/booking/viewnames';
+import { Roles } from 'src/roles/roles.decorator';
+import { RolesGuard } from 'src/roles/roles.guard';
 import { BookingService } from './booking.service';
 import { BookPetSitterDto } from './dto/pet_sitter.dto';
 
@@ -10,38 +13,48 @@ export class BookingController {
     ){}
     
     // ------------ Test accept booking for pet sitter --------------------
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('sitter')
     @Get('my')
     @Render('booking/test.hbs')
-    async dashboard(){
-        let requests = await this.bookingService.handleShowingRequestForPetSitter(2000001)
+    async myBookingsForSitter(@Req() req){
+        let requests = await this.bookingService.handleShowingRequestForPetSitter(req.user.id)
         return {requests: requests}
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('sitter')
     @Patch()
-    sitterResponseBooking(@Req() req, @Body() body){
-        // body.booking_id
-        // req.uid -> this got sent with ajax because html is in the same domain as backend
-        return this.bookingService.handleBookingResponseForPetSitter(body.booking_id, body.action, req.uid)
+    async sitterResponseBooking(@Req() req, @Body() body){
+        let success = await this.bookingService.handleBookingResponseForPetSitter(body.booking_id, body.action, req.user.id)
+        if(success) return {
+            code: HttpStatus.OK,
+            status: true
+        }
+        else return {
+            code: HttpStatus.OK,
+            status: false
+        }
     }
     // --------------------------------------------------------------------
 
     // show pet sitter info
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('owner')
     @Get(':pet_sitter_id')
     @Render(viewNames.show_pet_sitter_info)
     async index(@Param('pet_sitter_id') psid: number, @Req() req) {
-        if(!req.uid) throw new UnauthorizedException("Log in as a Pet owner first")
-        if(!this.bookingService.isValidPetOwnerId(req.uid)) throw new UnauthorizedException("This page is for pet owner")
         let ps_info = await this.bookingService.handlePetSitterInfo(psid)
-        let po = await this.bookingService.findPetOwnerById(req.uid)
+        let po = await this.bookingService.findPetOwnerById(req.user.id)
         return {pet_sitter: ps_info, pet_owner: po}
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('owner')
     @Get(':pet_sitter_id/options')
     @Render(viewNames.show_booking_options)
     async show_options(@Param('pet_sitter_id') psid: number, @Req() req){
-        if(!req.uid) throw new UnauthorizedException("Log in as a Pet owner first")
-        if(!this.bookingService.isValidPetOwnerId(req.uid)) throw new UnauthorizedException("This page is for pet owner")
-        let ownerId = req.uid; // this should be retrieved from auth
+        let ownerId = req.user.id; // this should be retrieved from auth
         let pet_owner = await this.bookingService.findPetOwnerById(ownerId)
         let pets = await this.bookingService.findPetsByOwnerId(ownerId)
         let pet_sitter = await this.bookingService.findPetSitterById(psid)
@@ -55,11 +68,11 @@ export class BookingController {
 
     // create requesting booking
     // startDate endDate sitter pet[]
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('owner')
     @Post()
     async book_pet_sitter(@Body() request: any, @Req() req) {
-        if(!req.uid) throw new UnauthorizedException("Please sign in as a Pet Owner and try again")
-        if(!this.bookingService.isValidPetOwnerId(req.uid)) throw new UnauthorizedException("Invalid Pet Owner ID")
-        if(await this.bookingService.handleIncomingRequest(request, req.uid)) return {
+        if(await this.bookingService.handleIncomingRequest(request, req.user.id)) return {
             code: HttpStatus.OK,
             status: true
         }
