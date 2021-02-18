@@ -1,0 +1,172 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-image: url('./img/home3.png');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+a {
+    color:
+}
+
+.navbar-brand {
+    width: 40px;
+    height: 40px;
+}
+
+.logo {
+    width: 75px;
+    height: 75px;
+}
+
+.circular--landscape {
+    display: inline-block;
+    position: relative;
+    width: 170px;
+    height: 170px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+/*.*/ circular--landscape img {
+    width: auto;
+    height: 100%;
+    max-height: 170px;
+    margin-left: 0px;
+    margin-top: 0px;
+}
+
+.circular--landscape--review {
+    display: inline-block;
+    position: relative;
+    width: 75px;
+    height: 75px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+    .circular--landscape--review img {
+        width: auto;
+        height: auto;
+        max-height: 75px;
+        margin-left: 0px;
+        /* margin-top: -7.5px; */
+    }
+
+.circular--landscape--nav {
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+    .circular--landscape--nav img {
+        width: auto;
+        max-height: 40px;
+        height: 100%;
+        margin-left: 0px;
+        margin-top: 0px;
+    }
+
+
+.text-nav-selfmade {
+    color: #fff !important;
+}
+
+.warapper-scrollable {
+    max-height: 800px;
+    /* border: 1px solid #ddd; */
+    overflow-y: auto;
+}
+
+    .warapper-scrollable::-webkit-scrollbar {
+        width: 0;
+    }
+
+@media (max-width: 992px) {
+    .vl-middle-page {
+        display: none;
+    }
+
+    .text-nav-selfmade {
+        color: black !important;
+    }
+
+    .warapper-scrollable {
+        /* border: 1px solid #ddd; */
+        overflow-y: visible;
+    }
+
+    .navbar-collapse.justify-content-end.collapse.show {
+        background-color: rgba(255, 255, 255, .15);
+        backdrop-filter: blur(5px);
+    }
+}
+
+.search-sec .section-head {
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.section-head {
+    font-weight: 700;
+    font-size: 2rem;
+}
+/*Search Bar*/
+.search input {
+    color: rgba(255, 255, 255, .15);
+    padding: 0.5rem 0.3rem;
+    font-size: 0.7rem;
+    width: 50%;
+}
+
+.search-sec {
+    padding: 1.5rem;
+    background-color: #fff;
+    /*border-radius:10%;*/
+}
+
+.search-slt {
+    display: block;
+    width: 1%;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #fff;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    height: calc(3rem + 2px) !important;
+    border-radius: 0;
+}
+
+.datepicker {
+    font-size: 0.875rem;
+}
+
+.wrn-btn {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: capitalize;
+    height: calc(3rem + 2px) !important;
+    border-radius: 0;
+}
+
+@media (min-width: 992px) {
+    .search-sec {
+        position:;
+        /*bottom: -100px;*/
+        bottom: -100px;
+        background: #fff;
+        border-radius:;
+    }
+}
+
+@media (max-width: 992px) {
+    .search-sec {
+        background: #fff;
+    }
+}
