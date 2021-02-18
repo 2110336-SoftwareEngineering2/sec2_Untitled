@@ -56,22 +56,22 @@ export class AccountController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get('/owner')
   @Roles('owner')
+  @Get('/owner')
   renderOwner(){
     return "This is a path for logged in owner"
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get('/sitter')
   @Roles('sitter')
+  @Get('/sitter')
   renderSitter(){
     return "This is a path for logged in sitter"
   }
   
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get('/both')
-  @Roles('sitter','owner')
+  @Roles('sitter','owner',)
   renderBoth(){
     return "This is a path for logged in owner or sitter"
   }
