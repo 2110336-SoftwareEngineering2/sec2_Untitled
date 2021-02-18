@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    {{!-- icon library --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    {{!-- jQuery --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    {{!-- boostrap 4.6 --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+
+    {{!-- jQuery --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+     <link href='/javascripts/booking/fullCalendar/lib/main.css' rel='stylesheet' />
+    <script src='/javascripts/booking/fullCalendar/lib/main.js'></script>
+
+
+    <link rel="stylesheet" href="/stylesheets/booking/booking_info.css">
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                dayMaxEvents: true,
+                themeSystem: 'sketchy',
+                {{!-- eventColor: '#378006' --}}
+        });
+        calendar.render();
+
+        document.getElementById("test").addEventListener("click", function() {
+            let ownerID = document.getElementById("test").getAttribute("ownerID")
+            calendar.addEvent({
+                title: ownerID,
+                start: '2021-02-12',
+                end: '2021-02-14',
+                allDay: true
+            })
+        });
+    });
+
+
+
+    </script>
+</head>
+<body class='vh-100'>
+<nav class="navbar navbar-expand-lg navbar-light" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);'>
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler bg-secondary" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+            <ul class="navbar-nav font-weight-bolder">
+                <li class="nav-item mr-3">
+                    <a class="nav-link text-nav-selfmade" href="#">HOME</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link text-nav-selfmade" href="#">MY BOOKINGS</a>
+                </li>
+                <li class="nav-item dropdown mx-3">
+                    <div class="d-flex flex-row">
+                        <div class='d-flex flex-column mr-2'>
+                            <div class='align-self-end' style='font-size: 10px'>pet owner</div>
+                            <div style='font-size: 15px'>{{pet_owner.fullName}}</div>
+                        </div>
+                        <div>
+                            <a class="nav-link dropdown-toggle p-0" href="#" 
+                            id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" 
+                            aria-haspopup="true" aria-expanded="false"
+                            >
+                                <div class="circular--landscape--nav align-self-center">
+                                    <img src='{{pet_owner.picUrl}}'>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item" style='margin-top:5px'>
+                    <i class="fa fa-bell" style='font-size:25px' aria-hidden="true"></i>
+                </li>
+            </ul>
+    </div>
+</nav>
+    <div class="container mt-3" style='max-width:94%'>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body d-flex flex-wrap">
+                        <div class="col-12 col-lg-5">
+                            <div id='calendar'></div>
+                        </div>
+                        <div class="col-12 col-lg-7 pr-0">
+                            <h2>
+                                    Incoming Booking
+                            </h2>
+                            <div class='d-flex flex-wrap'>
+                                {{#each requests}}
+                                <div class="card my-3 mr-3" name="booking_request" booking_id={{id}} style='width:370px'>
+                                    <div class="row no-gutters">
+                                        <div class="col-8">
+                                            <div class="card-body">
+                                                <div class="card-title">
+                                                    <p>By owner: {{owner.fullName}}</p>
+                                                    <p>Pet Name: {{pet.name}}</p>
+                                                </div>
+                                                <div class="card-text">
+                                                    <p>From: {{formatDate startDate "DD MMMM YYYY"}}</p>
+                                                    <p>To: {{formatDate endDate "DD MMMM YYYY"}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 d-flex align-self-center">
+                                            <div class="d-flex flex-column">
+                                                <div>
+                                                    <button class='btn btn-primary mb-3' id='test' ownerID='{{owner.fullName}}' name="accept_booking">ACCEPT</button>
+                                                </div>
+                                                <div>
+                                                    <button class='btn btn-danger  mb-3' name="deny_booking">DENY</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ACTION = {
+            ACCEPT: "ACCEPT",
+            DENY: "DENY"
+        }
+
+        $("button[name='accept_booking'").on('click', function(){ takeAction(ACTION.ACCEPT, this) })
+
+        function takeAction(action, btn){
+            let bid = $(btn).parent().attr("booking_id")
+            $.ajax({
+                url: "/book",
+                method: "PATCH",
+                data: {
+                    booking_id: bid,
+                    action: action
+                }
+            }).done(function(data){
+                if(data.status) $(btn).parent().fadeOut()
+            }).fail(function(data){
+                alert(data.responseJSON.message)
+            })
+        }
+            
+    </script>
+</body>
+</html>

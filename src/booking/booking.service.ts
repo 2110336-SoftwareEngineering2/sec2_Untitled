@@ -90,7 +90,6 @@ export class BookingService {
     // po requests -> ps confirms -> paid by po
     //  requesting      pending       completed  
     async handleIncomingRequest(incoming_booking: any, poid: number): Promise<any> {
-        // check if id is a pet owner id
         if(!poid) throw new UnauthorizedException("Pet owner id is required")
         if(!this.isValidPetOwnerId(poid)) throw new UnauthorizedException("Pet owner ID is invalid")
 

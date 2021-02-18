@@ -7,6 +7,43 @@ body {
 	background-position: 0px -1000px;
 }
 
+.tipBannerStyled {
+	background-color: rgb(243, 249, 242);
+    color: rgb(40, 135, 28);
+    padding: 4px;
+    margin-top: calc(13px);
+    border-radius: 2px;
+    position: relative;
+    align-self: flex-end;
+    margin-bottom: 0px;
+	width: 250px;
+}
+
+.triangleArrow {
+	left: 75%;
+	display: block;
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent rgb(243, 249, 242);
+
+}
+
+.bd-callout {
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid #eee;
+    border-left-width: .25rem;
+    border-radius: .25rem;
+}
+
+.bd-callout-successs {
+    border-left-color: #28a745;
+}
+
 .circular--landscape {
 	display: inline-block;
 	position: relative;
@@ -124,6 +161,10 @@ body {
 
   .warapper-scrollable::-webkit-scrollbar{
 	  width: 0;
+  }
+
+  .tellWhereToDrop {
+	background-color:red;
   }
 
   @media (max-width: 992px) {
