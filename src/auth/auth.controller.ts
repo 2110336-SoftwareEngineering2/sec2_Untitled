@@ -1,14 +1,25 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
-import { PetOwner } from 'src/entities/petowner.entity';
+import { Controller, Post, Res, Get, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Response } from 'express';
+import { Response, Request } from 'express';
+import { LocalAuthGuard } from './local-auth.guard';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
-    constructor(private readonly service: AuthService) { }
+    constructor(private readonly authService: AuthService) { }
 
-    @Post('login')
-    login(@Body() dto: Omit<PetOwner, 'id'>, @Res() res: Response) {
-        return this.service.login(dto, res);
+    // @Post('/login')
+    // login(@Body() dto, @Res() res: Response) {
+    //     return this.authService.login(dto, res);
+    // }
+
+    @Get('/logout')
+    logout(@Res() res: Response){
+        return this.authService.logout(res);
+    }
+
+    @UseGuards(LocalAuthGuard)
+    @Post('/login')
+    async login(@Req() req: Request, @Res() res: Response){
+        return this.authService.login(req.user, res)
     }
 }
