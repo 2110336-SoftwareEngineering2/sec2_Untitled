@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+	font-family: 'Montserrat', sans-serif;
+	background-image: url("/image/0home.png");
+	background-repeat: no-repeat;
+	background-position: 0px -1000px;
+}
+
+.breadcrump {
+    background-color: white;
+}
+
+.circular--landscape {
+	display: inline-block;
+	position: relative;
+	width: 150px;
+	height: 150px;
+	overflow: hidden;
+	border-radius: 50%;
+  }
+  
+  .circular--landscape img {
+	width: auto;
+	height: 100%;
+	margin-left: 0px;
+	margin-top: 0px;
+  }
+
+  .circular--landscape--review {
+	display: inline-block;
+	position: relative;
+	width: 75px;
+	height: 75px;
+	overflow: hidden;
+	border-radius: 50%;
+  }
+
+  .circular--landscape--review img {
+	width: auto;
+	height: 100%;
+	margin-left: 0px;
+  }
+
+  .circular--landscape--nav {
+	display: inline-block;
+	position: relative;
+	width: 40px;
+	height: 40px;
+	overflow: hidden;
+	border-radius: 50%;
+
+  }
+
+  .circular--landscape--nav img {
+	width: auto;
+	height: 100%;
+	margin-left: 0px;
+	margin-top: 0px;
+  }
+
+  .checked {
+	color: orange;
+  }
+
+
+  .info-padding {
+	  padding-right: 80px;
+	  padding-left: 80px;
+  }
+  
+  .hl {
+	  border-top: 1px solid rgb(202, 202, 202);
+	  width: 100%;
+  }
+
+
+
+  .bg-gray-info {
+	background-color:rgb(242, 242, 242);
+	width:70%;
+	height:8%;
+	margin:auto;
+	border-radius: 25px;
+  }
+
+  .vl-middle-page {
+	border-right: 2px solid rgb(202, 202, 202);
+		position: fixed;
+		top: 120px;
+		right: 50%;
+		height: 800px;
+  }
+
+  @media (max-width: 992px) {
+	.vl-middle-page {
+		display: none;
+	}
+  }

@@ -7,6 +7,7 @@ export enum Status {
     Requesting = 'Requesting',
     Pending = 'Pending',
     Completed = 'Completed',
+    Denied = 'Denied',
 }
 
 @Entity()
