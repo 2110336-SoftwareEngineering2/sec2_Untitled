@@ -1,23 +1,85 @@
-import { Controller, Get, Param, Response } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { PetSitter } from 'src/entities/petsitter.entity';
-import { Repository } from 'typeorm';
+import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Patch, Post, Render, Req, Response, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { viewNames } from 'src/booking/viewnames';
+import { Roles } from 'src/roles/roles.decorator';
+import { RolesGuard } from 'src/roles/roles.guard';
 import { BookingService } from './booking.service';
+import { BookPetSitterDto } from './dto/pet_sitter.dto';
 
 @Controller('book')
 export class BookingController {
     constructor(
-        @InjectRepository(PetSitter)
-        private petSitterRepo: Repository<PetSitter>,
-        private bookingService: BookingService
+        private readonly bookingService: BookingService
     ){}
+    
+    // ------------ Test accept booking for pet sitter --------------------
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('sitter')
+    @Get('my')
+    @Render('booking/test.hbs')
+    async myBookingsForSitter(@Req() req){
+        let requests = await this.bookingService.handleShowingRequestForPetSitter(req.user.id)
+        return {requests: requests}
+    }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('sitter')
+    @Patch()
+    async sitterResponseBooking(@Req() req, @Body() body){
+        let success = await this.bookingService.handleBookingResponseForPetSitter(body.booking_id, body.action, req.user.id)
+        if(success) return {
+            code: HttpStatus.OK,
+            status: true
+        }
+        else return {
+            code: HttpStatus.OK,
+            status: false
+        }
+    }
+    // --------------------------------------------------------------------
+
+    // show pet sitter info
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('owner')
     @Get(':pet_sitter_id')
-    async index(@Param('pet_sitter_id') psid: string, @Response() res) {
-        let ps = await this.petSitterRepo.findOne(psid)
-        res.render(viewNames.show_pet_sitter_info, {
-            pet_sitter: ps
-        })
+    @Render(viewNames.show_pet_sitter_info)
+    async index(@Param('pet_sitter_id') psid: number, @Req() req) {
+        let ps_info = await this.bookingService.handlePetSitterInfo(psid)
+        let po = await this.bookingService.findPetOwnerById(req.user.id)
+        return {pet_sitter: ps_info, pet_owner: po}
+    }
+
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('owner')
+    @Get(':pet_sitter_id/options')
+    @Render(viewNames.show_booking_options)
+    async show_options(@Param('pet_sitter_id') psid: number, @Req() req){
+        let ownerId = req.user.id; // this should be retrieved from auth
+        let pet_owner = await this.bookingService.findPetOwnerById(ownerId)
+        let pets = await this.bookingService.findPetsByOwnerId(ownerId)
+        let pet_sitter = await this.bookingService.findPetSitterById(psid)
+        let exp = this.bookingService.calculatePetSitterExp(pet_sitter.signUpDate)
+        let services_list = pet_sitter.services.split(', ').slice(0, -1)
+        let out_sitter = Object(pet_sitter)
+        out_sitter.services = services_list
+        out_sitter.exp = exp
+        return { pet_owner: pet_owner, pets: pets, pet_sitter: out_sitter }
+    }
+
+    // create requesting booking
+    // startDate endDate sitter pet[]
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('owner')
+    @Post()
+    async book_pet_sitter(@Body() request: any, @Req() req) {
+        if(await this.bookingService.handleIncomingRequest(request, req.user.id)) return {
+            code: HttpStatus.OK,
+            status: true
+        }
+
+        return {
+            code: HttpStatus.OK,
+            status: false
+        }
     }
 }
