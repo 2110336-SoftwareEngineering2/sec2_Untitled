@@ -142,7 +142,8 @@ export class BookingService {
             if(await this.bookingRepo.save(record)) return true
             return false
         }else if(action == BOOKING_ACTION.DENY){
-            // record.status = Status
+            record.status = Status.Denied
+            if(await this.bookingRepo.save(record)) return true
             return false
         }   
     }
