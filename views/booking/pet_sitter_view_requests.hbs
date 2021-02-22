@@ -70,8 +70,8 @@
                 <li class="nav-item dropdown mx-3">
                     <div class="d-flex flex-row">
                         <div class='d-flex flex-column mr-2'>
-                            <div class='align-self-end' style='font-size: 10px'>pet owner</div>
-                            <div style='font-size: 15px'>{{pet_owner.fullName}}</div>
+                            <div class='align-self-end' style='font-size: 10px'>pet sitter</div>
+                            <div style='font-size: 15px'>{{pet_sitter.fullName}}</div>
                         </div>
                         <div>
                             <a class="nav-link dropdown-toggle p-0" href="#" 
@@ -79,7 +79,7 @@
                             aria-haspopup="true" aria-expanded="false"
                             >
                                 <div class="circular--landscape--nav align-self-center">
-                                    <img src='{{pet_owner.picUrl}}'>
+                                    <img src='{{pet_sitter.picUrl}}'>
                                 </div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -152,9 +152,11 @@
         }
 
         $("button[name='accept_booking'").on('click', function(){ takeAction(ACTION.ACCEPT, this) })
+        $("button[name='deny_booking'").on('click', function(){ takeAction(ACTION.DENY, this) })
 
         function takeAction(action, btn){
-            let bid = $(btn).parent().attr("booking_id")
+            let div_parent = $(btn).closest("div[name='booking_request'")
+            let bid = div_parent.attr("booking_id")
             $.ajax({
                 url: "/book",
                 method: "PATCH",
@@ -163,7 +165,7 @@
                     action: action
                 }
             }).done(function(data){
-                if(data.status) $(btn).parent().fadeOut()
+                if(data.status) div_parent.fadeOut()
             }).fail(function(data){
                 alert(data.responseJSON.message)
             })
