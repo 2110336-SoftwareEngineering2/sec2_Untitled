@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Res } from '@nestjs/common';
 import {searchvalue} from './searchvalue.entity';
 
-import {getRepository , Repository , getConnection} from "typeorm";
+import {getRepository , Repository , getConnection , getManager} from "typeorm";
 import { InjectRepository } from '@nestjs/typeorm';
 import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
@@ -28,6 +28,10 @@ export class SearchService {
 	
   searchArray:searchvalue[]	= [] //Empty Array
 
+  renderSearch(@Res() res){
+	  return res.render('search/search')
+  }
+
   async searchTodo( location : string ,  Pet_type : string , start_date : Date, end_date : Date){
 	//console.log(`location : ${location},Pet_type : ${Pet_type} , start_date : ${start_date} , end_date : ${end_date}`)
 	  const value = new searchvalue; //new entity
@@ -53,14 +57,24 @@ export class SearchService {
 	  
 	  //fetch Date and Type
 	  const TypeTable =  await this.SitterAnimalRepo.createQueryBuilder("Sitter").where("Sitter.type = :Pet_type" , {Pet_type : Pet_type}).getMany();
-	  const DateTable = await this.BookingRepo.createQueryBuilder("Booking").where("Booking.start_date <=  :start_date" , {start_date : start_date}).andWhere("Booking.end_date >= :end_date", {end_date : end_date}).getMany();
+	  //we have pet type with user id of petsitter now
+	  //const DateTable = await this.BookingRepo.createQueryBuilder("Booking").where("Booking.start_date <=  :start_date" , {start_date : start_date}).andWhere("Booking.end_date >= :end_date", {end_date : end_date}).getMany();
+	  
+	//   const PetSitterRepo.createQueryBuilder("user").from("(" + TypeTable.getQuery() + ")", "TypeTable").setParameters(TypeTable.getParameters()).getRawMany();
 	  
 	  //console.dir(TypeTable);
 	  
 	  
    	  //not yet finish
-	  return  this.PetSitterRepo.createQueryBuilder("user").where("user.locationName = :locationName", {locationName : location}).getMany();
+	  
 
+  }
+
+  async searchPetSitter(location : string , type : string){
+	const entityManager = getManager();
+	return await entityManager.query(`select * from pet_sitter join sitter_animal 
+	on pet_sitter.id = sitter_animal.sitterId 
+	where pet_sitter.location like '%${location}%' and sitter_animal.type = '${type}'`);
   }
 /*
   insertDataBooking(data) {
