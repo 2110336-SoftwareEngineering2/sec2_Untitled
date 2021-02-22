@@ -41,7 +41,7 @@ function getContent(result){
 				</a>
 				<div class="star" style="font-size: 1.35rem;" rating=${result.rating}>
 				</div>
-				<h4 class="search-result-item-heading text-truncate m-0"><a href="#" class="username">${result.fname}</a></h4>
+				<h4 class="search-result-item-heading text-truncate m-0"><a href="/book/${result.id}" class="username">${result.fname}</a></h4>
 				<p class="info text-truncate">${result.location}</p>
 
 

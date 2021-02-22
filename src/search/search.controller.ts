@@ -1,7 +1,8 @@
-import { Controller , Post , Get , Body , Delete , Param , Response, Res } from '@nestjs/common';
-
+import { Controller , Post , Get , Body , Delete , Param , Response, Res, UseGuards, Req } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/roles/roles.guard';
 import {SearchService} from './search.service';
-
+import { Roles } from 'src/roles/roles.decorator';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -26,8 +27,10 @@ export class SearchController {
 	// }
 	
 	@Get()
-	renderSearch(@Res() res){
-		return this.searchservice.renderSearch(res)
+	@UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('owner')
+	renderSearch(@Res() res, @Req() req){
+		return this.searchservice.renderSearch(res, req.user.id)
 	}
 
 	@Get('result')

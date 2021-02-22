@@ -28,8 +28,11 @@ export class SearchService {
 	
   searchArray:searchvalue[]	= [] //Empty Array
 
-  renderSearch(@Res() res){
-	  return res.render('search/search')
+  async renderSearch(@Res() res, ownerId: number){
+	  let pet_owner = await this.petOwnerRepo.findOne(ownerId)
+	  return res.render('search/search', {
+		  pet_owner: pet_owner
+	  })
   }
 
   async searchTodo( location : string ,  Pet_type : string , start_date : Date, end_date : Date){
