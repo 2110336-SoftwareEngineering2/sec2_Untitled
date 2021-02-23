@@ -74,6 +74,8 @@ $("form").submit(function(evt) {
 			parent.removeClass('d-none')
 			// clear old contents
 			parent.html('')
+			// display number of results
+			$("#result-count").text(`About ${data.length} results`)
 			// then append new contents
 			data.forEach(result => {
 				parent.append(getContent(result))
