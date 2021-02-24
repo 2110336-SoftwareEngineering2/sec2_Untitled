@@ -6,7 +6,7 @@
 <head>
     <title>Search Pet Sitters</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="/stylesheets/main-search.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="pet_sitter_id" content="{{id}}">
 
@@ -35,7 +35,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <nav class="navbar navbar-expand-lg navbar-light" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);'>
-        <a class="logo" href="#"><img src="./img/logo.png" class="img-fluid" alt="Responsive image" /></a>
+        <a class="logo" href="#"><img src="/image/logo1.png" class="img-fluid" alt="Responsive image" /></a>
         <a class="navbar-brand" href="#"></a>
         <button class="navbar-toggler bg-secondary" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -48,18 +48,21 @@
                 <li class="nav-item mr-3">
                     <a class="nav-link text-nav-selfmade" href="#">MY BOOKINGS</a>
                 </li>
+				<li class="nav-item mr-3">
+                    <a class="nav-link text-nav-selfmade" href="/logout">LOGOUT</a>
+                </li>
                 <li class="nav-item dropdown mx-3">
                     <div class="d-flex flex-row">
                         <div class='d-flex flex-column mr-2'>
                             <div class='align-self-end' style='font-size: 10px'>pet owner</div>
-                            <div style='font-size: 15px'>{{fname}} {{lname}}</div>
+                            <div style='font-size: 15px'>{{pet_owner.fullName}}</div>
                         </div>
                         <div>
                             <a class="nav-link dropdown-toggle p-0" href="#"
                                id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">
                                 <div class="circular--landscape--nav align-self-center">
-                                    <img src='{{picUrl}}'>
+                                    <img src='{{pet_owner.picUrl}}'>
                                 </div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -77,53 +80,193 @@
         </div>
     </nav>
     <!---Search-->
-    <section class="search-sec text-center shadow rounded mx-5 my-3 p-4">
-        <h2 class="section-head text-center">Find the perfect caretaker for your pet</h2>
-        <div class="container">
-            <form action="#" method="post" novalidate="novalidate">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-4 col-sm-12 p-2">
-                                <input type="text" class="form-control search-slt" placeholder="Enter Location">
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 p-2">
-                                <input type="text" name="daterange" class="form-control search-slt" placeholder="Desired Dated" value="02/01/2021 - 02/15/2021" />
+	
+	 <h2 class="section-head text-center">Find the best caretaker for your pet </h2>
+    <section class="search-sec text-center mx-5 p-0" style="Background:none">
+        <div class="container bg-white shadow ">
+            <form method="post" action="#" novalidate="novalidate">
+                <div class="search-form row">
+                    <div class="search-col col-md-3 p-2">
+                        <select class="form-control search-slt border-0" id="exampleFormControlSelect1" name="type">
+                            <option value='All'>All</option>
+                            <option value="dog">Dog</option>
+                            <option value="cat">Cat</option>
+                            <option value="reptile">Reptile</option>
+                            <option value="horse">Horse</option>
+                            <option value="fish">Fish</option>
+                            <option value="bird">Bird</option>
+                            <option value="poultry">Poultry</option>
+                            <option value="livestock">Livestock</option>
+                            <option value="small pet">Small Pet</option>
+                        </select>
+                    </div>
+                    <div class="col p-2 bg-none">
 
-                                <script class="datepicker">
-                                    $(function () {
-                                        $('input[name="daterange"]').daterangepicker({
-                                            opens: 'left'
-                                        }, function (start, end, label) {
-                                            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-                                        });
-                                    });
-                                </script>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 p-2">
-                                <select class="form-control search-slt" id="exampleFormControlSelect1">
-                                    <option>Select Pet Type</option>
-                                    <option>Dogs</option>
-                                    <option>Cats</option>
-                                    <option>Reptiles</option>
-                                    <option>Horses</option>
-                                    <option>Fish</option>
-                                    <option>Birds</option>
-                                    <option>Poultry</option>
-                                    <option>Livestock</option>
-                                    <option>Small Pets</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 p-2">
-                                <button type="button" class="btn btn-dark wrn-btn">Search</button>
-                            </div>
-                        </div>
+                        <input type="text" class="form-control search-slt border-0" placeholder="Enter Location" name="location">
+                    </div>
+
+                    <div class="col-md-auto p-2">
+                        <button type="submit" class="btn btn-dark wrn-btn rounded-pill m-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </button>
                     </div>
                 </div>
             </form>
         </div>
     </section>
+   
+	<div class="container mx-10 my-5" style="display: none" id="search-result">
+		<div class="container mx-10">
+			<div class="row">
+				<!-- BEGIN SEARCH RESULT -->
+				<div class="col-md-12">
+					<div class="grid search">
+						<div class="grid-body">
+							<div class="row align-self-center">
+								<!-- BEGIN FILTERS -->
+								<div class="filter-col col-md-3 pb-5">
+									<h2 class="grid-title"><i class="fa fa-filter"></i> Filters</h2>
+									<hr>
 
+									<!-- BEGIN FILTER BY CATEGORY -->
+									<h4 class="filter-h">Avg. Customer Review</h4>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck">
+
+											<span class="star-filter">
+												<i class="fa fa-star mr-1"></i><i class="fa fa-star mr-1"></i><i class="fa fa-star mr-1"></i><i class="fa fa-star mr-1"></i><i class="fa fa-star mr-1"></i>
+											</span>
+
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck"> <span class="star-filter">
+												<i class="fa fa-star mr-1"></i><i class="fa fa-star mr-1"></i></i><i class="fa fa-star mr-1"></i><i class="fa fa-star mr-1"></i>
+											</span>
+										</label>
+									</div>
+
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck"> <span class="star-filter">
+												<i class="fa fa-star mr-1"></i><i class="fa fa-star mr-1"></i><i class="fa fa-star mr-1"></i>
+											</span>
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck"><span class="star-filter">
+												<i class="fa fa-star mr-1"></i></i><i class="fa fa-star mr-1"></i>
+											</span>
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck"> <span class="star-filter">
+												<i class="fa fa-star mr-1"></i>
+											</span>
+										</label>
+									</div>
+									<!-- END FILTER BY CATEGORY -->
+									<!-- BEGIN FILTER BY CATEGORY -->
+									<h4 class="filter-h">Type of Provider</h4>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Agencies/Companies</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck"> Individuals
+										</label>
+									</div>
+
+									<!-- END FILTER BY CATEGORY -->
+									<!-- BEGIN FILTER BY CATEGORY -->
+									<h4 class="filter-h">Experience</h4>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Dogs</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Cats</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Reptiles</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Horses</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck"> Fish
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Birds</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Poultry</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Livestock</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Small Pets</label>
+									</div>
+									<!-- END FILTER BY CATEGORY -->
+									<!-- BEGIN FILTER BY CATEGORY -->
+									<h4 class="filter-h">Experience</h4>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Dog Walking</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Pet Feeding</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Pet Sitting</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Pet Grooming</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck"> Boarding
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Overnight Care</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Training</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label"><input type="checkbox" class="icheck"> Behavioral Training</label>
+									</div>
+
+									<!-- END FILTER BY CATEGORY -->
+								</div>
+								<!-- END FILTERS -->
+								<!-- BEGIN RESULT -->
+								<div class="col">
+									<h2 class="grid-title"><i class="fa fa-file-o"></i> Search Results</h2>
+									<hr>
+									<!-- BEGIN SEARCH INPUT -->
+									<p class="search-results-count" id="result-count">About 94 700 000 (0.39 sec.) results</p>
+									
+									<!-- RESULT DIV -->
+									<div class="d-flex flex-row flex-wrap my-flex-container result-container d-none">
+									</div>
+									<!-- END RESULT -->
+								</div>
+						</div>
+					</div>
+				</div>
+				<!-- END SEARCH RESULT -->
+			</div>
+		</div>
+	</div>
+      
+	<script src="/javascripts/search.js"></script>
 
 </body>
 </html>

@@ -30,7 +30,9 @@ export class AuthService {
         const payload = { username: user.username, sub: user.id, role: user.role};
         const token = this.jwtService.sign(payload)
         res.cookie('token', token);
-        return res.redirect('/')
+        if (user.role === "owner") return res.redirect('/search')
+        else if (user.role === "sitter") return res.redirect('/book/my')
+        else return res.redirect('/') //this code should never run
     }
 
     
