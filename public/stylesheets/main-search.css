@@ -5,6 +5,8 @@ body {
     background-image: url('/image/home3.png');
     background-repeat: no-repeat;
     background-size: 100% auto;
+    background-position: center top;
+    background-attachment: fixed;
 }
 
 .navbar-brand {
