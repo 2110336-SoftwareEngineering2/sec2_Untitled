@@ -41,10 +41,13 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <ul class="navbar-nav font-weight-bolder">
                 <li class="nav-item mr-3">
-                    <a class="nav-link text-white" href="#">HOME</a>
+                    <a class="nav-link text-white" href="/search">HOME</a>
                 </li>
                 <li class="nav-item mr-3">
                     <a class="nav-link text-white" href="#">MY BOOKINGS</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link text-white" href="/logout">LOG OUT</a>
                 </li>
                 <li class="nav-item dropdown mx-3">
                     <div class="d-flex flex-row">
@@ -76,9 +79,9 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb my-2 bg-white">
-            <li class="breadcrumb-item"><a href="#">SEARCH RESULT</a></li>
+            <li class="breadcrumb-item"><a href="/search">SEARCH RESULT</a></li>
+            <li class="breadcrumb-item"><a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">REVIEWS AND RATINGS</li>
-            <li class="breadcrumb-item"><a href="#">{{petSitter.fullName}}</a></li>
         </ol>
     </nav>
 
