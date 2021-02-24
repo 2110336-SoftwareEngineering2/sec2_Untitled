@@ -95,7 +95,7 @@
         <div class="col-12 col-lg-6 book-info-padding mb-5">
             {{!-- show path --}}
             <div class='mb-4'>
-                <p><a href="javascript:history.back()">SEARCH RESLUTS</a> / <span class='font-weight-bolder'>{{pet_sitter.fullName}}</span></p>
+                <p><a href="/search">SEARCH RESLUTS</a> / <span class='font-weight-bolder'>{{pet_sitter.fullName}}</span></p>
             </div>
             {{!-- pet sitter infomation --}}
             <div class='container'>
@@ -225,12 +225,6 @@
 <script>
     $("#bookAServiceDiv").on('click', function(){
         window.location += "/options"
-    })
-
-    $("a[name='more_reviews'").on('click', function(){
-        let psid = $("meta[name='pet_sitter_id'").attr("content")
-        console.log(psid)
-        //window.location = "/reviews/" + psid
     })
 </script>
 <script src="/javascripts/booking/starsHandler.js"></script>
