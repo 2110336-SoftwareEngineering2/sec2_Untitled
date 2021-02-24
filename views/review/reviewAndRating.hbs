@@ -24,14 +24,14 @@
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="/stylesheets/review/reviewAndRating.css">
-    
+
     <title>reviews and Ratings</title>
 </head>
 
 <body class="vh-100">
 
 
-    <nav class="navbar navbar-expand-lg navbar-dark" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);'>
+    <nav class="navbar navbar-expand-lg navbar-light" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);width: 100%'>
         <a class="navbar-brand" href="#"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,13 +50,13 @@
                     <div class="d-flex flex-row">
                         <div class='d-flex flex-column mr-2'>
                             <div class='align-self-end' style='font-size: 10px'>pet owner</div>
-                            <div style='font-size: 15px'>{{petOwner.fullName}}</div>
+                            <div style='font-size: 15px'>{{user.fullName}}</div>
                         </div>
                         <div>
                             <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdownMenuLink" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="circular--landscape--nav align-self-center">
-                                    <img src='https://randomuser.me/api/portraits/women/63.jpg'>
+                                    <img src={{user.picUrl}}>
                                 </div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -77,8 +77,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb my-2 bg-white">
             <li class="breadcrumb-item"><a href="#">SEARCH RESULT</a></li>
-            <li class="breadcrumb-item"><a href="#">{{petSitter.fullName}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">REVIEWS AND RATINGS</li>
+            <li class="breadcrumb-item"><a href="#">{{petSitter.fullName}}</a></li>
         </ol>
     </nav>
 
@@ -93,9 +93,9 @@
                             <div class="circular--landscape align-self-center">
                                 <img src={{petSitter.picUrl}}>
                             </div>
-							
+
                             <div class='align-self-center mt-3'>
-								<div rating={{petSitter.rating}}></div>
+                                <div rating={{petSitter.rating}}></div>
                                 <p class='text-center my-2'>Online Now</p>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                             <h1 class='text-lg-center mb-3'>{{petSitter.fullName}}</h1>
                             <p class='text-lg-center'>{{petSitter.description}}</h1>
                             <p class='text-lg-center mt-4 text-muted'><small>{{petSitter.location}}</small></p>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -111,13 +111,13 @@
 
                     <div class="overall-rating container mb-5">
                         <h4 class="text-lg-center mb-3">Customer Reviews</h4>
-                        <div class="d-flex justify-content-center bg-gray-info py-3 m-auto">
+                        <div class="d-flex justify-content-center bg-gray-info py-3 ">
                             <div class='d-flex align-self-center mx-1 '>
                                 <div rating={{petSitter.rating}}></div>
                             </div>
-                            <p class="d-flex align-self-center mx-2 mb-0">{{petSitter.rating}} out of 5</p>
+                            <p class="d-flex align-self-center mx-2 mb-0">out of 5</p>
                         </div>
-                        <p class="d-flex justify-content-center my-2">40 customer ratings</p>
+                        <p class="d-flex justify-content-center my-2">{{stat.counts}} customer ratings</p>
                     </div>
                     <div class='percent-rating container'>
                         <div class="row  mt-2">
@@ -134,7 +134,7 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <p class='font-weight-bolder'>84%</p>
+                                <p class="star5_percent" class='font-weight-bolder'>{{stat.star_5}}%</p>
                             </div>
                         </div>
                         <div class="row  mt-2">
@@ -151,7 +151,7 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <p class='font-weight-bolder'>9%</p>
+                                <p class="star4_percent" class='font-weight-bolder'>{{stat.star_4}}%</p>
                             </div>
                         </div>
                         <div class="row  mt-2">
@@ -167,7 +167,7 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <p class='font-weight-bolder'>4%</p>
+                                <p class="star3_percent" class='font-weight-bolder'>{{stat.star_3}}%</p>
                             </div>
                         </div>
                         <div class="row  mt-2">
@@ -183,7 +183,7 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <p class='font-weight-bolder'>2%</p>
+                                <p class="star2_percent" class='font-weight-bolder'>{{stat.star_2}}%</p>
                             </div>
                         </div>
                         <div class="row  mt-2">
@@ -199,34 +199,33 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <p class='font-weight-bolder'>1%</p>
+                                <p class="star1_percent" class='font-weight-bolder'>{{stat.star_1}}%</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="reviews col-12 col-lg-6 info-padding mb-5">
-                <h3 class="mb-4 pb-3">Reviews (82)</h3>
+                <h3 class="mb-4 pb-3">Reviews ({{stat.counts}})</h3>
                 <div class="reviews-list">
                     {{#each reviews}}
                     <div class="review">
                         <div class=" d-flex flex-row ">
                             <div class=''>
                                 <div class="circular--landscape--review align-self-center">
-                                    <img src={{owner.picUrl}}
-                                        style=''>
+                                    <img src={{owner.picUrl}}>
                                 </div>
                             </div>
                             <div class='flex-fill ml-3'>
-                                <p class='mb-0'>{{owner.fullName}}</p>
-								<p class='mb-0'>{{id}}</p>
-                                <div class='d-flex my-1 mb-1'>
-                                    <div rating={{owner.rating}}></div>
+                                <div class='my-3'>
+                                    <h5 class='mb-0'>{{owner.fullName}}</h5>
+                                    <div rating={{rating}}></div>
                                 </div>
-                                <p>{{description}}</p>
-                                <p class='mt-2 mb-1 text-muted'>
-                                    <small>Brooklyn, NY, US 27 sep - 30 sep 2019</small>
-                                </p>
+                                <div>
+                                    <p class="mt-4 mb-2">{{description}}</p>
+                                    <p class='mt-2 mb-1 text-muted'><small>27 sep - 30 sep 2019</small></p>
+                                </div>
+
                             </div>
                         </div>
                         <div class="hl my-3"></div>
@@ -235,7 +234,7 @@
 
 
 
-                <!--</div>
+                    <!--</div>
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
                         <li class="page-item">
@@ -253,13 +252,13 @@
                         </li>
                     </ul>
                 </nav>-->
+                </div>
+
+
             </div>
-
-
         </div>
-    </div>
-	<script src="/javascripts/review/reviewAndRating.js"></script>
-	<script src="/javascripts/review/starsHandler.js"></script>
+        <script src="/javascripts/review/reviewAndRating.js"></script>
+        <script src="/javascripts/review/starsHandler.js"></script>
 </body>
 
 </html>
