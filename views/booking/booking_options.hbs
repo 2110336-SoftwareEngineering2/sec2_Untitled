@@ -18,16 +18,17 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
-
     {{!-- Date Range Picker --}}
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    {{!-- ------------ --}}
 
+    {{!-- dayjs --}}
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+
+    {{!-- css --}}
     <link rel="stylesheet" href="/stylesheets/booking/booking_option.css">
-
     <link rel='stylesheet' href='/stylesheets/booking/dragAndDrop.css'>
 
 </head>
@@ -40,10 +41,13 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <ul class="navbar-nav font-weight-bolder">
                 <li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="#">HOME</a>
+                    <a class="nav-link text-nav-selfmade" href="/search">HOME</a>
                 </li>
                 <li class="nav-item mr-3">
                     <a class="nav-link text-nav-selfmade" href="#">MY BOOKINGS</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link text-nav-selfmade" href="/logout">LOGOUT</a>
                 </li>
                 <li class="nav-item dropdown mx-3">
                     <div class="d-flex flex-row">
@@ -61,9 +65,9 @@
                                 </div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                                {{!-- <a class="dropdown-item" href="#"></a>
+                                <a class="dropdown-item" href="#"></a> --}}
                             </div>
                         </div>
                     </div>
@@ -79,7 +83,7 @@
         {{!-- show path --}}
         <div class="col-12 col-lg-6 book-info-padding">
             <div class='mb-2'>
-                <p>SEARCH RESLUTS / {{pet_sitter.fullName}} / <span class='font-weight-bolder'>BOOKING</span></p>
+                <p><a href="/search">SEARCH RESLUTS</a> / <a href="/book/{{pet_sitter.id}}">{{pet_sitter.fullName}}</a> / <span class='font-weight-bolder'>BOOKING</span></p>
             </div>
         </div>
     </div>
@@ -112,7 +116,7 @@
                                 {{!-- <img class='draggable p-0' src="{{picUrl}}" alt="{{name}}" draggable='true' style=' width:100px;height:100px'> --}}
                             {{!-- </div> --}}
                         {{!-- </div> --}}
-                        <p class='draggable font-weight-bolder' draggable='true' pet-id={{id}}>{{type}} : {{name}} {{age}} years old</p>
+                        <p class='draggable font-weight-bolder' draggable='true' pet-id={{id}}>{{name}} ({{capFirstChar type}})</p>
                         {{/each}}
 					</div>
                     <div class='d-flex justify-content-center'>

@@ -3,6 +3,7 @@ $(document).ready(function(){
         locale: {
             format: "DD/MM/YYYY"
         },
+        startDate: dayjs().format("DD/MM/YYYY"),
         singleDatePicker: false,
         autoApply: true
     })
@@ -26,6 +27,10 @@ function sendBookingRequest(){
             sitter: psid,
             pets: pets
         }
+    }).done(function(data){
+        console.log(data)
+        if(data.status) alert("DONE")
+        else alert("FAILED")
     })
 }
 

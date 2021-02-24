@@ -16,6 +16,10 @@ async function bootstrap() {
     return num1 > num2
   })
 
+  hbs.registerHelper('ifNotEquals', function(arg1, arg2, options) {
+    return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
+});
+
   hbs.registerHelper("capFirstChar", function(string: string){
     let splitted = string.split(' ')
     for(let i=0; i<splitted.length; i++){

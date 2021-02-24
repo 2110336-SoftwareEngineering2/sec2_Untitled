@@ -106,11 +106,10 @@ export class BookingService {
         for(let i=0; i<incoming_booking.pets.length; i++){
             let {pets, ...temp} = incoming_booking
             temp.pet = incoming_booking.pets[i]
-            console.log(temp)
-            await this.bookingRepo.save(temp)
+            if(! await this.bookingRepo.save(temp)) return false
         }
 
-        return false
+        return true
     }
 
     async handleShowingRequestForPetSitter(psid: number){
@@ -142,7 +141,8 @@ export class BookingService {
             if(await this.bookingRepo.save(record)) return true
             return false
         }else if(action == BOOKING_ACTION.DENY){
-            // record.status = Status
+            record.status = Status.Denied
+            if(await this.bookingRepo.save(record)) return true
             return false
         }   
     }
