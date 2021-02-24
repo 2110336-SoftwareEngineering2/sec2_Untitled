@@ -21,6 +21,7 @@ export class AccountController {
   // }
 
   @Post('/register')
+  @Redirect('/')
   createAccount(@Body() dto){
     return this.accountService.createAccount(dto.role, dto)
   }
