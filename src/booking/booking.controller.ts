@@ -16,10 +16,11 @@ export class BookingController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('sitter')
     @Get('my')
-    @Render('booking/test.hbs')
+    @Render(viewNames.show_pet_sitter_view_requests)
     async myBookingsForSitter(@Req() req){
         let requests = await this.bookingService.handleShowingRequestForPetSitter(req.user.id)
-        return {requests: requests}
+        let pet_sitter = await this.bookingService.findPetSitterById(req.user.id)
+        return {requests: requests, pet_sitter: pet_sitter}
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -77,7 +78,7 @@ export class BookingController {
             status: true
         }
 
-        return {
+        else return {
             code: HttpStatus.OK,
             status: false
         }
