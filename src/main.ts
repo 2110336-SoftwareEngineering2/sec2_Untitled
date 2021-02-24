@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import * as hbs from 'hbs'
 import * as dayjs from 'dayjs';
 import * as cookieParser from 'cookie-parser';
+import { locals } from './locals.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -28,6 +29,7 @@ async function bootstrap() {
   })
 
   app.use(cookieParser());
+  app.use(locals)
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   hbs.registerPartials(join(__dirname, '..', '/views/partials'));
