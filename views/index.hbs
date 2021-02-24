@@ -32,12 +32,18 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Contact Us</a>
                 </li>
-                <li class="nav-item active mx-3">
-                    <button class="btn btn-dark login-button">Login</button>
-                </li>
-                <li class="nav-item active">
-                    <button class="btn btn-light register-button">Register</button>
-                </li>
+                {{#if token}}
+                    <li class="nav-item active">
+                        <a href="/logout" class="btn btn-light">Logout</a>
+                    </li>
+                {{else}}
+                    <li class="nav-item active mx-3">
+                        <button class="btn btn-dark login-button">Login</button>
+                    </li>
+                    <li class="nav-item active">
+                        <button class="btn btn-light register-button">Register</button>
+                    </li>
+                {{/if}}
             </ul>
         </div>
     </nav>
@@ -127,6 +133,7 @@
                         <input class="form-control" type="password" name="password" id="password">
                     </div>
                     <input class="form-control d-none" type="text" name="role" value="owner">
+                    <input class="form-control d-none" type="text" name="picUrl" value="/public/image/default_img_profile.png">
                     <div class="form-group">
                         <button type="submit" class="btn btn-dark btn-block mt-4">Register</button>
                     </div>
@@ -179,6 +186,7 @@
                         <input name="bankAccount" class="form-control" placeholder="Bank Account" type="text" pattern="[0-9]{10}" id="bankAccount">
                     </div>
                     <input class="form-control d-none" type="text" name="role" value="sitter">
+                    <input class="form-control d-none" type="text" name="picUrl" value="/public/image/default_img_profile.png">
                     
                     <div class="form-group">
                         <button type="submit" class="btn btn-dark btn-block mt-4">Register</button>
