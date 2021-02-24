@@ -75,7 +75,8 @@ export class SearchService {
 
   async searchPetSitter(location : string , type : string){
 	const entityManager = getManager();
-	if(type=='All') return await entityManager.query(`select * from pet_sitter left join sitter_animal 
+	if(type=='All') return await entityManager.query(`select distinct id,username,password,fname,lname,signUpDate,rating,gender,priceRate,location,bank,bankAccount,locationName,picUrl,reviewerAmount,description,services 
+	from pet_sitter left join sitter_animal 
 	on pet_sitter.id = sitter_animal.sitterId 
 	where pet_sitter.location like '%${location}%'`);
 	  
