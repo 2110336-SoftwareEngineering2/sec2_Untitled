@@ -46,6 +46,9 @@
                 <li class="nav-item mr-3">
                     <a class="nav-link text-nav-selfmade" href="#">MY BOOKINGS</a>
                 </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link text-nav-selfmade" href="/logout">LOGOUT</a>
+                </li>
                 <li class="nav-item dropdown mx-3">
                     <div class="d-flex flex-row">
                         <div class='d-flex flex-column mr-2'>
@@ -62,9 +65,9 @@
                                 </div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                                {{!-- <a class="dropdown-item" href="#"></a>
+                                <a class="dropdown-item" href="#"></a> --}}
                             </div>
                         </div>
                     </div>
@@ -80,7 +83,7 @@
         {{!-- show path --}}
         <div class="col-12 col-lg-6 book-info-padding">
             <div class='mb-2'>
-                <p>SEARCH RESLUTS / {{pet_sitter.fullName}} / <span class='font-weight-bolder'>BOOKING</span></p>
+                <p><a href="javascript:history.back()">SEARCH RESLUTS</a> / <a href="javascript:history.back()">{{pet_sitter.fullName}}</a> / <span class='font-weight-bolder'>BOOKING</span></p>
             </div>
         </div>
     </div>
