@@ -50,7 +50,7 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <ul class="navbar-nav font-weight-bolder">
                 <li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="#">HOME</a>
+                    <a class="nav-link text-nav-selfmade" href="/search">HOME</a>
                 </li>
                 <li class="nav-item mr-3">
                     <a class="nav-link text-nav-selfmade" href="#">MY BOOKINGS</a>
@@ -92,7 +92,7 @@
         <div class="col-12 col-lg-6 book-info-padding mb-5">
             {{!-- show path --}}
             <div class='mb-4'>
-                <p>SEARCH RESLUTS / <span class='font-weight-bolder'>{{pet_sitter.fullName}}</span></p>
+                <p><a href="javascript:history.back()">SEARCH RESLUTS</a> / <span class='font-weight-bolder'>{{pet_sitter.fullName}}</span></p>
             </div>
             {{!-- pet sitter infomation --}}
             <div class='container'>
@@ -115,7 +115,7 @@
                     <div class="col col-xl-7 text-align-center">
                         {{#if pet_sitter.fname}}
                             <h1 class='text-lg-center'>{{pet_sitter.fullName}}</h1>
-                            <p class='text-lg-center'>Dedicated pet sitter in the</h1>
+                            <p class='text-lg-center'>Dedicated pet sitter in the {{pet_sitter.location}}</h1>
                         {{else}}
                             <h1 class='text-lg-center'>Not found</h1>
                         {{/if}}
@@ -165,7 +165,7 @@
         <div class="col-12 col-lg-6 book-info-padding mt-5">
             <div class="warapper-scrollable">
                 <h3 class='mb-4'>About Me</h3>
-                <p>{{description}}</p>
+                <p>{{pet_sitter.description}}</p>
                 <div class="hl my-4"></div>
                 <h3>Services</h3>
                 <div class='d-flex flex-wrap justify-content-between my-4'>
@@ -195,7 +195,11 @@
                         <div class=" d-flex flex-row">
                             <div class='flex'>
                                 <div class="circular--landscape--review align-self-center">
-                                    <img src='{{owner.picUrl}}' style='width:75px;height:110px'>
+                                    {{#ifNotEquals owner.picUrl null}}
+                                        <img src='{{owner.picUrl}}' style='width:75px;height:110px'>
+                                    {{else}}
+                                        <img src='/image/default_img_profile.png' style='width:75px;height:110px'>
+                                    {{/ifNotEquals}}
                                 </div>
                             </div>
                             <div class='flex-fill ml-3'>
