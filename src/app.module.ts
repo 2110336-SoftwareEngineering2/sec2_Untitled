@@ -18,6 +18,7 @@ import { AuthMiddleware } from './middleware/auth.middleware';
 import { SitterAnimal } from './entities/sitteranimal.entity';
 import { Transaction } from './entities/transaction.entity';
 import { Report } from './entities/report.entity';
+import { Employee } from './entities/employee.entity';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { Report } from './entities/report.entity';
       username: 'se2',
       password: 'se2',
       database: 'se2',
-      entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview, SitterAnimal, Transaction, Report] ,
+      entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview, SitterAnimal, Transaction, Report, Employee] ,
       synchronize: true // this should be false in production
     }),TypeOrmModule.forFeature([PetOwner]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule
   ],
