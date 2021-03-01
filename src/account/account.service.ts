@@ -1,6 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Req, Res } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'bcryptjs';
+import { Pet } from 'src/entities/pet.entity';
 import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
 import { Repository } from 'typeorm';
@@ -9,7 +10,14 @@ import { Repository } from 'typeorm';
 export class AccountService {
     constructor(
         @InjectRepository(PetOwner) private readonly petOwnerRepo: Repository<PetOwner>,
-        @InjectRepository(PetSitter) private readonly petSitterRepo: Repository<PetSitter>){}
+        @InjectRepository(PetSitter) private readonly petSitterRepo: Repository<PetSitter>,
+        @InjectRepository(Pet) private readonly petRepo: Repository<Pet>){}
+
+
+    // Profile
+    renderAccount(@Res() res){
+        return res.redner('')
+    }
 
 
     // CREATE
@@ -66,45 +74,9 @@ export class AccountService {
         return await this.saveToRepo(role, user);
     }
 
-    
-
-    // async createPetOwner(dto: Omit<PetOwner, 'id'>): Promise<PetOwner> {  
-    //     const owner = await this.findAccountByUsername('owner',dto.username)
-    //     if(owner){
-    //         throw new BadRequestException('This username is already exist');
-    //     }
-    //     else {
-    //         const password = await hash(dto.password, 10);
-    //         const user = { ... new PetOwner(), ... dto, password};
-    //         // console.dir(user);
-    //         return this.petOwnerRepo.save(user);
-    //     } 
-    // }
-
-    // async createPetSitter(dto: Omit<PetSitter, 'id'>): Promise<PetSitter> {  
-    //     const sitter = await this.findAccountByUsername('sitter',dto.username)
-    //     if(sitter){
-    //         throw new BadRequestException('This username is already exist');
-    //     }
-    //     else {
-    //         const password = await hash(dto.password, 10);
-    //         const user = { ... new PetSitter(), ... dto, password};
-    //         // console.dir(user);
-    //         return this.petSitterRepo.save(user);
-    //     } 
-    // }
-
-    
-
-
-    // async updatePetOwner(id: number, dto: Partial<Omit<PetOwner, 'id'>>): Promise<PetOwner> {
-    //     const user = { ... (await this.findOwnerById(id)), ... dto};
-    //     return this.petOwnerRepo.save(user);
-    // }
-
-    // async updatePetSitter(id: number, dto: Partial<Omit<PetSitter, 'id'>>): Promise<PetSitter> {
-    //     const user = { ... (await this.findSitterById(id)), ... dto};
-    //     return this.petSitterRepo.save(user);
-    // }
-
+    async createPet(dto: Omit<Pet, 'id'|'owner'>, @Req() req) : Promise<Pet> {
+        let owner = req.user.id;
+        let newPet = {... new Pet(), ... dto, owner};
+        return this.petRepo.save(newPet)
+    }
 }
