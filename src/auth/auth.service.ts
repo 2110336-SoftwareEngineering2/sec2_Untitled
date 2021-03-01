@@ -12,6 +12,10 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) {}
 
+    register(@Body() dto){
+        return this.accountService.createAccount(dto.role,dto)
+    }
+
     logout(res: Response){
         res.cookie('token', "")
         return res.redirect('/')
@@ -32,21 +36,8 @@ export class AuthService {
         res.cookie('token', token);
         if (user.role === "owner") return res.redirect('/search')
         else if (user.role === "sitter") return res.redirect('/book/my')
-        else return res.redirect('/') //this code should never run
+        else return res.redirect('/') // ! this code should never run
     }
-
-    
-    // async login(@Body() body, @Res() res: Response) {
-    //     const {username, password, isPetSitter} = body
-    //     const role = isPetSitter === 'true' ? 'sitter' : 'owner'
-    //     const user = await this.accountService.findAccountByUsername(role,username);
-    //     if (!user) throw new BadRequestException('Invalid username or password');
-    //     const isValid = await compare(password, user.password);
-    //     if (!isValid ) throw new BadRequestException('Invalid username or password');
-    //     const token = this.jwtService.sign({ uid: user.id, role});
-    //     res.cookie('token', token);
-    //     return res.send('Cookie has been set! :)')
-    // }
 
 
 }
