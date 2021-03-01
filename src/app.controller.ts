@@ -10,5 +10,10 @@ export class AppController {
     res.render('index')
   }
 
+  @Get('/dummy')
+  renderDummy(@Response() res): any {
+    res.render('dummy')
+  }
+
 
 }
