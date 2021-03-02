@@ -18,8 +18,12 @@ export class AccountController {
   // }
 
   @Get()
-  renderAccount(@Res() res){
-    return res.render('account/profile')
+  async renderAccount(@Req() req, @Res() res){
+    const {role, id} = req.user;
+    const profile = await this.accountService.findAccountById(role,id);
+    console.log(`🚀 ~ file: account.controller.ts ~ line 24 ~ AccountController ~ renderAccount ~ profile`, profile)
+    
+    return res.render('account/profile', {...profile})
   }
 
   @Get('/edit')
