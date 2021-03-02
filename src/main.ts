@@ -28,6 +28,8 @@ async function bootstrap() {
     return dayjs(utcFormat).format(format)
   })
 
+  require("./helpers").register(hbs.handlebars);
+
   app.use(cookieParser());
   app.use(locals)
   app.useStaticAssets(join(__dirname, '..', 'public'));
