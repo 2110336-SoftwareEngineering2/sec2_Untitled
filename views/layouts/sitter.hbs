@@ -10,14 +10,17 @@
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="/stylesheets/sitter.css" rel="stylesheet">
-    <title>Untitled</title>
+    {{#if title}}
+        <title>{{title}}</title>
+    {{else}}
+        <title>Untitled</title>
+    {{/if}}
 </head>
 
 <body>
     {{> navbar}}
-
+    {{printYay}}
     <div class="container">
-
         {{> @partial-block }}
 
     </div>
