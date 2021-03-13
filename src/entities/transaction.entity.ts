@@ -11,7 +11,7 @@ export class Transaction {
     performerId: number;
 
     @Column()
-    recieverId: number;
+    receiverId: number;
 
     @CreateDateColumn()
     createDatetime: Date;
