@@ -9,6 +9,7 @@ import { BookPetSitterDto } from './dto/pet_sitter.dto';
 import * as dayjs from "dayjs";
 import { SitterReview } from 'src/entities/sitterreview.entity';
 import { Transaction } from 'src/entities/transaction.entity';
+import { NotificationService } from 'src/notification/notification.service';
 
 let customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
@@ -23,6 +24,7 @@ type BookingAction = "ACCEPT" | "DENY"
 @Injectable()
 export class BookingService {
     constructor(
+        private readonly notificationService: NotificationService,
         @InjectRepository(PetSitter)
         private readonly petSitterRepo: Repository<PetSitter>,
         @InjectRepository(PetOwner)
@@ -116,19 +118,10 @@ export class BookingService {
             if(! await this.bookingRepo.save(temp)) return false
 
             // create transaction
-            this.createTransaction(poid, incoming_booking.sitter, `${po.fname} requests your service`)
+            this.notificationService.createTransaction(poid, incoming_booking.sitter, `${po.fname} requests your service`)
         }
 
         return true
-    }
-
-    async createTransaction(performerId: number, receiverId: number, description: string){
-        let result = await this.transactionRepo.save({
-            performerId: performerId,
-            receiverId: receiverId,
-            description: description
-        })
-        return result
     }
 
     async handleShowingRequestForPetSitter(psid: number){
@@ -160,7 +153,7 @@ export class BookingService {
 
             // create transaction
             let ps = await this.findPetSitterById(psid)
-            this.createTransaction(psid, record.owner.id, `${ps.fname} accepts your request for ${record.pet.name}`)
+            this.notificationService.createTransaction(psid, record.owner.id, `${ps.fname} accepts your request for ${record.pet.name}`)
 
             if(await this.bookingRepo.save(record)) return true
             return false
@@ -169,7 +162,7 @@ export class BookingService {
 
             // create transaction
             let ps = await this.findPetSitterById(psid)
-            this.createTransaction(psid, record.owner.id, `${ps.fname} denies your request for ${record.pet.name}`)
+            this.notificationService.createTransaction(psid, record.owner.id, `${ps.fname} denies your request for ${record.pet.name}`)
 
             if(await this.bookingRepo.save(record)) return true
             return false
@@ -190,7 +183,7 @@ export class BookingService {
         // booking must be in REQUESING state
         // time since last modified must be less than 24 hours
         let booking = await this.bookingRepo.findOne({
-            relations: ['owner'],
+            relations: ['owner', 'sitter', 'pet'],
             where: {id: bid}
         })
 
@@ -204,6 +197,9 @@ export class BookingService {
 
         // if conditions are fulfilled then delete the booking
         if(booking.status == Status.Requesting && hours_since_last_modified <= 24) {
+            // create transaction
+            this.notificationService.createTransaction(poid, booking.sitter.id, `${booking.owner.fname} cancels request for ${booking.pet.name}`)
+
             if(await this.bookingRepo.remove(booking)) return { success: true }
             else return { success: false, message: "Error occured when removing request."}
         }
