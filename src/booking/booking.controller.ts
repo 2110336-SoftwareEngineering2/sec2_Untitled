@@ -91,4 +91,11 @@ export class BookingController {
         let results = await this.bookingService.handleShowOwnerBooking(req.user.id)
         return {results: results}
     }
+
+    @Patch("my/petowner/:booking_id")
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('owner')
+    pet_owner_modify_booking(@Req() req, @Param('booking_id') bid){
+        return "test"
+    }
 }
