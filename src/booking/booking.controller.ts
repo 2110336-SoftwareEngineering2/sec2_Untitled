@@ -83,7 +83,7 @@ export class BookingController {
     }
 
     // My booking page
-    @Get('petowner/mybooking')
+    @Get('my/petowner')
     @Render(viewNames.show_my_booking_for_owner)
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('owner')
