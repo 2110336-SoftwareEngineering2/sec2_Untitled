@@ -78,9 +78,8 @@ body {
 
   .bg-gray-info {
 	background-color:rgb(242, 242, 242);
-	width:70%;
 	height:8%;
-	margin:auto;
+	margin:0;
 	border-radius: 25px;
   }
 

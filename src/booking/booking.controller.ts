@@ -12,14 +12,14 @@ export class BookingController {
         private readonly bookingService: BookingService
     ){}
     
-    // ------------ Test accept booking for pet sitter --------------------
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('sitter')
     @Get('my')
-    @Render('booking/test.hbs')
+    @Render(viewNames.show_pet_sitter_view_requests)
     async myBookingsForSitter(@Req() req){
         let requests = await this.bookingService.handleShowingRequestForPetSitter(req.user.id)
-        return {requests: requests}
+        let pet_sitter = await this.bookingService.findPetSitterById(req.user.id)
+        return {requests: requests, pet_sitter: pet_sitter}
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -36,7 +36,6 @@ export class BookingController {
             status: false
         }
     }
-    // --------------------------------------------------------------------
 
     // show pet sitter info
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -59,7 +58,7 @@ export class BookingController {
         let pets = await this.bookingService.findPetsByOwnerId(ownerId)
         let pet_sitter = await this.bookingService.findPetSitterById(psid)
         let exp = this.bookingService.calculatePetSitterExp(pet_sitter.signUpDate)
-        let services_list = pet_sitter.services.split(', ').slice(0, -1)
+        let services_list = pet_sitter.services == null ? [] : pet_sitter.services.split(', ').slice(0, -1)
         let out_sitter = Object(pet_sitter)
         out_sitter.services = services_list
         out_sitter.exp = exp
@@ -77,9 +76,27 @@ export class BookingController {
             status: true
         }
 
-        return {
+        else return {
             code: HttpStatus.OK,
             status: false
         }
+    }
+
+    // My booking page
+    @Get('my/petowner')
+    @Render(viewNames.show_my_booking_for_owner)
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('owner')
+    async my_booking(@Req() req){
+        let results = await this.bookingService.handleShowOwnerBooking(req.user.id)
+        return {results: results}
+    }
+
+    @Patch("my/petowner/:booking_id")
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('owner')
+    pet_owner_modify_booking(@Req() req, @Param('booking_id') bid){
+        let result = this.bookingService.handleCancleBookingForPetOwner(bid, req.user.id)
+        return result
     }
 }

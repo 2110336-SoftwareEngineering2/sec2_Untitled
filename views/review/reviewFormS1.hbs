@@ -119,14 +119,14 @@
 				<li class="nav-item dropdown mx-3">
 					<div class="d-flex flex-row">
 						<div class="d-flex flex-column mr-2">
-							<div class="align-self-end" style="font-size: 10px;">pet owner</div>
-							<div style="font-size: 15px;">{{petOwner.fullName}}</div>
+							<div class="align-self-end" style="font-size: 10px;">pet sitter</div>
+							<div style="font-size: 15px;">{{petSitter.fullName}}</div>
 						</div>
 						<div>
 							<a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdownMenuLink" role="button"
 								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<div class="circular--landscape--nav align-self-center">
-									<img src="{{petOwner.picUrl}}" />
+									<img src="{{petSitter.picUrl}}" />
 								</div>
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -147,18 +147,18 @@
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb my-2 bg-white">
 			<li class="breadcrumb-item"><a href="#">NOTIFICATION</a></li>
-			<li class="breadcrumb-item">REVIEW PETSITTER</li>
-			<li class="breadcrumb-item active">{{petSitter.fullName}}</li>
+			<li class="breadcrumb-item">REVIEW PETOWNER</li>
+			<li class="breadcrumb-item active">{{petOwner.fullName}}</li>
 		</ol>
 	</nav>
 
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-				<h2 style="text-align: center;">Review your pet sitter</h2>
+				<h2 style="text-align: center;">Review your pet owner</h2>
 			</div>
 			<div class="col-12">
-				<img class="circular--landscape" src="{{petSitter.picUrl}}" style="
+				<img class="circular--landscape" src="{{petOwner.picUrl}}" style="
 							display: block;
 							margin-left: auto;
 							margin-right: auto;
@@ -168,7 +168,7 @@
 						" />
 			</div>
 			<div class="col-12">
-				<h2>Pet sitter's name : {{petSitter.fullName}}</h2>
+				<h2>Pet owner's name : {{petOwner.fullName}}</h2>
 			</div>
 			<div class="col-12">
 				<h2>Start Date : {{SD}}</h2>
@@ -177,7 +177,7 @@
 		</div>
 		<hr />
 
-		<form action="/reviewOwnerForm/{{petSitter.id}}" method="POST" class="validated-form" novalidate>
+		<form action="/reviewSitterForm/{{petOwner.id}}" method="POST" class="validated-form" novalidate>
 			<div class="row" style="margin-top: 2%;">
 				<!-- fa-5x = size of star icon -->
 				<div class="col-3">
