@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { BookPetSitterDto } from './dto/pet_sitter.dto';
 import * as dayjs from "dayjs";
 import { SitterReview } from 'src/entities/sitterreview.entity';
+import { Transaction } from 'src/entities/transaction.entity';
 
 let customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
@@ -31,7 +32,9 @@ export class BookingService {
         @InjectRepository(Booking)
         private readonly bookingRepo: Repository<Booking>,
         @InjectRepository(SitterReview)
-        private readonly sitterReviewRepo: Repository<SitterReview>
+        private readonly sitterReviewRepo: Repository<SitterReview>,
+        @InjectRepository(Transaction)
+        private readonly transactionRepo: Repository<Transaction>
     ){}
 
     async findPetSitterById(id: number): Promise<PetSitter>{
@@ -87,6 +90,7 @@ export class BookingService {
         return exp
     }
 
+    // creating booking requests
     // po requests -> ps confirms -> paid by po
     //  requesting      pending       completed  
     async handleIncomingRequest(incoming_booking: any, poid: number): Promise<any> {
@@ -94,7 +98,7 @@ export class BookingService {
         if(!this.isValidPetOwnerId(poid)) throw new UnauthorizedException("Pet owner ID is invalid")
 
         // store booking status requesting
-        let price = (await this.findPetSitterById(incoming_booking.sitterId)).priceRate
+        let price = (await this.findPetSitterById(incoming_booking.sitter)).priceRate
         let startDate = dayjs(incoming_booking.startDate, DATE_FORMAT).format()
         let endDate = dayjs(incoming_booking.endDate, DATE_FORMAT).format()
 
@@ -103,13 +107,28 @@ export class BookingService {
         incoming_booking.endDate = endDate
         incoming_booking.owner = poid
 
+        let po = await this.findPetOwnerById(poid)
+
+        // loop by pet#
         for(let i=0; i<incoming_booking.pets.length; i++){
             let {pets, ...temp} = incoming_booking
             temp.pet = incoming_booking.pets[i]
             if(! await this.bookingRepo.save(temp)) return false
+
+            // create transaction
+            this.createTransaction(poid, incoming_booking.sitter, `${po.fname} requests your service`)
         }
 
         return true
+    }
+
+    async createTransaction(performerId: number, receiverId: number, description: string){
+        let result = await this.transactionRepo.save({
+            performerId: performerId,
+            receiverId: receiverId,
+            description: description
+        })
+        return result
     }
 
     async handleShowingRequestForPetSitter(psid: number){
@@ -126,7 +145,7 @@ export class BookingService {
 
     async handleBookingResponseForPetSitter(booking_id: number, action: BookingAction, psid: number){
         let record = await this.bookingRepo.findOne({
-            relations: ['sitter'],
+            relations: ['sitter', 'owner', 'pet'],
             where: {id: booking_id}
         })
 
@@ -138,10 +157,20 @@ export class BookingService {
         // action taking
         if(action == BOOKING_ACTION.ACCEPT){
             record.status = Status.Pending
+
+            // create transaction
+            let ps = await this.findPetSitterById(psid)
+            this.createTransaction(psid, record.owner.id, `${ps.fname} accepts your request for ${record.pet.name}`)
+
             if(await this.bookingRepo.save(record)) return true
             return false
         }else if(action == BOOKING_ACTION.DENY){
             record.status = Status.Denied
+
+            // create transaction
+            let ps = await this.findPetSitterById(psid)
+            this.createTransaction(psid, record.owner.id, `${ps.fname} denies your request for ${record.pet.name}`)
+
             if(await this.bookingRepo.save(record)) return true
             return false
         }   
