@@ -149,12 +149,17 @@ export class BookingService {
 
     async handleShowOwnerBooking(poid : number){
         // find all booking history of poid
-        let po =  await this.findPetOwnerById(poid)
         let bookings = await this.bookingRepo.find({
             relations : ['pet', 'sitter'],
             where : {owner: poid}
         })
         return bookings
+    }
+
+    // Pet owner must be able to cancle within 24 hours
+    async handleCancleBookingForPetOwner(bid: number){
+        // booking must be in REQUESING state
+        // time since last modified must be less than 24 hours
     }
 
     isValidPetSitterId(id: number): boolean{
