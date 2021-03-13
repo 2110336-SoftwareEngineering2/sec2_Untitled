@@ -147,6 +147,16 @@ export class BookingService {
         }   
     }
 
+    async handleShowOwnerBooking(poid : number){
+        // find all booking history of poid
+        let po =  await this.findPetOwnerById(poid)
+        let bookings = await this.bookingRepo.find({
+            relations : ['pet', 'sitter'],
+            where : {owner: poid}
+        })
+        return bookings
+    }
+
     isValidPetSitterId(id: number): boolean{
         let str_id = "" + id
         if(str_id.length != 7 || str_id[0] != '2') return false
