@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My booking</title>
+</head>
+<body>
+    {{#if results.length}}
+    {{#each results}}
+    <h2>Pet name : {{pet.name}}</h2>
+    <h3>Date : {{formatDate startDate "DD MMMM YYYY"}} - {{formatDate endDate "DD MMMM YYYY"}}</h3>
+    <h3>Pet sitter name : {{sitter.fullName}}</h3>
+    <h3>Status : {{status}}</h3>
+    <br>
+    {{/each}}
+    {{else}}
+    <h1>No</h1>
+    {{/if}}
+</body>
+</html>
