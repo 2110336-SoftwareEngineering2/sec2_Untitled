@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, PrimaryColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { PetSitter } from "./petsitter.entity";
 
 @Entity()
@@ -11,4 +11,7 @@ export class SitterAnimal {
 
     @ManyToOne(type => PetSitter, sitter => sitter.booking, { nullable: false })
     sitter: PetSitter;
+
+    @UpdateDateColumn()
+    public lastModified: Date;
 }
