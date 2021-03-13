@@ -96,6 +96,7 @@ export class BookingController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('owner')
     pet_owner_modify_booking(@Req() req, @Param('booking_id') bid){
-        return "test"
+        let result = this.bookingService.handleCancleBookingForPetOwner(bid, req.user.id)
+        return result
     }
 }
