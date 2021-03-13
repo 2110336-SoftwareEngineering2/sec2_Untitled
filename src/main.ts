@@ -16,6 +16,10 @@ async function bootstrap() {
     return num1 > num2
   })
 
+  hbs.registerHelper("equals", function(arg1, arg2){
+    return arg1 == arg2
+  })
+
   hbs.registerHelper('ifNotEquals', function(arg1, arg2, options) {
     return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
 });
