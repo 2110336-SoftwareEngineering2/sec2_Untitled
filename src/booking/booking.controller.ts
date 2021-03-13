@@ -12,7 +12,6 @@ export class BookingController {
         private readonly bookingService: BookingService
     ){}
     
-    // ------------ Test accept booking for pet sitter --------------------
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('sitter')
     @Get('my')
@@ -37,7 +36,6 @@ export class BookingController {
             status: false
         }
     }
-    // --------------------------------------------------------------------
 
     // show pet sitter info
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -60,7 +58,7 @@ export class BookingController {
         let pets = await this.bookingService.findPetsByOwnerId(ownerId)
         let pet_sitter = await this.bookingService.findPetSitterById(psid)
         let exp = this.bookingService.calculatePetSitterExp(pet_sitter.signUpDate)
-        let services_list = pet_sitter.services.split(', ').slice(0, -1)
+        let services_list = pet_sitter.services == null ? [] : pet_sitter.services.split(', ').slice(0, -1)
         let out_sitter = Object(pet_sitter)
         out_sitter.services = services_list
         out_sitter.exp = exp
@@ -82,5 +80,15 @@ export class BookingController {
             code: HttpStatus.OK,
             status: false
         }
+    }
+
+    // My booking page
+    @Get('petowner/mybooking')
+    @Render(viewNames.show_my_booking_for_owner)
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('owner')
+    async my_booking(@Req() req){
+        let results = await this.bookingService.handleShowOwnerBooking(req.user.id)
+        return {results: results}
     }
 }
