@@ -20,7 +20,9 @@ export class AccountController {
   @Get()
   async renderAccount(@Req() req, @Res() res){
     const {role, id} = req.user;
-    const profile = await this.accountService.findAccountById(role,id);
+    const account = await this.accountService.findAccountById(role,id);
+    const pet = await this.accountService.findPetbyId(role,id);
+    const profile = {account,pet};
     console.log(`🚀 ~ file: account.controller.ts ~ line 24 ~ AccountController ~ renderAccount ~ profile`, profile)
     
     return res.render('account/profile', {...profile})
@@ -39,7 +41,7 @@ export class AccountController {
   async updateOwner(@Body() dto: Omit<PetOwner | PetSitter, 'id'>, @Req() req, @Res() res){
     const {role, id} = req.user
     await this.accountService.updateAccount(role,id,dto);
-    res.redirect('/account/edit')
+    res.redirect('/account')
   }
 
   //Pet
@@ -50,8 +52,9 @@ export class AccountController {
   }
 
   @Post('/register/pet')
-  createPet(@Body() dto, @Req() req){
-    return this.accountService.createPet(dto, req);
+  createPet(@Body() dto, @Req() req, @Res() res){
+    this.accountService.createPet(dto, req);
+    res.redirect('/account')
   }
 
 }

@@ -66,6 +66,12 @@ export class AccountService {
         return null;
     }
 
+    async findPetbyId(role: string, id: number): Promise<any> {
+        let owner = id;
+        if (role === 'owner')return await this.petRepo.find({owner});
+        return null;
+    }
+
     // UPDATE
 
     async updateAccount(role: string, id: number, dto: Partial<Omit<PetOwner | PetSitter,'id'>>)

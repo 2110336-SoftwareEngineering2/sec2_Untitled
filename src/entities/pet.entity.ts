@@ -9,7 +9,7 @@ export class Pet {
     id: number;
 
     @ManyToOne(type => PetOwner, owner => owner.pet, { nullable: false })
-    owner: PetOwner;
+    owner: number;
 
     @Column({ length: 45 })
     type: string;
