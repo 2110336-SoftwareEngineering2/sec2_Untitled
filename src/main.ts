@@ -16,6 +16,10 @@ async function bootstrap() {
     return num1 > num2
   })
 
+  hbs.registerHelper("gte", function(num1, num2){
+    return num1 >= num2
+  })
+
   hbs.registerHelper("equals", function(arg1, arg2){
     return arg1 == arg2
   })
@@ -35,6 +39,8 @@ async function bootstrap() {
   hbs.registerHelper("formatDate", function(utcFormat: Date, format: string){
     return dayjs(utcFormat).format(format)
   })
+
+  require("./helpers").register(hbs.handlebars);
 
   app.use(cookieParser());
   app.use(locals)

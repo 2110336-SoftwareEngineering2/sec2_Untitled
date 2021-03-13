@@ -2,6 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { jwtConstants } from 'src/auth/constants';
+import { Pet } from 'src/entities/pet.entity';
 // import { AppModule } from 'src/app.module';
 // import { AuthModule } from 'src/auth/auth.module';
 import { PetOwner } from 'src/entities/petowner.entity';
@@ -11,7 +12,7 @@ import { AccountController } from './account.controller';
 import { AccountService } from './account.service';
 
 @Module({
-  imports : [TypeOrmModule.forFeature([PetOwner]),TypeOrmModule.forFeature([PetSitter]), JwtModule.register({
+  imports : [TypeOrmModule.forFeature([PetOwner]),TypeOrmModule.forFeature([PetSitter]),TypeOrmModule.forFeature([Pet]), JwtModule.register({
     secret: jwtConstants.secret,
     signOptions: {expiresIn: '1d'}
   }) ],
