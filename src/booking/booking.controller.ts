@@ -1,6 +1,7 @@
 import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Patch, Post, Render, Req, Response, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { viewNames } from 'src/booking/viewnames';
+import { NotificationService } from 'src/notification/notification.service';
 import { Roles } from 'src/roles/roles.decorator';
 import { RolesGuard } from 'src/roles/roles.guard';
 import { BookingService } from './booking.service';
@@ -9,7 +10,8 @@ import { BookPetSitterDto } from './dto/pet_sitter.dto';
 @Controller('book')
 export class BookingController {
     constructor(
-        private readonly bookingService: BookingService
+        private readonly bookingService: BookingService,
+        private readonly notificationService: NotificationService
     ){}
     
     @UseGuards(JwtAuthGuard, RolesGuard)
@@ -62,7 +64,10 @@ export class BookingController {
         let out_sitter = Object(pet_sitter)
         out_sitter.services = services_list
         out_sitter.exp = exp
-        return { pet_owner: pet_owner, pets: pets, pet_sitter: out_sitter }
+
+        // retrieve notifications
+        let notifications = await this.notificationService.getNotificationsFor(req.user.id)
+        return { pet_owner: pet_owner, pets: pets, pet_sitter: out_sitter, notifications: notifications }
     }
 
     // create requesting booking
