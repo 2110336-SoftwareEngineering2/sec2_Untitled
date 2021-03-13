@@ -157,9 +157,29 @@ export class BookingService {
     }
 
     // Pet owner must be able to cancle within 24 hours
-    async handleCancleBookingForPetOwner(bid: number){
+    async handleCancleBookingForPetOwner(bid: number, poid: number){
         // booking must be in REQUESING state
         // time since last modified must be less than 24 hours
+        let booking = await this.bookingRepo.findOne({
+            relations: ['owner'],
+            where: {id: bid}
+        })
+
+        if(booking.owner.id != poid) return {
+            success: false,
+            message: "You are not the owner of this booking request."
+        }
+
+        let lastModified = dayjs(booking.lastModified).add(7, 'hour') // adding like this because dayjs timezone isn't working
+        let hours_since_last_modified = dayjs().diff(lastModified, "hour")
+
+        // if conditions are fulfilled then delete the booking
+        if(booking.status == Status.Requesting && hours_since_last_modified <= 24) {
+            if(await this.bookingRepo.remove(booking)) return { success: true }
+            else return { success: false, message: "Error occured when removing request."}
+        }
+
+        return { success: false, message: "Can not cancel, must be done in 24 hours."}
     }
 
     isValidPetSitterId(id: number): boolean{
