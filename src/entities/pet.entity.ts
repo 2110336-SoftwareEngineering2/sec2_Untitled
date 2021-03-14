@@ -1,5 +1,5 @@
 import * as dayjs from "dayjs";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, UpdateDateColumn } from "typeorm";
 import { Booking } from "./booking.entity";
 import { PetOwner } from "./petowner.entity";
 
@@ -9,7 +9,7 @@ export class Pet {
     id: number;
 
     @ManyToOne(type => PetOwner, owner => owner.pet, { nullable: false })
-    owner: PetOwner;
+    owner: number;
 
     @Column({ length: 45 })
     type: string;
@@ -40,4 +40,7 @@ export class Pet {
     public get fullGender(): string {
         return this.gender == "F" ? "Female" : "Male"
     }
+
+    @UpdateDateColumn()
+    public lastModified: Date;
 }

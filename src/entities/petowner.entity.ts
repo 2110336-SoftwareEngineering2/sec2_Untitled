@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, UpdateDateColumn } from "typeorm";
 import { Booking } from "./booking.entity";
 import { OwnerReview } from "./ownerreview.entity";
 import { Pet } from "./pet.entity";
@@ -56,4 +56,7 @@ export class PetOwner {
     public get fullName(): string {
         return this.fname + ' ' + this.lname
     }
+
+    @UpdateDateColumn()
+    public lastModified: Date;
 }

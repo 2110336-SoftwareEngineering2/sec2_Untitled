@@ -8,6 +8,8 @@ import { Repository } from 'typeorm';
 import { BookPetSitterDto } from './dto/pet_sitter.dto';
 import * as dayjs from "dayjs";
 import { SitterReview } from 'src/entities/sitterreview.entity';
+import { Transaction } from 'src/entities/transaction.entity';
+import { NotificationService } from 'src/notification/notification.service';
 
 let customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
@@ -22,6 +24,7 @@ type BookingAction = "ACCEPT" | "DENY"
 @Injectable()
 export class BookingService {
     constructor(
+        private readonly notificationService: NotificationService,
         @InjectRepository(PetSitter)
         private readonly petSitterRepo: Repository<PetSitter>,
         @InjectRepository(PetOwner)
@@ -31,7 +34,9 @@ export class BookingService {
         @InjectRepository(Booking)
         private readonly bookingRepo: Repository<Booking>,
         @InjectRepository(SitterReview)
-        private readonly sitterReviewRepo: Repository<SitterReview>
+        private readonly sitterReviewRepo: Repository<SitterReview>,
+        @InjectRepository(Transaction)
+        private readonly transactionRepo: Repository<Transaction>
     ){}
 
     async findPetSitterById(id: number): Promise<PetSitter>{
@@ -87,6 +92,7 @@ export class BookingService {
         return exp
     }
 
+    // creating booking requests
     // po requests -> ps confirms -> paid by po
     //  requesting      pending       completed  
     async handleIncomingRequest(incoming_booking: any, poid: number): Promise<any> {
@@ -94,7 +100,7 @@ export class BookingService {
         if(!this.isValidPetOwnerId(poid)) throw new UnauthorizedException("Pet owner ID is invalid")
 
         // store booking status requesting
-        let price = (await this.findPetSitterById(incoming_booking.sitterId)).priceRate
+        let price = (await this.findPetSitterById(incoming_booking.sitter)).priceRate
         let startDate = dayjs(incoming_booking.startDate, DATE_FORMAT).format()
         let endDate = dayjs(incoming_booking.endDate, DATE_FORMAT).format()
 
@@ -103,10 +109,16 @@ export class BookingService {
         incoming_booking.endDate = endDate
         incoming_booking.owner = poid
 
+        let po = await this.findPetOwnerById(poid)
+
+        // loop by pet#
         for(let i=0; i<incoming_booking.pets.length; i++){
             let {pets, ...temp} = incoming_booking
             temp.pet = incoming_booking.pets[i]
             if(! await this.bookingRepo.save(temp)) return false
+
+            // create transaction
+            this.notificationService.createTransaction(poid, incoming_booking.sitter, `${po.fname} requests your service`)
         }
 
         return true
@@ -126,7 +138,7 @@ export class BookingService {
 
     async handleBookingResponseForPetSitter(booking_id: number, action: BookingAction, psid: number){
         let record = await this.bookingRepo.findOne({
-            relations: ['sitter'],
+            relations: ['sitter', 'owner', 'pet'],
             where: {id: booking_id}
         })
 
@@ -138,13 +150,61 @@ export class BookingService {
         // action taking
         if(action == BOOKING_ACTION.ACCEPT){
             record.status = Status.Pending
+
+            // create transaction
+            let ps = await this.findPetSitterById(psid)
+            this.notificationService.createTransaction(psid, record.owner.id, `${ps.fname} accepts your request for ${record.pet.name}`)
+
             if(await this.bookingRepo.save(record)) return true
             return false
         }else if(action == BOOKING_ACTION.DENY){
             record.status = Status.Denied
+
+            // create transaction
+            let ps = await this.findPetSitterById(psid)
+            this.notificationService.createTransaction(psid, record.owner.id, `${ps.fname} denies your request for ${record.pet.name}`)
+
             if(await this.bookingRepo.save(record)) return true
             return false
         }   
+    }
+
+    async handleShowOwnerBooking(poid : number){
+        // find all booking history of poid
+        let bookings = await this.bookingRepo.find({
+            relations : ['pet', 'sitter'],
+            where : {owner: poid}
+        })
+        return bookings
+    }
+
+    // Pet owner must be able to cancle within 24 hours
+    async handleCancleBookingForPetOwner(bid: number, poid: number){
+        // booking must be in REQUESING state
+        // time since last modified must be less than 24 hours
+        let booking = await this.bookingRepo.findOne({
+            relations: ['owner', 'sitter', 'pet'],
+            where: {id: bid}
+        })
+
+        if(booking.owner.id != poid) return {
+            success: false,
+            message: "You are not the owner of this booking request."
+        }
+
+        let lastModified = dayjs(booking.lastModified).add(7, 'hour') // adding like this because dayjs timezone isn't working
+        let hours_since_last_modified = dayjs().diff(lastModified, "hour")
+
+        // if conditions are fulfilled then delete the booking
+        if(booking.status == Status.Requesting && hours_since_last_modified <= 24) {
+            // create transaction
+            this.notificationService.createTransaction(poid, booking.sitter.id, `${booking.owner.fname} cancels request for ${booking.pet.name}`)
+
+            if(await this.bookingRepo.remove(booking)) return { success: true }
+            else return { success: false, message: "Error occured when removing request."}
+        }
+
+        return { success: false, message: "Can not cancel, must be done in 24 hours."}
     }
 
     isValidPetSitterId(id: number): boolean{

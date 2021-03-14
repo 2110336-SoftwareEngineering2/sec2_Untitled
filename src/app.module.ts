@@ -16,6 +16,10 @@ import { AuthModule } from './auth/auth.module';
 import { DummyModule } from './dummy/dummy.module';
 import { AuthMiddleware } from './middleware/auth.middleware';
 import { SitterAnimal } from './entities/sitteranimal.entity';
+import { Transaction } from './entities/transaction.entity';
+import { Report } from './entities/report.entity';
+import { Employee } from './entities/employee.entity';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -26,9 +30,9 @@ import { SitterAnimal } from './entities/sitteranimal.entity';
       username: 'se2',
       password: 'se2',
       database: 'se2',
-      entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview, SitterAnimal] ,
+      entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview, SitterAnimal, Transaction, Report, Employee] ,
       synchronize: true // this should be false in production
-    }),TypeOrmModule.forFeature([PetOwner]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule
+    }),TypeOrmModule.forFeature([PetOwner]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule, NotificationModule
   ],
   controllers: [AppController],
   providers: [AppService]
