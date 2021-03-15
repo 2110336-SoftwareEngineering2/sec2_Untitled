@@ -21,7 +21,8 @@ export class BookingController {
     async myBookingsForSitter(@Req() req){
         let requests = await this.bookingService.handleShowingRequestForPetSitter(req.user.id)
         let pet_sitter = await this.bookingService.findPetSitterById(req.user.id)
-        return {requests: requests, pet_sitter: pet_sitter}
+        let notifications = await this.notificationService.getNotificationsFor(req.user.id)
+        return {requests: requests, pet_sitter: pet_sitter, notifications: notifications}
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
