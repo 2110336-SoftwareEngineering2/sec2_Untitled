@@ -94,7 +94,8 @@ export class BookingController {
     @Roles('owner')
     async my_booking(@Req() req){
         let results = await this.bookingService.handleShowOwnerBooking(req.user.id)
-        return {results: results}
+        let po = await this.bookingService.findPetOwnerById(req.user.id)
+        return {results: results, pet_owner: po}
     }
 
     @Patch("my/petowner/:booking_id")
