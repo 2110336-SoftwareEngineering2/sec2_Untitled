@@ -4,7 +4,7 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 import * as hbs from 'hbs'
 import * as cookieParser from 'cookie-parser';
-import { locals } from './middleware/locals.middleware';
+import { locals } from './common/middleware/locals.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
