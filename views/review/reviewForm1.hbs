@@ -175,7 +175,7 @@
 		</div>
 		<hr />
 
-		<form action="/reviewOwnerForm/{{petSitter.id}}" method="POST" class="validated-form" novalidate>
+		<form action="/reviewOwnerForm/finish/{{Booking.id}}" method="POST" class="validated-form" novalidate>
 			<div class="row" style="margin-top: 2%;">
 				<!-- fa-5x = size of star icon -->
 				<div class="col-3">
@@ -228,13 +228,17 @@
 				</div>
 			</div>
 
-			<div class="row mb-5">
+			<div class="row mb-1">
 				<div class="col">
 					<button type="submit" class="btn btn-primary">
 						SUBMIT
 					</button>
 				</div>
-				<div class="col-sm-auto" style="margin-top: 1%;" id="Report">
+			</div>
+		</form>
+		<div class="row">
+			<form action="/reviewOwnerForm/Report/{{Booking.id}}" method="POST" class="validated-form" novalidate>
+				<div class="col-sm-auto" id="Report">
 					<ul class="navbar-nav ml-auto">
 						<li>
 							<a href="#">
@@ -259,13 +263,14 @@
 									<!-- BEGIN FILTER BY CATEGORY -->
 									<div class="checkbox">
 										<label class="chb-label">
-											<input type="checkbox" class="icheck" id="PoorOnService" name="PoorOnService">
+											<input type="checkbox" class="icheck" id="PoorOnService"
+												name="PoorOnService">
 											Poor on service
 										</label>
 									</div>
 									<div class="checkbox">
 										<label class="chb-label">
-											<input type="checkbox" class="icheck" id="NotOnTime"  name="NotOnTime"> 
+											<input type="checkbox" class="icheck" id="NotOnTime" name="NotOnTime">
 											Not on time
 										</label>
 									</div>
@@ -280,22 +285,22 @@
 										<label class="chb-label">
 											<input type="checkbox" class="icheck" id="Other" name="Other">
 											Other
-											<input class="form-control" type="text" id="reportDescription" name="reportDescription"
-											placeholder="Inform us.." required autofocus />
+											<input class="form-control" type="text" id="reportDescription"
+												name="reportDescription" placeholder="Inform us.." required autofocus />
 										</label>
 									</div>
 									<!-- END FILTER BY CATEGORY -->
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Report</button>
+									<button type="submit" class="btn btn-primary">Report</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
 
 	<footer class="footer bg-dark text-white py-2 mt-auto fixed-bottom">
