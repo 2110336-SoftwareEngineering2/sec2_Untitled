@@ -11,21 +11,12 @@ export class NotificationService {
     ){}
 
     async createTransaction(performerId: number, receiverId: number, description: string){
-        let result = await this.transactionRepo.save({
-            performerId: performerId,
-            receiverId: receiverId,
-            description: description
-        })
-        return result
+        return await this.transactionRepo.save({performerId,receiverId,description})
     }
 
     // get all transaction for receiverId
     async getNotificationsFor(receiverId: number){
-        let results = await this.transactionRepo.find({
-            where: {receiverId: receiverId}
-        })
-
-        return results
+        return await this.transactionRepo.find({where: {receiverId}})
     }
 
     // get all tracsantion for receiverId since "date"
