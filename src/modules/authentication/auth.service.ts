@@ -1,9 +1,7 @@
 import { AccountService } from '../account/account.service';
-import { BadRequestException, Body, Injectable, Res } from '@nestjs/common';
-import { Response, Request } from 'express';
+import { Body, Injectable, Res } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcryptjs';
-import { PetOwner } from 'src/entities/petowner.entity';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +14,7 @@ export class AuthService {
         return this.accountService.createAccount(dto.role,dto)
     }
 
-    logout(res: Response){
+    logout(@Res() res){
         res.cookie('token', "")
         return res.redirect('/')
     }
@@ -30,12 +28,12 @@ export class AuthService {
         return null;
     }
 
-    login(user: any, @Res() res) {
-        const payload = { username: user.username, sub: user.id, role: user.role};
+    login({username, id, role}: any, @Res() res) {
+        const payload = { username, sub: id, role};
         const token = this.jwtService.sign(payload)
         res.cookie('token', token);
-        if (user.role === "owner") return res.redirect('/search')
-        else if (user.role === "sitter") return res.redirect('/book/my')
+        if (role === "owner") return res.redirect('/search')
+        else if (role === "sitter") return res.redirect('/book/my')
         else return res.redirect('/') // ! this code should never run
     }
 

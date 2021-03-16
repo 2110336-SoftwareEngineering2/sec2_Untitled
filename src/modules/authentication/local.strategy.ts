@@ -10,9 +10,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(@Req() req, username: string, password: string): Promise<any> {
-    // console.log("this is req.body", req.body)
-    // console.log("this is username", username)
-    // console.log("this is password", password)
     const {role} = req.body;
     if (!role || !(role === 'owner' || role === 'sitter')) throw new UnauthorizedException();
     const user = await this.authService.validateUser(role,username, password);
