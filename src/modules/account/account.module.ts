@@ -1,14 +1,10 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { jwtConstants } from 'src/modules/auth/constants';
-import { Pet } from 'src/entities/pet.entity';
-// import { AppModule } from 'src/app.module';
-// import { AuthModule } from 'src/auth/auth.module';
-import { PetOwner } from 'src/entities/petowner.entity';
-import { PetSitter } from 'src/entities/petsitter.entity';
 import { AccountController } from './account.controller';
 import { AccountService } from './account.service';
+import {Pet, PetOwner, PetSitter} from 'src/entities'
 
 @Module({
   imports : [TypeOrmModule.forFeature([PetOwner]),TypeOrmModule.forFeature([PetSitter]),TypeOrmModule.forFeature([Pet]), JwtModule.register({
@@ -19,7 +15,5 @@ import { AccountService } from './account.service';
   providers: [AccountService],
   exports: [AccountService]
 })
-
-// export class AccountModule{}
 
 export class AccountModule {}
