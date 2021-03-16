@@ -1,14 +1,8 @@
 import { Injectable, Res } from '@nestjs/common';
 import {searchvalue} from './searchvalue.entity';
-
 import {getRepository , Repository , getConnection , getManager} from "typeorm";
 import { InjectRepository } from '@nestjs/typeorm';
-import { PetOwner } from 'src/entities/petowner.entity';
-import { PetSitter } from 'src/entities/petsitter.entity';
-import { Booking } from 'src/entities/booking.entity';
-import { SitterAnimal } from 'src/entities/sitteranimal.entity';
-
-//import {getConnection} from "typeorm";
+import {PetOwner,PetSitter, Booking, SitterAnimal} from 'src/entities'
 
 @Injectable()
 export class SearchService {
@@ -19,19 +13,15 @@ export class SearchService {
 	,@InjectRepository(PetSitter) private readonly PetSitterRepo: Repository<PetSitter>
 	,@InjectRepository(SitterAnimal) private readonly SitterAnimalRepo: Repository<SitterAnimal>
 	,@InjectRepository(Booking) private readonly BookingRepo: Repository<Booking>){}	
-
-  getHello(): string {
-    return 'Hello World!';
-  }
   
 
 	
   searchArray:searchvalue[]	= [] //Empty Array
 
   async renderSearch(@Res() res, ownerId: number){
-	  let pet_owner = await this.petOwnerRepo.findOne(ownerId)
+	  let petOwner = await this.petOwnerRepo.findOne(ownerId)
 	  return res.render('search/search', {
-		  pet_owner: pet_owner
+		  petOwner
 	  })
   }
 
