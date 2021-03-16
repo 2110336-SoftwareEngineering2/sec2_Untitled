@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Response, Request, Redirect, Patch, UseGuards, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, Req, Res } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
 import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
@@ -11,35 +11,22 @@ import { AccountService } from './account.service'
 export class AccountController {
   constructor(private readonly accountService: AccountService) { }
 
-  // @Post('/register')
-  // @Redirect('/')
-  // createAccount(@Body() dto){
-  //   return this.accountService.createAccount(dto.role, dto)
-  // }
-
   @Get()
-  async renderAccount(@Req() req, @Res() res){
-    const {role, id} = req.user;
+  async renderAccount(@Req() {user: {role,id}}, @Res() res){
     const account = await this.accountService.findAccountById(role,id);
     const pet = await this.accountService.findPetbyId(role,id);
-    const profile = {account,pet};
-    console.log(`🚀 ~ file: account.controller.ts ~ line 24 ~ AccountController ~ renderAccount ~ profile`, profile)
-    
-    return res.render('account/profile', {...profile})
+    return res.render('account/profile', {account, pet})
   }
 
   @Get('/edit')
-  async renderEditProfile(@Req() req, @Res() res): Promise<any> {
-    const {role, id} = req.user;
-    let profile = await this.accountService.findAccountById(role,id);
-    const isFemale = profile.gender=="F";
-    if (role === 'owner') return res.render('account/editownerprofile',{...profile, isFemale});
-    else if (role === 'sitter') return res.render('account/editsitterprofile',{...profile, isFemale});
+  async renderEditProfile(@Req() {user: {role,id}}, @Res() res): Promise<any> {
+    const profile = await this.accountService.findAccountById(role,id);
+    if (role === 'owner') return res.render('account/editownerprofile', profile);
+    else if (role === 'sitter') return res.render('account/editsitterprofile', profile);
   }
 
   @Post('/edit')
-  async updateOwner(@Body() dto: Omit<PetOwner | PetSitter, 'id'>, @Req() req, @Res() res){
-    const {role, id} = req.user
+  async updateOwner(@Body() dto: Omit<PetOwner | PetSitter, 'id'>, @Req() {user: {role,id}}, @Res() res){
     await this.accountService.updateAccount(role,id,dto);
     res.redirect('/account')
   }
