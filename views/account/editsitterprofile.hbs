@@ -34,12 +34,10 @@
                 <div class="form-group">
                     <label for="gender">Gender</label>
                     <select name="gender" class="form-control" placeholder="Gender" id="gender">
-                        <option value="M">Male</option>
-                        {{#if isFemale}}
-                        <option value="F" selected>Female</option>
-                        {{else}}
-                        <option value="F">Female</option>
-                        {{/if}}
+                        {{#select gender}}
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        {{/select}}
                     </select>
                 </div>
                 <div class="form-group">
