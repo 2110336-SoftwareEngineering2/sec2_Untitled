@@ -1,11 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PetOwner } from 'src/entities/petowner.entity';
-import { PetSitter } from 'src/entities/petsitter.entity';
-import { Booking } from 'src/entities/booking.entity'
-import { SitterReview } from 'src/entities/sitterreview.entity';
-import { OwnerReview } from 'src/entities/ownerreview.entity';
-import { MoreThan, Not, Repository } from 'typeorm';
+import {PetOwner, PetSitter, Booking, SitterReview, OwnerReview} from 'src/entities'
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ReviewService {
@@ -15,28 +11,28 @@ export class ReviewService {
 		@InjectRepository(Booking) private readonly bookingRepo: Repository<Booking>, 
         @InjectRepository(SitterReview) private readonly sitterReviewRepo: Repository<SitterReview>,
 		@InjectRepository(OwnerReview) private readonly ownerReviewRepo: Repository<OwnerReview>
-		){}
+	){}
 
-    async handlePetsitterReview(petsitter_id: number, petowner_id: number){
+    async handlePetsitterReview(petSitterId: number, petOwnerId: number){
         let reviews = await this.sitterReviewRepo.find({
             relations:["owner"],
-            where: {sitter: petsitter_id}
+            where: {sitter: petSitterId}
         })
         let petSitter = await this.petSitterRepo.findOne({
-            where: {id: petsitter_id}
+            where: {id: petSitterId}
         })
         let petOwner = await this.petOwnerRepo.findOne({
-            where: {id: petowner_id}
+            where: {id: petOwnerId}
         })
-        return {reviews: reviews, petSitter: petSitter, petOwner: petOwner};
+        return {reviews, petSitter, petOwner};
     }
 	
-	async saveOwnerReview(reviewRating:number, reviewDescription:string, petowner_id:number, petsitter_id:number){
+	async saveOwnerReview(reviewRating:number, reviewDescription:string, petOwnerId:number, petSitterId:number){
 		let petSitter = await this.petSitterRepo.findOne({
-            where: {id: petsitter_id}
+            where: {id: petSitterId}
         })
         let petOwner = await this.petOwnerRepo.findOne({
-            where: {id: petowner_id}
+            where: {id: petOwnerId}
         })
 		//import randomInt tool
 		const randomInt = require('random-int');
@@ -47,12 +43,12 @@ export class ReviewService {
 		return await this.sitterReviewRepo.save(review);
 	}
 
-	async saveSitterReview(reviewRating:number, reviewDescription:string, petsitter_id:number, petowner_id:number){
+	async saveSitterReview(reviewRating:number, reviewDescription:string, petSitterId:number, petOwnerId:number){
 		let petSitter = await this.petSitterRepo.findOne({
-            where: {id: petsitter_id}
+            where: {id: petSitterId}
         })
         let petOwner = await this.petOwnerRepo.findOne({
-            where: {id: petowner_id}
+            where: {id: petOwnerId}
         })
 		//import randomInt tool
 		const randomInt = require('random-int');
@@ -64,36 +60,35 @@ export class ReviewService {
 	}
 
     async findPetSitterById(id: number): Promise<PetSitter>{
-        let pet_sitter = await this.petSitterRepo.findOne(id)
-        if(!pet_sitter) throw new NotFoundException("Pet sitter not found, recheck ID")
-
-        return pet_sitter
+        let petSitter = await this.petSitterRepo.findOne(id)
+        if(!petSitter) throw new NotFoundException("Pet sitter not found, recheck ID")
+        return petSitter
     }
 
-	async findSitter(petsitter_id: number){
+	async findSitter(petSitterId: number){
 		let sitter = await this.petSitterRepo.findOne({
-            where: {id: petsitter_id}
+            where: {id: petSitterId}
         })
 		 return {petSitter : sitter};
 	 }
 
-	async findOwner(petowner_id: number){
+	async findOwner(petOwnerId: number){
 		let owner = await this.petOwnerRepo.findOne({
-            where: {id: petowner_id}
+            where: {id: petOwnerId}
         })
 		 return {petOwner : owner};
 	 }
 
-	async findBooking(booking_id: number){
+	async findBooking(bookingId: number){
 		let bk = await this.bookingRepo.findOne({
-            where: {id: booking_id}
+            where: {id: bookingId}
         })
 		 return {Booking : bk};
 	 }
 
-    async findBookingFromReview(petsitter_id: number){
+    async findBookingFromReview(petSitterId: number){
         
-        let reviews = this.findPetsitterReviews(petsitter_id);
+        let reviews = this.findPetsitterReviews(petSitterId);
         // let startDate: Date;
         // let endDate: Date;
         let period = [];
@@ -107,7 +102,7 @@ export class ReviewService {
                     }
                 })
                 console.log(booking.owner.id, booking.startDate, booking.endDate)
-                period.push({owner_id:booking.owner.id, sd: booking.startDate, ed: booking.endDate })
+                period.push({ownerId:booking.owner.id, sd: booking.startDate, ed: booking.endDate })
                 
                 
             } catch (error) {
@@ -118,15 +113,15 @@ export class ReviewService {
         console.log(period)    
     }
 
-    async findPetsitterReviews(petsitter_id: number){
+    async findPetsitterReviews(petSitterId: number){
         let reviews = await this.sitterReviewRepo.find({
             relations:["owner"],
-            where: {sitter: petsitter_id}
+            where: {sitter: petSitterId}
         })
         return reviews //return list of this petsitter reviews
     }
 
-	async calculateStarStat(petsitter_id: number){
+	async calculateStarStat(petSitterId: number){
         let cnt1: number = 0
 		let cnt2: number = 0
 		let cnt3: number = 0
@@ -134,7 +129,7 @@ export class ReviewService {
 		let cnt5: number = 0
 		let reviews = await this.sitterReviewRepo.find({
             where: {
-				sitter: petsitter_id,
+				sitter: petSitterId,
 			}
         })
 		
@@ -145,28 +140,28 @@ export class ReviewService {
             else if (review.rating < 5) cnt4++;
             else cnt5++;
         })
-		let review_count: number = cnt1+cnt2+cnt3+cnt4+cnt5
-		let cnt1_p = (cnt1/review_count * 100).toFixed(0)
-		let cnt2_p = (cnt2/review_count * 100).toFixed(0)
-		let cnt3_p = (cnt3/review_count * 100).toFixed(0)
-		let cnt4_p = (cnt4/review_count * 100).toFixed(0)
-		let cnt5_p = (cnt5/review_count * 100).toFixed(0)
-        let avg_star: number = (1*cnt1+ 2*cnt2+ 3*cnt3+ 4*cnt4+ 5*cnt5) / review_count;
+		let reviewCount: number = cnt1+cnt2+cnt3+cnt4+cnt5
+		let cnt1P = (cnt1/reviewCount * 100).toFixed(0)
+		let cnt2P = (cnt2/reviewCount * 100).toFixed(0)
+		let cnt3P = (cnt3/reviewCount * 100).toFixed(0)
+		let cnt4P = (cnt4/reviewCount * 100).toFixed(0)
+		let cnt5P = (cnt5/reviewCount * 100).toFixed(0)
+        let avgStar: number = (1*cnt1+ 2*cnt2+ 3*cnt3+ 4*cnt4+ 5*cnt5) / reviewCount;
 		return {
-            star_1: cnt1_p,
-            star_2: cnt2_p,
-            star_3: cnt3_p, 
-            star_4: cnt4_p, 
-            star_5: cnt5_p,
-            avg_star: avg_star,           
-            counts: review_count}
+            star1: cnt1P,
+            star2: cnt2P,
+            star3: cnt3P, 
+            star4: cnt4P, 
+            star5: cnt5P,
+            avgStar,           
+            counts: reviewCount}
 	}
 
-    async updateSitterReview(petsitter_id: number){
-        let reviewStat = await this.calculateStarStat(petsitter_id);
-        let petSitter = await this.findPetSitterById(petsitter_id);
+    async updateSitterReview(petSitterId: number){
+        let reviewStat = await this.calculateStarStat(petSitterId);
+        let petSitter = await this.findPetSitterById(petSitterId);
         petSitter.reviewerAmount = reviewStat.counts;
-        petSitter.rating = reviewStat.avg_star;
+        petSitter.rating = reviewStat.avgStar;
         await this.petSitterRepo.save(petSitter);
     }
 /**
@@ -176,8 +171,8 @@ export class ReviewService {
 	 }
 
 
-	async setCurrentSitter(petsitter_id: number){
-		let currentSitter = {number:petsitter_id};
+	async setCurrentSitter(petSitterId: number){
+		let currentSitter = {number:petSitterId};
 		return ;
 	 }	
 **/
