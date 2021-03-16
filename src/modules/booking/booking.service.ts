@@ -9,7 +9,7 @@ import { BookPetSitterDto } from './dto/pet_sitter.dto';
 import * as dayjs from "dayjs";
 import { SitterReview } from 'src/entities/sitterreview.entity';
 import { Transaction } from 'src/entities/transaction.entity';
-import { NotificationService } from 'src/notification/notification.service';
+import { NotificationService } from 'src/modules/notification/notification.service';
 
 let customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)

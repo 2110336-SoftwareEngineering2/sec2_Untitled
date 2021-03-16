@@ -1,13 +1,13 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { jwtConstants } from 'src/auth/constants';
+import { jwtConstants } from 'src/modules/auth/constants';
 import { Pet } from 'src/entities/pet.entity';
 // import { AppModule } from 'src/app.module';
 // import { AuthModule } from 'src/auth/auth.module';
 import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
-import { AuthMiddleware } from '../middleware/auth.middleware';
+import { AuthMiddleware } from '../../middleware/auth.middleware';
 import { AccountController } from './account.controller';
 import { AccountService } from './account.service';
 

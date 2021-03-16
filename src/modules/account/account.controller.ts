@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Post, Response, Request, Redirect, Patch, UseGuards, Req, Res } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
 import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
-import { Roles } from 'src/roles/roles.decorator';
-import { RolesGuard } from 'src/roles/roles.guard';
+import { Roles } from 'src/modules/roles/roles.decorator';
+import { RolesGuard } from 'src/modules/roles/roles.guard';
 import { AccountService } from './account.service'
 
 @UseGuards(JwtAuthGuard)

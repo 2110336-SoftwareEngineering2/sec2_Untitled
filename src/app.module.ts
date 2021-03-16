@@ -1,25 +1,13 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PetOwner } from './entities/petowner.entity';
-import { PetSitter } from './entities/petsitter.entity';
-import { AccountModule } from './account/account.module';
-import { ReviewModule } from './review/review.module';
-import { BookingModule } from './booking/booking.module';
-import { SearchModule } from './search/search.module';
-import { Pet } from './entities/pet.entity';
-import { Booking } from './entities/booking.entity';
-import { SitterReview } from './entities/sitterreview.entity';
-import { OwnerReview } from './entities/ownerreview.entity';
-import { AuthModule } from './auth/auth.module';
-import { DummyModule } from './dummy/dummy.module';
-import { AuthMiddleware } from './middleware/auth.middleware';
-import { SitterAnimal } from './entities/sitteranimal.entity';
-import { Transaction } from './entities/transaction.entity';
-import { Report } from './entities/report.entity';
-import { Employee } from './entities/employee.entity';
-import { NotificationModule } from './notification/notification.module';
+import {Booking, Transaction, Employee, Pet, Report,
+        OwnerReview, PetOwner,
+        PetSitter, SitterAnimal, SitterReview} from './entities'
+import {AccountModule, ReviewModule, 
+        BookingModule,SearchModule, AuthModule,
+        DummyModule, NotificationModule} from './modules'
 
 @Module({
   imports: [
@@ -39,10 +27,3 @@ import { NotificationModule } from './notification/notification.module';
 })
 
 export class AppModule {}
-
-// export class AppModule implements NestModule{
-//   configure(consumer: MiddlewareConsumer) {
-//     consumer
-//       .apply(AuthMiddleware).forRoutes('/secret');
-//   }
-// }

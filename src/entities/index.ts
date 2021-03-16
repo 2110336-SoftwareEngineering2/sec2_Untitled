@@ -1,4 +1,3 @@
-import {Booking} from './booking.entity'
 export * from './booking.entity'
 export * from './employee.entity'
 export * from './ownerreview.entity'
@@ -9,12 +8,3 @@ export * from './report.entity'
 export * from './sitteranimal.entity'
 export * from './sitterreview.entity'
 export * from './transaction.entity'
-// module.exports.Employee = require('./employee.entity')
-// module.exports.OwnerReview = require('./ownerReview.entity')
-// module.exports.Pet = require('./pet.entity')
-// module.exports.PetOwner = require('./petowner.entity')
-// module.exports.PetSitter = require('./petSitter.entity')
-// module.exports.Report = require('./report.entity')
-// module.exports.SitterAnimal = require('./sitterAnimal.entity')
-// module.exports.SitterReview = require('./sitterReview.entity')
-// module.exports.Transaction = require('./transaction.entity')

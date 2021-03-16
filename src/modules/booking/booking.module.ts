@@ -6,7 +6,7 @@ import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
 import { SitterReview } from 'src/entities/sitterreview.entity';
 import { Transaction } from 'src/entities/transaction.entity';
-import { NotificationModule } from 'src/notification/notification.module';
+import { NotificationModule } from 'src/modules/notification/notification.module';
 import { BookingController } from './booking.controller';
 import { BookingService } from './booking.service';
 

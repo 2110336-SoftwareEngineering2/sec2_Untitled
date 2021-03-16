@@ -1,9 +1,9 @@
 import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Patch, Post, Render, Req, Response, UnauthorizedException, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { viewNames } from 'src/booking/viewnames';
-import { NotificationService } from 'src/notification/notification.service';
-import { Roles } from 'src/roles/roles.decorator';
-import { RolesGuard } from 'src/roles/roles.guard';
+import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
+import { viewNames } from 'src/modules/booking/viewnames';
+import { NotificationService } from 'src/modules/notification/notification.service';
+import { Roles } from 'src/modules/roles/roles.decorator';
+import { RolesGuard } from 'src/modules/roles/roles.guard';
 import { BookingService } from './booking.service';
 import { BookPetSitterDto } from './dto/pet_sitter.dto';
 

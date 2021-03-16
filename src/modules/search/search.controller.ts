@@ -1,8 +1,8 @@
 import { Controller , Post , Get , Body , Delete , Param , Response, Res, UseGuards, Req } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { RolesGuard } from 'src/roles/roles.guard';
+import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/modules/roles/roles.guard';
 import {SearchService} from './search.service';
-import { Roles } from 'src/roles/roles.decorator';
+import { Roles } from 'src/modules/roles/roles.decorator';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 

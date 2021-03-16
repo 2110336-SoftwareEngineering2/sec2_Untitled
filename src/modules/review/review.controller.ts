@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Response, Request, Param, UseGuards, Req, Header } from '@nestjs/common';
 import { ReviewService } from './review.service';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Roles } from 'src/roles/roles.decorator';
-import { RolesGuard } from 'src/roles/roles.guard';
+import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
+import { Roles } from 'src/modules/roles/roles.decorator';
+import { RolesGuard } from 'src/modules/roles/roles.guard';
 
 
 @Controller()
