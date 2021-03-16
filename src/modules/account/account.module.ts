@@ -7,7 +7,6 @@ import { Pet } from 'src/entities/pet.entity';
 // import { AuthModule } from 'src/auth/auth.module';
 import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
-import { AuthMiddleware } from '../../middleware/auth.middleware';
 import { AccountController } from './account.controller';
 import { AccountService } from './account.service';
 
