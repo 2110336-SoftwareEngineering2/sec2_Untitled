@@ -28,7 +28,7 @@ export class SearchController {
 
 	@Get('result')
 	renderSearchResult(@Res() res){
-		return res.render('search/search-result')
+		return res.render('search/searchResult')
 	}
 
 

@@ -21,8 +21,8 @@ export class AccountController {
   @Get('/edit')
   async renderEditProfile(@Req() {user: {role,id}}, @Res() res): Promise<any> {
     const profile = await this.accountService.findAccountById(role,id);
-    if (role === 'owner') return res.render('account/editownerprofile', profile);
-    else if (role === 'sitter') return res.render('account/editsitterprofile', profile);
+    if (role === 'owner') return res.render('account/editOwnerProfile', profile);
+    else if (role === 'sitter') return res.render('account/editSitterProfile', profile);
   }
 
   @Post('/edit')
@@ -35,7 +35,7 @@ export class AccountController {
 
   @Get('/register/pet')
   async renderRegisterPet(@Res() res){
-    res.render('account/registerpet')
+    res.render('account/registerPet')
   }
 
   @Post('/register/pet')
