@@ -3,13 +3,6 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import {SearchService} from './search.service';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-
-import { PetOwner } from 'src/entities/petowner.entity';
-import { PetSitter } from 'src/entities/petsitter.entity';
-import { Booking } from 'src/entities/booking.entity';
-
 
 @Controller('search')
 export class SearchController {
