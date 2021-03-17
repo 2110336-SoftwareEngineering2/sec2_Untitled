@@ -22,7 +22,11 @@ export class NotificationService {
 
     // get all transaction for receiverId
     async getNotificationsFor(receiverId: number){
-        return await this.transactionRepo.find({where: {receiverId}})
+        let results = Object(await this.transactionRepo.find({where: {receiverId}}))
+        for(let i=0; i<results.length; i++){
+            results[i].performerPicUrl = await this.getPicUrlOf(results[i].performerId)
+        }
+        return results
     }
 
     async getPicUrlOf(user_id: number){
