@@ -56,9 +56,9 @@ export class ReviewController {
 	async ownerForm(@Response() res, @Body() dto, @Req() req, @Param("petsitterId") petsitterId){ 
 		let {petOwner} = await this.reviewService.findOwner(req.user.id);
 		//console.log('This is user who do request',req.user)
-		// console.log('This is parameter',dto)
-		// console.log('petsitter id',petsitterId)
-		//console.log(dto)
+		//console.log('This is parameter',dto)
+		//console.log('petsitter id',petsitterId)
+
 		res.render('review/reviewForm2',{petOwner})
 		return await this.reviewService.saveOwnerReview(dto.stars, dto.feedback, req.user.id, petsitterId);
 	}
@@ -68,9 +68,9 @@ export class ReviewController {
 	async sitterForm(@Response() res, @Body() dto, @Req() req, @Param("petOwnerId") petOwnerId){ 
 		let {petSitter} = await this.reviewService.findSitter(req.user.id);
 		//console.log('This is user who do request',req.user)
-		// console.log('This is parameter',dto)
-		// console.log('petowner id',petOwnerId)
-		//console.log(dto)
+		//console.log('This is parameter',dto)
+		//console.log('petowner id',petOwnerId)
+		
 		res.render('review/reviewFormS2',{petSitter})
 		return await this.reviewService.saveSitterReview(dto.stars, dto.feedback, req.user.id, petOwnerId);
 	}
@@ -111,13 +111,13 @@ export class ReviewController {
     @Post('/reviewOwnerForm/Report/:booking_id')
     async ownerReport(@Response() res, @Body() dto, @Req() req, @Param("booking_id") booking_id ){
 		let book = await this.reviewService.findBooking(booking_id);
-		console.log('This is parameter',dto)
+		//console.log('This is parameter',dto)
 		//let object = book.Booking.sitter;
 		//let endDate = book.Booking.endDate.toLocaleDateString() +' ' +book.Booking.endDate.toLocaleTimeString();
 		//let startDate = book.Booking.startDate.toLocaleDateString() +' ' +book.Booking.startDate.toLocaleTimeString();
 
 		await this.reviewService.saveOwnerReport(req.user.id, book.Booking.sitter.id, dto.PoorOnService, dto.NotOnTime, dto.Impoliteness, dto.Other, dto.reportDescription);
-        return res.redirect('/reviewOwnerForm/'+booking_id);
+        return res.redirect('/reviewOwnerForm/'+booking_id+'/'+book.Booking.sitter.id);
     }
 
 }
