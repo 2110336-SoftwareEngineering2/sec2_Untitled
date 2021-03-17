@@ -22,11 +22,7 @@ export class DummyController {
         @InjectRepository(OwnerReview)
         private readonly ownerReviewRepo: Repository<OwnerReview>,
         @InjectRepository(SitterAnimal)
-<<<<<<< HEAD:src/dummy/dummy.controller.ts
-        private readonly sitterAnimalRepo: Repository<SitterReview>
-=======
         private readonly sitterAnimalRepo: Repository<SitterAnimal>
->>>>>>> 802fed01e83342d95f62640d8712c65c38fff1e9:src/modules/dummy/dummy.controller.ts
     ){}    
 
     @Post('petsitter')
