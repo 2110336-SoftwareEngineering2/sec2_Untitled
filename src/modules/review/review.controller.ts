@@ -9,72 +9,6 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
 export class ReviewController {
     constructor(private readonly reviewService: ReviewService) { }
 	
-	@Roles('owner')
-    @Get('/reviewOwnerForm/:bookingId/:petsitterId')
-    async renderOwnerForm(@Response() res, @Req() req, @Param("bookingId") bookingId, @Param("petsitterId") petsitterId ){
-		let {Booking} = await this.reviewService.findBooking(bookingId);
-		// console.log('This is booking',book)
-		
-		//await this.reviewService.setCurrentSitter(petsitterId)
-		let {petSitter} = await this.reviewService.findSitter(petsitterId);
-		// console.log('This is petsitter',object)
-		//console.log(this.reviewService.getCurrentSitter())
-		
-		let {petOwner} = await this.reviewService.findOwner(req.user.id);
-		// console.log('This is petowner',reviewer)
-		
-		let starStat  = await this.reviewService.calculateStarStat(petsitterId);
-		
-		let endDate = Booking.endDate.toLocaleDateString() +' ' +Booking.endDate.toLocaleTimeString();
-		let startDate = Booking.startDate.toLocaleDateString() +' ' +Booking.startDate.toLocaleTimeString();
-		// console.log('This is date', endDate)
-        res.render('review/reviewForm1', {Booking ,petSitter, petOwner, SD:startDate, ED:endDate})
-    }
-
-	@Roles('sitter')
-    @Get('/reviewSitterForm/:bookingId/:petOwnerId')
-    async renderSitterForm(@Response() res, @Req() req, @Param("bookingId") bookingId, @Param("petOwnerId") petOwnerId ){
-		let {Booking} = await this.reviewService.findBooking(bookingId);
-		// console.log('This is booking',book)
-		
-		//await this.reviewService.setCurrentSitter(petsitterId)
-		let {petOwner} = await this.reviewService.findOwner(petOwnerId);
-		// console.log('This is petowner',object)
-		//console.log(this.reviewService.getCurrentSitter())
-		
-		let {petSitter} = await this.reviewService.findSitter(req.user.id);
-		// console.log('This is petsitter',reviewer)
-		
-		let endDate = Booking.endDate.toLocaleDateString() +' ' +Booking.endDate.toLocaleTimeString();
-		let startDate = Booking.startDate.toLocaleDateString() +' ' +Booking.startDate.toLocaleTimeString();
-		// console.log('This is date', endDate)
-        res.render('review/reviewFormS1', {Booking , petOwner, petSitter, SD:startDate, ED:endDate})
-    }
-	
-	@Roles('owner')
-	@Post('/reviewOwnerForm/:petsitterId')
-	async ownerForm(@Response() res, @Body() dto, @Req() req, @Param("petsitterId") petsitterId){ 
-		let {petOwner} = await this.reviewService.findOwner(req.user.id);
-		//console.log('This is user who do request',req.user)
-		//console.log('This is parameter',dto)
-		//console.log('petsitter id',petsitterId)
-
-		res.render('review/reviewForm2',{petOwner})
-		return await this.reviewService.saveOwnerReview(dto.stars, dto.feedback, req.user.id, petsitterId);
-	}
-
-	@Roles('sitter')
-	@Post('/reviewSitterForm/:petOwnerId')
-	async sitterForm(@Response() res, @Body() dto, @Req() req, @Param("petOwnerId") petOwnerId){ 
-		let {petSitter} = await this.reviewService.findSitter(req.user.id);
-		//console.log('This is user who do request',req.user)
-		//console.log('This is parameter',dto)
-		//console.log('petowner id',petOwnerId)
-		
-		res.render('review/reviewFormS2',{petSitter})
-		return await this.reviewService.saveSitterReview(dto.stars, dto.feedback, req.user.id, petOwnerId);
-	}
-
 	@UseGuards(JwtAuthGuard,RolesGuard)
 	@Roles('owner')
     @Get('/sitterReviews/:petsitter_id')
@@ -108,9 +42,75 @@ export class ReviewController {
         res.render('review/showOwnerReviews', {reviews: object.reviews, petOwner: object.petOwner, user: user.petSitter, stat: starStat})
     }
 
+	@Roles('owner')
+    @Get('/ownerReviewForm/:bookingId/:petsitterId')
+    async renderOwnerForm(@Response() res, @Req() req, @Param("bookingId") bookingId, @Param("petsitterId") petsitterId ){
+		let {Booking} = await this.reviewService.findBooking(bookingId);
+		// console.log('This is booking',book)
+		
+		//await this.reviewService.setCurrentSitter(petsitterId)
+		let {petSitter} = await this.reviewService.findSitter(petsitterId);
+		// console.log('This is petsitter',object)
+		//console.log(this.reviewService.getCurrentSitter())
+		
+		let {petOwner} = await this.reviewService.findOwner(req.user.id);
+		// console.log('This is petowner',reviewer)
+		
+		let starStat  = await this.reviewService.calculateStarStat(petsitterId);
+		
+		let endDate = Booking.endDate.toLocaleDateString() +' ' +Booking.endDate.toLocaleTimeString();
+		let startDate = Booking.startDate.toLocaleDateString() +' ' +Booking.startDate.toLocaleTimeString();
+		// console.log('This is date', endDate)
+        res.render('review/reviewForm1', {Booking ,petSitter, petOwner, SD:startDate, ED:endDate})
+    }
+
+	@Roles('sitter')
+    @Get('/sitterReviewForm/:bookingId/:petOwnerId')
+    async renderSitterForm(@Response() res, @Req() req, @Param("bookingId") bookingId, @Param("petOwnerId") petOwnerId ){
+		let {Booking} = await this.reviewService.findBooking(bookingId);
+		// console.log('This is booking',book)
+		
+		//await this.reviewService.setCurrentSitter(petsitterId)
+		let {petOwner} = await this.reviewService.findOwner(petOwnerId);
+		// console.log('This is petowner',object)
+		//console.log(this.reviewService.getCurrentSitter())
+		
+		let {petSitter} = await this.reviewService.findSitter(req.user.id);
+		// console.log('This is petsitter',reviewer)
+		
+		let endDate = Booking.endDate.toLocaleDateString() +' ' +Booking.endDate.toLocaleTimeString();
+		let startDate = Booking.startDate.toLocaleDateString() +' ' +Booking.startDate.toLocaleTimeString();
+		// console.log('This is date', endDate)
+        res.render('review/reviewFormS1', {Booking , petOwner, petSitter, SD:startDate, ED:endDate})
+    }
+	
+	@Roles('owner')
+	@Post('/ownerReviewForm/:petsitterId')
+	async ownerForm(@Response() res, @Body() dto, @Req() req, @Param("petsitterId") petsitterId){ 
+		let {petOwner} = await this.reviewService.findOwner(req.user.id);
+		//console.log('This is user who do request',req.user)
+		//console.log('This is parameter',dto)
+		//console.log('petsitter id',petsitterId)
+
+		res.render('review/reviewForm2',{petOwner})
+		return await this.reviewService.saveOwnerReview(dto.stars, dto.feedback, req.user.id, petsitterId);
+	}
+
+	@Roles('sitter')
+	@Post('/sitterReviewForm/:petOwnerId')
+	async sitterForm(@Response() res, @Body() dto, @Req() req, @Param("petOwnerId") petOwnerId){ 
+		let {petSitter} = await this.reviewService.findSitter(req.user.id);
+		//console.log('This is user who do request',req.user)
+		//console.log('This is parameter',dto)
+		//console.log('petowner id',petOwnerId)
+		
+		res.render('review/reviewFormS2',{petSitter})
+		return await this.reviewService.saveSitterReview(dto.stars, dto.feedback, req.user.id, petOwnerId);
+	}
+
 	@UseGuards(JwtAuthGuard,RolesGuard)
 	@Roles('owner')
-    @Post('/reviewOwnerForm/Report/:booking_id')
+    @Post('/ownerReviewForm/Report/:booking_id')
     async ownerReport(@Response() res, @Body() dto, @Req() req, @Param("booking_id") booking_id ){
 		let book = await this.reviewService.findBooking(booking_id);
 		//console.log('This is parameter',dto)
@@ -119,7 +119,7 @@ export class ReviewController {
 		//let startDate = book.Booking.startDate.toLocaleDateString() +' ' +book.Booking.startDate.toLocaleTimeString();
 
 		await this.reviewService.saveOwnerReport(req.user.id, book.Booking.sitter.id, dto.PoorOnService, dto.NotOnTime, dto.Impoliteness, dto.Other, dto.reportDescription);
-        return res.redirect('/reviewOwnerForm/'+booking_id+'/'+book.Booking.sitter.id);
+        return res.redirect('/ownerReviewForm/'+booking_id+'/'+book.Booking.sitter.id);
     }
 
 }
