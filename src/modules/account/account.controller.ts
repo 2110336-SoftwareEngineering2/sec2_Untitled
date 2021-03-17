@@ -42,8 +42,9 @@ export class AccountController {
 
   @Post('/register/pet')
   createPet(@Body() dto, @Req() req, @Res() res){
+	  console.log(dto);
     this.accountService.createPet(dto, req);
-    res.redirect('/account')
+    return res.send('/account')
   }
 
 }

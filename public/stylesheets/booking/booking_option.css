@@ -7,6 +7,14 @@ body {
 	background-position: 0px -1000px;
 }
 
+.dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+}
+.dropdown-toggle::after {
+	margin-bottom: 14px;
+	margin-left: 5px;
+}
 .tipBannerStyled {
 	background-color: rgb(243, 249, 242);
     color: rgb(40, 135, 28);

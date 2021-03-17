@@ -8,6 +8,9 @@
     <title>Booking</title>
     
     {{!-- icon library --}}
+    <script src="https://kit.fontawesome.com/826f04aac3.js" crossorigin="anonymous"></script>
+
+    {{!-- icon library --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     {{!-- jQuery --}}
@@ -33,21 +36,20 @@
 
 </head>
 <body class='vh-100'>
+
+{{!-- navbar --}}
 <nav class="navbar navbar-expand-lg navbar-light" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);'>
     <a class="navbar-brand" href="#"></a>
     <button class="navbar-toggler bg-secondary" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <ul class="navbar-nav font-weight-bolder">
                 <li class="nav-item mr-3">
                     <a class="nav-link text-nav-selfmade" href="/search">HOME</a>
                 </li>
                 <li class="nav-item mr-3">
                     <a class="nav-link text-nav-selfmade" href="/book/my">MY BOOKINGS</a>
-                </li>
-                <li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="/logout">LOGOUT</a>
                 </li>
                 <li class="nav-item dropdown mx-3">
                     <div class="d-flex flex-row">
@@ -66,18 +68,51 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="/logout">Logout</a>
-                                {{!-- <a class="dropdown-item" href="#"></a>
-                                <a class="dropdown-item" href="#"></a> --}}
                             </div>
                         </div>
                     </div>
                 </li>
-                <li class="nav-item" style='margin-top:5px'>
+                <li class="nav-item dropdown" style='margin-top:7px'>
+                    <div class="p-0" data-toggle="dropdown">
                     <i class="fa fa-bell" style='font-size:25px' aria-hidden="true"></i>
+                    </div>
+                    <div class="dropdown-menu">
+                        <h4 class='mb-3 mt-2' style='padding: .25rem 1.5rem;'>notifications</h4>
+                         {{#if notifications.length}}
+                            {{#each notifications}}
+                                <div class="dropdown-item d-flex flex-row">
+                                    <div class='mr-3'>
+                                        <img class='mt-2' src={{performerPicUrl}} alt="Picture" width="50px">
+                                    </div>
+                                    <div class='d-flex flex-column'>    
+                                        <p class='mb-1 ' style='width:220px; white-space: initial;'> {{description}} </p>
+                                        <p class='font-weight-bold text-info' style='font-size: 10px'>{{fromNow createDatetime}}</p>
+                                    </div>
+                                </div>
+                            {{/each}}
+                        {{else}}
+                            <div class="d-flex justify-content-center mb-2 mt-5">
+                                <i class="fas fa-file" style='font-size: 20px'></i>
+                            </div>
+                            <div class="text-muted mb-3" style=' display: block;
+                                width: 100%; 
+                                padding: .25rem 1.5rem;
+                                clear: both;
+                                font-weight:400;
+                                color: gray;
+                                text-align: inherit; 
+                                white-space: nowrap; 
+                                background-color: transparent; 
+                                border: 0; '>
+                                Dont have any notification yet
+                            </div>
+                        {{/if}}
+                    </div>
                 </li>
             </ul>
     </div>
 </nav>
+{{!-- /navbar --}}
 <div class="container mt-3" style='max-width:90%'>
     <div class="row">
         {{!-- show path --}}

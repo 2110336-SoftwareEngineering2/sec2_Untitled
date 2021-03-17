@@ -115,7 +115,7 @@ export class BookingService {
         return true
     }
 
-    async handleShowingRequestForPetSitter(psid: number){
+    async handleShowSitterBookings(psid: number){
         let requests = await this.bookingRepo.find({
             relations: ['pet', 'owner'],
             where: {
@@ -160,7 +160,7 @@ export class BookingService {
         }   
     }
 
-    async handleShowOwnerBooking(poid : number){
+    async handleShowOwnerBookings(poid : number){
         // find all booking history of poid
         let bookings = await this.bookingRepo.find({
             relations : ['pet', 'sitter'],

@@ -28,13 +28,13 @@ export class BookingController {
     }
 
     private async getMyBookingsForPetSitter(id) {
-        const requests = await this.bookingService.handleShowingRequestForPetSitter(id)
+        const requests = await this.bookingService.handleShowSitterBookings(id)
         const petSitter = await this.bookingService.findPetSitterById(id)
         return { requests, petSitter }
     }
 
     private async getMyBookingsForPetOwner(id) {
-        const results = await this.bookingService.handleShowOwnerBooking(id)
+        const results = await this.bookingService.handleShowOwnerBookings(id)
         const petOwner = await this.bookingService.findPetOwnerById(id)
         return { results, petOwner }
     }
