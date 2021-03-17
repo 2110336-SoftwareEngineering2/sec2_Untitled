@@ -14,8 +14,9 @@ export class AccountController {
   @Get()
   async renderAccount(@Req() {user: {role,id}}, @Res() res){
     const account = await this.accountService.findAccountById(role,id);
-    const pet = await this.accountService.findPetbyId(role,id);
-    return res.render('account/profile', {account, pet})
+    const pet = await this.accountService.findPetbyOwnerId(role,id);
+    const profile = {account,pet};
+    return res.render('account/profile', profile)
   }
 
   @Get('/edit')
