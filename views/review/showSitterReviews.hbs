@@ -89,6 +89,7 @@
 
     <div class="reviewAndRating d-flex mt-4 container" style='max-width:90%'>
         <div class="row m-auto">
+
             <div class="profileAndRatings col-12 col-lg-6 info-padding mb-5">
                 <div class='profile'>
                     <div class='row'>
@@ -118,7 +119,7 @@
                             <div class='d-flex align-self-center mx-1 '>
                                 <div rating={{petSitter.rating}}></div>
                             </div>
-                            <p class="d-flex align-self-center mx-2 mb-0">{{petSitter.rating}} out of 5</p>
+                            <p class="d-flex align-self-center mx-2 mb-0">out of 5</p>
                         </div>
                         <p class="d-flex justify-content-center my-2">{{stat.counts}} customer ratings</p>
                     </div>
@@ -208,6 +209,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="reviews col-12 col-lg-6 info-padding mb-5">
                 <h3 class="mb-4 pb-3">Reviews ({{stat.counts}})</h3>
                 <div class="reviews-list">
@@ -261,7 +263,7 @@
             </div>
         </div>
         <script src="/javascripts/review/reviewAndRating.js"></script>
-        <script src="/javascripts/review/starsHandler.js"></script>
+        <script src="/javascripts/booking/starsHandler.js"></script>
 </body>
 
 </html>

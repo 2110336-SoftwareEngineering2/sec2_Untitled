@@ -45,7 +45,7 @@ export class ReviewService {
         let petOwner = await this.petOwnerRepo.findOne({
             where: {id: petowner_id}
         })
-        return {reviews: reviews, petSitter: petSitter, petOwner: petOwner};
+        return {reviews, petSitter, petOwner};
     }
 	
 	async saveOwnerReview(reviewRating:number, reviewDescription:string, petOwnerId:number, petSitterId:number){
@@ -191,7 +191,7 @@ export class ReviewService {
                 }
             })
         }
-        console.log(reviews);
+        //console.log(reviews);
 		if(reviews.length!=0){
             reviews.forEach(function(review) {
                 if(review.rating < 2) cnt1++;
@@ -200,15 +200,14 @@ export class ReviewService {
                 else if (review.rating < 5) cnt4++;
                 else cnt5++;
             })
-            console.log("LOOOP")
         }else{
             return {
-                star_1: 0,
-                star_2: 0,
-                star_3: 0, 
-                star_4: 0, 
-                star_5: 0,
-                avg_star: 0,           
+                star1: 0,
+                star2: 0,
+                star3: 0, 
+                star4: 0, 
+                star5: 0,
+                avgStar: 0,           
                 counts: 0
             }
         }
@@ -226,22 +225,31 @@ export class ReviewService {
             star3: cnt3P, 
             star4: cnt4P, 
             star5: cnt5P,
-            avgStar,           
+            avgStar: avgStar,           
             counts: reviewCount}
 	}
 
     async updateUserReviews(user_id: number){
         let reviewStat = await this.calculateStarStat(user_id);
-		console.log(reviewStat);
+		//console.log(reviewStat);
         if(user_id > 2000000){
             let petSitter = await this.findPetSitterById(user_id);
+            
+            console.log("updated petsitter reviews")
             petSitter.reviewerAmount = reviewStat.counts;
-            petSitter.rating = reviewStat.avg_star;
+            petSitter.rating = reviewStat.avgStar;
+            //console.log(reviewStat.avgStar)
+            //console.log(petSitter.rating)
             await this.petSitterRepo.save(petSitter);
-        }else if(user_id > 1000000 && user_id < 2000000){
+        }
+        else{
             let petOwner = await this.findPetOwnerById(user_id);
+
+            //console.log("updated petowner reviews")
             petOwner.reviewerAmount = reviewStat.counts;
-            petOwner.rating = reviewStat.avg_star;
+            petOwner.rating = reviewStat.avgStar;
+            //console.log(reviewStat.avgStar)
+            //console.log(petOwner.rating)
             await this.petOwnerRepo.save(petOwner);
         }
         
