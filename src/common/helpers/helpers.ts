@@ -6,15 +6,15 @@ var register = function (Handlebars) {
             return num1 > num2
         },
 
-        gte: function(num1, num2){
+        gte: function (num1, num2) {
             return num1 >= num2
         },
-        
-        eq: function(arg1, arg2){
+
+        eq: function (arg1, arg2) {
             return arg1 == arg2
         },
 
-        ifNotEquals: function(arg1, arg2, options) {
+        ifNotEquals: function (arg1, arg2, options) {
             return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
         },
 
@@ -26,17 +26,17 @@ var register = function (Handlebars) {
             return splitted.join(' ')
         },
 
-        formatDate: function(utcFormat: Date, format: string){
+        formatDate: function (utcFormat: Date, format: string) {
             return dayjs(utcFormat).format(format)
         },
 
-        fromNow: function(utc){
+        fromNow: function (utc) {
             let now = dayjs()
-            let date = dayjs(utc)
-            if(now.diff(date, 'second') < 60) return `${now.diff(date, 'second')} seconds ago`
-            if(now.diff(date, 'minute') < 60) return `${now.diff(date, 'minute')} minutes ago`
-            if(now.diff(date, 'hour') < 24) return `${now.diff(date, 'hour')} hours ago`
-            if(now.diff(date, 'day') < 31) return `${now.diff(date, 'day')} days ago`
+            let date = dayjs(utc).add(7, 'hour')
+            if (now.diff(date, 'second') < 60) return `${now.diff(date, 'second')} seconds ago`
+            if (now.diff(date, 'minute') < 60) return `${now.diff(date, 'minute')} minutes ago`
+            if (now.diff(date, 'hour') < 24) return `${now.diff(date, 'hour')} hours ago`
+            if (now.diff(date, 'day') < 31) return `${now.diff(date, 'day')} days ago`
         },
 
         mapGender: function (gender, options) {

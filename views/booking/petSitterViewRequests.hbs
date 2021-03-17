@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>My Bookings</title>
 
     {{!-- icon library --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -162,7 +162,7 @@
                                     Incoming Booking
                             </h2>
                             <div class='d-flex flex-wrap'>
-                                {{#each requests}}
+                                {{#each bookingList.requests}}
                                 <div class="card my-3 mr-3" name="booking_request" booking_id={{id}} style='width:370px'>
                                     
                                     <div class="row no-gutters">

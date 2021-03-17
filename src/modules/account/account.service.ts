@@ -65,7 +65,7 @@ export class AccountService {
     }
 
     async createPet(dto: Omit<Pet, 'id'|'owner'>, @Req() {user: {id}}) : Promise<Pet> {
-        let newPet = {... new Pet(), ... dto, id};
+        let newPet = {... new Pet(), ... dto, owner:id};
         return this.petRepo.save(newPet)
     }
 }
