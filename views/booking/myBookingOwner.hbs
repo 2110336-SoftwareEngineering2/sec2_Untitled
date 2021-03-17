@@ -35,7 +35,7 @@
                         <a class="nav-link text-nav-selfmade" href="/search">HOME</a>
                     </li>
                     <li class="nav-item mr-3">
-                        <a class="nav-link text-nav-selfmade" href="#">MY BOOKINGS</a>
+                        <a class="nav-link text-nav-selfmade" href="/book/my">MY BOOKINGS</a>
                     </li>
                     <li class="nav-item mr-3">
                         <a class="nav-link text-nav-selfmade" href="/logout">LOGOUT</a>
@@ -73,9 +73,9 @@
                     <div class="card-body d-flex flex-wrap">
                         <div class="col-12 col-lg-7 pr-0">
                             <h2>Booking History</h2>
-                            {{#if results.length}}
+                            {{#if bookingList.results.length}}
                             <div class='d-flex flex-wrap'>
-                                {{#each results}}
+                                {{#each bookingList.results}}
                                 <div class="card my-3 mr-3" name="booking_parent" style='width:370px'>
                                     <div class="row no-gutters">
                                         <div class="col-8">
