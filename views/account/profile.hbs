@@ -36,10 +36,10 @@
             <div class="form-group row">
                 <label for="gender" class="col-sm-2 col-form-label">Gender</label>
                 <div class="col-sm-10">
-                    {{#if (equals account.gender "M")}}
+                    {{#if (eq account.gender "M")}}
                     <input name="gender" readonly class="form-control-plaintext" placeholder="Gender" type="text"
                         id="gender" value="Male">
-                    {{else if (equals account.gender "F")}}
+                    {{else if (eq account.gender "F")}}
                     <input name="gender" readonly class="form-control-plaintext" placeholder="Gender" type="text"
                         id="gender" value="Female">
                     {{else}}
