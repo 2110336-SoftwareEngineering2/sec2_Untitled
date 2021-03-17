@@ -6,7 +6,7 @@ import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
 import { SitterAnimal } from 'src/entities/sitteranimal.entity';
 import { SitterReview } from 'src/entities/sitterreview.entity';
-import { Repository } from 'typeorm';
+import { PrimaryColumn, Repository } from 'typeorm';
 
 @Controller('dummy')
 export class DummyController {

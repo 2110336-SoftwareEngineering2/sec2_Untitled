@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="pet-sitter-id" content={{pet_sitter.id}}>
+    <meta name="pet-sitter-id" content={{petSitter.id}}>
     <title>Booking</title>
     
     {{!-- icon library --}}
@@ -44,7 +44,7 @@
                     <a class="nav-link text-nav-selfmade" href="/search">HOME</a>
                 </li>
                 <li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="/book/my/petowner">MY BOOKINGS</a>
+                    <a class="nav-link text-nav-selfmade" href="/book/my">MY BOOKINGS</a>
                 </li>
                 <li class="nav-item mr-3">
                     <a class="nav-link text-nav-selfmade" href="/logout">LOGOUT</a>
@@ -53,7 +53,7 @@
                     <div class="d-flex flex-row">
                         <div class='d-flex flex-column mr-2'>
                             <div class='align-self-end' style='font-size: 10px'>pet owner</div>
-                            <div style='font-size: 15px'>{{pet_owner.fullName}}</div>
+                            <div style='font-size: 15px'>{{petOwner.fullName}}</div>
                         </div>
                         <div>
                             <a class="nav-link dropdown-toggle p-0" href="#" 
@@ -61,7 +61,7 @@
                             aria-haspopup="true" aria-expanded="false"
                             >
                                 <div class="circular--landscape--nav align-self-center">
-                                    <img src='{{pet_owner.picUrl}}'>
+                                    <img src='{{petOwner.picUrl}}'>
                                 </div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -83,7 +83,7 @@
         {{!-- show path --}}
         <div class="col-12 col-lg-6 book-info-padding">
             <div class='mb-2'>
-                <p><a href="/search">SEARCH RESLUTS</a> / <a href="/book/{{pet_sitter.id}}">{{pet_sitter.fullName}}</a> / <span class='font-weight-bolder'>BOOKING</span></p>
+                <p><a href="/search">SEARCH RESLUTS</a> / <a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a> / <span class='font-weight-bolder'>BOOKING</span></p>
             </div>
         </div>
     </div>
@@ -172,25 +172,25 @@
             </div> --}}
             <div class="card shadow-sm">
                 <div class="card-body pr-1">
-                    <h5 class="card-title">{{pet_sitter.fullName}}</h5>
+                    <h5 class="card-title">{{petSitter.fullName}}</h5>
                 </div>
                  <div class="card-body" style='background-color:rgba(0,0,0,.03)'>
                     <p class="card-text">
-                        {{#if (gt pet_sitter.exp.value 0)}}
-                        <p><i class="fa fa-clock-o" aria-hidden="true" style='font-size:18px'></i> {{pet_sitter.exp.value}} {{pet_sitter.exp.unit}} experience </p>
+                        {{#if (gt petSitter.exp.value 0)}}
+                        <p><i class="fa fa-clock-o" aria-hidden="true" style='font-size:18px'></i> {{petSitter.exp.value}} {{petSitter.exp.unit}} experience </p>
                         {{else}}
                         <p><i class="fa fa-clock-o" aria-hidden="true" style='font-size:18px'></i> less than a month experience </p>
                         {{/if}}
-                        <p><i class="fa fa-usd" aria-hidden="true" style='font-size:18px'></i> {{pet_sitter.priceRate}}/hr</p>
+                        <p><i class="fa fa-usd" aria-hidden="true" style='font-size:18px'></i> {{petSitter.priceRate}}/hr</p>
                     </p>
                 </div>
                 <div class="card-body d-flex flex-column">
                     <div class="circular--landscape--review align-self-center flex-fill">
-                        <img src={{pet_sitter.picUrl}} style='width:75px;height:110px'>
+                        <img src={{petSitter.picUrl}} style='width:75px;height:110px'>
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    {{#each pet_sitter.services}}
+                    {{#each petSitter.services}}
                     <li class='list-group-item'>
                         <span class="fa fa-star checked mr-2"></span><span style='font-size: 0.9em'>{{capFirstChar this}}</span>
                     </li>
