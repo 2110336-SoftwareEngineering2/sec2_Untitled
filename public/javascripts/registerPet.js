@@ -24,17 +24,17 @@ $(".function-icon").hover(function(){
               name: $('#name').val(),
               type: $(`.selected-icon`).attr('value'),
               gender: $('input[name="inlineRadioOptions"]:checked').val(),
-              yearOfBirth: $('#daterangepicker').val(),
+              yearOfBirth: $('input[name="yearOfBirth"]').val(),
               appearance: $('#appearance').val()
         }
         console.log(newPet)
         $.ajax({
-            url: '/register/pet',
+            url: '/account/register/pet',
             method: 'POST',
             data: newPet,
         dataType: "json",
         success: function(data){
-            window.location.href = "https://se2-ypebr.run.goorm.io/account";
+            window.location.replace(data)
         },
         error: function(data){
            alert("Sorry we can't register your pet. Please tell support for help.");
