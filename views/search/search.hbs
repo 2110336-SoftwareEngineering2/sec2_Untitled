@@ -43,10 +43,10 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <ul class="navbar-nav font-weight-bolder">
                 <li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="#">HOME</a>
+                    <a class="nav-link text-nav-selfmade" href="/search">HOME</a>
                 </li>
                 <li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="#">MY BOOKINGS</a>
+                    <a class="nav-link text-nav-selfmade" href="/book/my">MY BOOKINGS</a>
                 </li>
 				<li class="nav-item mr-3">
                     <a class="nav-link text-nav-selfmade" href="/logout">LOGOUT</a>
@@ -55,14 +55,14 @@
                     <div class="d-flex flex-row">
                         <div class='d-flex flex-column mr-2'>
                             <div class='align-self-end' style='font-size: 10px'>pet owner</div>
-                            <div style='font-size: 15px'>{{pet_owner.fullName}}</div>
+                            <div style='font-size: 15px'>{{petOwner.fullName}}</div>
                         </div>
                         <div>
                             <a class="nav-link dropdown-toggle p-0" href="#"
                                id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">
                                 <div class="circular--landscape--nav align-self-center">
-                                    <img src='{{pet_owner.picUrl}}'>
+                                    <img src='{{petOwner.picUrl}}'>
                                 </div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

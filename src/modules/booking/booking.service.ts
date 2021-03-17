@@ -193,7 +193,7 @@ export class BookingService {
             else return { success: false, message: "Error occured when removing request."}
         }
 
-        return { success: false, message: "Can not cancel, must be done in 24 hours."}
+        return { success: false, message: "Can not cancel, must be done within 24 hours."}
     }
 
     isValidPetSitterId(id: number): boolean{

@@ -22,28 +22,19 @@ export class BookingController {
     async myBookings(@Req() { user }, @Res() res) {
         let notifications = await this.notificationService.getNotificationsFor(user.id)
         let bookingList = undefined
+        let user_info = undefined
         switch (user.role) {
-            case "owner":
-                bookingList = await this.getMyBookingsForPetOwner(user.id)
-                res.render(viewNames.myBookingsForOwner, { bookingList, notifications })
+            case "owner": // If the user is a pet owner
+                user_info = await this.bookingService.findPetOwnerById(user.id)
+                bookingList = await this.bookingService.handleShowOwnerBookings(user.id)
+                res.render(viewNames.myBookingsForOwner, { bookingList, petOwner: user_info, notifications })
                 break
-            case "sitter":
-                bookingList = await this.getMyBookingsForPetSitter(user.id)
-                res.render(viewNames.myBookingsForSitter, { bookingList, notifications })
+            case "sitter": // If the user is a pet sitter
+                user_info = await this.bookingService.findPetSitterById(user.id)
+                bookingList = await this.bookingService.handleShowSitterBookings(user.id)
+                res.render(viewNames.myBookingsForSitter, { bookingList, petSitter: user_info, notifications })
                 break
         }
-    }
-
-    private async getMyBookingsForPetSitter(id) {
-        const requests = await this.bookingService.handleShowSitterBookings(id)
-        const petSitter = await this.bookingService.findPetSitterById(id)
-        return { requests, petSitter }
-    }
-
-    private async getMyBookingsForPetOwner(id) {
-        const results = await this.bookingService.handleShowOwnerBookings(id)
-        const petOwner = await this.bookingService.findPetOwnerById(id)
-        return { results, petOwner }
     }
 
     @UseGuards(RolesGuard)
