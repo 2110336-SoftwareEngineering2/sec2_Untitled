@@ -1,6 +1,6 @@
 export const viewNames = {
-    showPetSitterInfo : "booking/petSitterBookingInfo",
-    showBookingOptions : "booking/bookingOptions",
-    showPetSitterViewRequests : "booking/petSitterViewRequests",
-    showMyBookingForOwner : "booking/myBookingOwner"
+    petSitterBookingInfo: "booking/petSitterBookingInfo",
+    bookingOptions: "booking/bookingOptions",
+    myBookingsForSitter: "booking/petSitterViewRequests",
+    myBookingsForOwner: "booking/myBookingOwner"
 }
