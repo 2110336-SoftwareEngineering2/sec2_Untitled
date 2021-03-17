@@ -69,10 +69,8 @@ export class ReviewService {
             where: {id: petOwnerId}
         })
 		//import randomInt tool
-		const randomInt = require('random-int');
-		const uid = randomInt(100,999)
-		
-		const review = {id:uid, rating:reviewRating, description: reviewDescription, owner: petOwner ,sitter: petSitter }
+
+		const review = {rating:reviewRating, description: reviewDescription, owner: petOwner ,sitter: petSitter }
 		//console.log('This is review',review)
 		return await this.ownerReviewRepo.save(review);
 	}
@@ -84,9 +82,7 @@ export class ReviewService {
         let petOwner = await this.petOwnerRepo.findOne({
             where: {id: petowner_id}
         })
-        const randomInt = require('random-int');
-		const rid = randomInt(100,999)
-
+    
         let ser:boolean =false;
         let tim:boolean =false;
         let imp:boolean =false;
@@ -99,7 +95,7 @@ export class ReviewService {
 		
 		const reportTime:Date = new Date();
 
-        const report = {id:rid, reporter:petowner_id, suspect:petsitter_id, status:reportStatus.Requesting,  createDatetime:reportTime, poorOnService: ser, notOnTime:tim, impoliteness:imp, other:ot, description:description}
+        const report = {reporter:petowner_id, suspect:petsitter_id, status:reportStatus.Requesting,  createDatetime:reportTime, poorOnService: ser, notOnTime:tim, impoliteness:imp, other:ot, description:description}
         console.log('This is report info',report)
         return await this.ownerReportRepo.save(report);
     }
