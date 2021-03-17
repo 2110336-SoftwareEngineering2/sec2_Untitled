@@ -4,7 +4,7 @@ body {
 	font-family: 'Montserrat', sans-serif;
 	background-image: url("/image/0home.png");
 	background-repeat: no-repeat;
-	background-position: 0px -1000px;
+	/* background-position: 0px -1000px; */
 }
 
 .circular--landscape {
@@ -121,7 +121,16 @@ body {
   .warapper-scrollable::-webkit-scrollbar{
 	  width: 0;
   }
-
+  .root-container {
+		margin-left:auto;
+		margin-right:auto;
+  }
+  @media (max-width: 1020px) {
+	.root-container {
+		margin-left:20px;
+		margin-right:20px;
+	}
+  }
   @media (max-width: 992px) {
 	.vl-middle-page {
 		display: none;

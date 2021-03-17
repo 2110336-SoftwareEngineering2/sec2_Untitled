@@ -1,9 +1,73 @@
 body {
-    background-image: url("/image/0home.png");
-    /* Full height */
+    background-image: url("/image/bg1.png");
+    /* Full height
     height: 100%;
-    /* Center and scale the image nicely */
-    /* background-position: center; */
+    Center and scale the image nicely */
+      background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover;  
+} 
+
+.circular--landscape-v2 {
+	display: inline-block;
+	position: relative;
+	width: 260px;
+	height: 260px;
+	overflow: hidden;
+	border-radius: 50%;
+  }
+  
+  .circular--landscape-v2 img {
+	width: auto;
+	height: 100%;
+	max-height: 260px;
+	margin-left: 0px;
+	margin-top: 0px;
+  }
+
+.profile-frame {
+    padding: 20px 0px 100px 0px;
+    background-color: white;
+    border-radius: 150px;
+    margin: 20px 0px 20px 0px;
+    width: 300px;
+}
+
+.frame-icon {
+	border: solid 3px black;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	margin-bottom: 5px;
+}
+
+.activity-icon {
+	font-size: 25px;
+	color: #0d6efd;
+}
+
+.selected-icon {
+	border-color: #0d6efd;
+	background-color: #0d6efd;
+	color: white;
+}
+
+.hover-icon {
+	opacity: 0.6;
+	width: 55px;
+	height: 55px;
+	margin-bottom: 10px;
+}
+
+.wrapper-icon {
+	width: 75px;
+	height: 110px;
+	margin: 10px 5px 0px 5px;
+}
+
+.wrapper-all-icon {
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px 0px 10px 0px; 
+    margin-bottom: 20px;
 }
