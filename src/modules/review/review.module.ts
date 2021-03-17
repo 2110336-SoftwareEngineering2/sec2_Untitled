@@ -4,9 +4,10 @@ import {PetOwner, PetSitter, SitterReview, OwnerReview, Booking} from 'src/entit
 import { ReviewController } from './review.controller';
 import { Report } from 'src/entities/report.entity';
 import { ReviewService } from './review.service';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
-  imports : [TypeOrmModule.forFeature([PetOwner, PetSitter, SitterReview, OwnerReview, Booking, Report])],
+  imports : [TypeOrmModule.forFeature([PetOwner, PetSitter, SitterReview, OwnerReview, Booking, Report]), NotificationModule],
   controllers: [ReviewController],
   providers: [ReviewService]
 })
