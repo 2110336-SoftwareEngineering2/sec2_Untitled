@@ -1,9 +1,6 @@
-import { ExecutionContext, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { PetOwner, PetSitter, Transaction } from 'src/entities';
 import { NotificationService } from 'src/modules/notification/notification.service';
-import { Repository } from 'typeorm';
-import { NotificationModule } from 'src/modules/notification/notification.module';
 
 
 @Injectable()
