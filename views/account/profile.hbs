@@ -1,0 +1,113 @@
+{{#> sitter title="Profile"}}
+<div class="card mx-5 my-5">
+        <article class="card-body p-5">
+            <h4 class="card-title mb-4 mt-1">Profile</h4>
+
+            <form novalidate>
+                 <div class="form-group row">
+                <label for="username" class="col-sm-2 col-form-label">Username</label>
+                <div class="col-sm-10">
+                    <input name="username" readonly class="form-control-plaintext" placeholder="Pet Owner Username"
+                        type="text" id="username" value={{account.username}}>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="fname" class="col-sm-2 col-form-label">First Name</label>
+                <div class="col-sm-10">
+                    <input name="fname" readonly class="form-control-plaintext" placeholder="First Name" type="text"
+                        id="fname" value={{account.fname}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lname" class="col-sm-2 col-form-label">Last Name</label>
+                <div class="col-sm-10">
+                    <input name="lname" readonly class="form-control-plaintext" placeholder="Last Name" type="text"
+                        id="lname" value={{account.lname}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lname" class="col-sm-2 col-form-label">Rating</label>
+                <div class="col-sm-10">
+                    <input name="rating" readonly class="form-control-plaintext" placeholder="Rating" type="text"
+                        id="rating" value={{account.rating}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="gender" class="col-sm-2 col-form-label">Gender</label>
+                <div class="col-sm-10">
+                    {{#if (eq account.gender "M")}}
+                    <input name="gender" readonly class="form-control-plaintext" placeholder="Gender" type="text"
+                        id="gender" value="Male">
+                    {{else if (eq account.gender "F")}}
+                    <input name="gender" readonly class="form-control-plaintext" placeholder="Gender" type="text"
+                        id="gender" value="Female">
+                    {{else}}
+                    <input name="gender" readonly class="form-control-plaintext" placeholder="Gender" type="text"
+                        id="gender" value="Unidentified">
+                    {{/if}}
+                </div>
+            </div>
+            {{#if (gte account.id 2000000)}}
+            <div class="form-group row">
+                <label for="priceRate" class="col-sm-2 col-form-label">Price Rate</label>
+                <div class="col-sm-10">
+                    <input name="priceRate" readonly class="form-control-plaintext" placeholder="Price Rate" type="text"
+                        id="priceRate" value="{{account.priceRate}}$ / day">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="locationName" class="col-sm-2 col-form-label">Location Name</label>
+                <div class="col-sm-10">
+                    <input name="locationName" readonly class="form-control-plaintext" placeholder="Location Name" type="text"
+                        id="locationName" value={{account.locationName}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="location" class="col-sm-2 col-form-label">Address</label>
+                <div class="col-sm-10">
+                    <input name="location" readonly class="form-control-plaintext" placeholder="Address" type="text"
+                        id="address" value={{account.location}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="bank" class="col-sm-2 col-form-label">Bank Name</label>
+                <div class="col-sm-10">
+                    <input name="bank" readonly class="form-control-plaintext" placeholder="Bank Name" type="text"
+                        id="bank" value={{account.bank}}>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="bankAccount" class="col-sm-2 col-form-label">Bank Account</label>
+                <div class="col-sm-10">
+                    <input name="bankAccount" readonly class="form-control-plaintext" placeholder="Bank Account" type="text"
+                        id="bankAccount" value={{account.bankAccount}}>
+                </div>
+            </div>
+            {{else}}
+            <div class="form-group row">
+                <label for="pet" class="col-sm-2 col-form-label">Pet</label>
+                <div class="col-sm-10">
+                    {{#if pet.length}}
+                    {{#each pet}}
+                    <input name="pet" readonly class="form-control-plaintext" placeholder="Pet" type="text"
+                        id="pet" value="{{type}} : {{name}}">
+                    {{/each}}
+                    {{else}}
+                    <input name="pet" readonly class="form-control-plaintext" placeholder="Pet" type="text"
+                        id="pet" value="No Pet">
+                    {{/if}}
+                </div>
+            </div>
+            <button type="button" class="btn btn-dark btn-block mt-4" onclick="addPet()">Add Pet</button>
+            {{/if}}
+
+            </form>
+            <button class="btn btn-dark btn-block mt-4" onclick="editProfile()"> Edit Profile </button>
+
+            
+
+        </article>
+    </div>
+<script src="/javascripts/profile.js"></script>
+{{/sitter}}

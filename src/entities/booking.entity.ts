@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, PrimaryColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { Pet } from "./pet.entity";
 import { PetOwner } from "./petowner.entity";
 import { PetSitter } from "./petsitter.entity";
@@ -35,4 +35,7 @@ export class Booking {
 
     @ManyToOne(type => PetSitter, sitter => sitter.booking, { nullable: false })
     sitter: PetSitter;
+
+    @UpdateDateColumn()
+    public lastModified: Date;
 }

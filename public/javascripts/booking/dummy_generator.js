@@ -4,12 +4,13 @@ let faker = require('faker')
 
 // How many dummy would be generated
 // SHOULD NOT BE OVER 200 !!!
-const PET_SITTER_TIMES = 0;
+
+const PET_SITTER_TIMES = 100;
 const PET_OWNER_TIMES = 0;
 const PET_TIMES = 0;
 const PET_SITTER_REVIEW_TIMES = 0;
 const PET_OWNER_REVIEW_TIMES = 0;
-const PET_SITTER_ANIMAL_TIMES = 100;
+const PET_SITTER_ANIMAL_TIMES = 0;
 
 const PET_OWNER_COUNT = 11; // Set this if gernerating [pet, reviews]
 const PET_SITTER_COUNT = 29; // set this if generating [reviews, sitter_animal]
@@ -30,7 +31,9 @@ const SITTER_ANIMAL = "sitter_animal"
 const PET_OWNER_START_ID = 1000001
 const PET_SITTER_START_ID = 2000001
 
-const BASE_URL = "https://se2-ypebr.run.goorm.io/dummy/"
+// const BASE_URL = "https://se2-ypebr.run.goorm.io/dummy/"
+const BASE_URL = "http://localhost:3000/dummy/"
+
 
 function send_req(type, data){
     axios({
@@ -39,7 +42,7 @@ function send_req(type, data){
         data: data
     })
         // .then(res => console.log(res.data))
-        .catch(err => console.log(err.response.statusText))
+        .catch(err => console.log(err))
 }
 
 async function random_cat_image(){
@@ -72,7 +75,7 @@ async function pet_sitter_dummy_gen(times){
     for(let i=0; i<times; i++){
         let profile = (await random_profile()).data.results[0]
         let data = {
-            id: 2000001 + i,
+            // id: 2000001 + i,
             username: profile.login.username.substr(0, 20),
             password: faker.internet.password(),
             fname: profile.name.first,
