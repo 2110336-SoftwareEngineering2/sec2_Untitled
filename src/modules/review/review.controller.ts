@@ -85,9 +85,9 @@ export class ReviewController {
         let user = await this.reviewService.findOwner(req.user.id);
 		//console.log('This is current user', user.petOwner)		
 		let starStat  = await this.reviewService.calculateStarStat(petsitter_id);
-		//console.log('This is review star :', starStat.avg_star);
+		//console.log('This is review star :', starStat.avgStar);
 		//let booking = await this.reviewService.findBookingFromReview(petsitter_id)
-		//console.log("SITTER REVIEW PAGE");
+		console.log("SITTER REVIEW", object.reviews);
         res.render('review/showSitterReviews', {reviews: object.reviews, petSitter: object.petSitter, user: user.petOwner, stat: starStat})
     }
 
@@ -96,13 +96,15 @@ export class ReviewController {
     @Get('/ownerReviews/:petowner_id')
     async renderOwnerReviews(@Response() res, @Request() req, @Param("petowner_id") petowner_id) {
 		await this.reviewService.updateUserReviews(petowner_id);
-		console.log(petowner_id, req.user.id);
+		//console.log(petowner_id, req.user.id);
         let object = await this.reviewService.handlePetOwnerReview(req.user.id, petowner_id);
         //console.log(object.reviews)
         let user = await this.reviewService.findSitter(req.user.id);
-		//console.log('This is current user', user.petOwner)		
-		let starStat  = await this.reviewService.calculateStarStat(petowner_id);
-		//console.log('This is review star :', starStat.avg_star);
+		//console.log('This is current user', user.petSitter)
+				
+		let starStat = await this.reviewService.calculateStarStat(petowner_id);
+		//console.log("this is the all petowner's stat", starStat)
+		//console.log('This is review star :', starStat.star3);
         res.render('review/showOwnerReviews', {reviews: object.reviews, petOwner: object.petOwner, user: user.petSitter, stat: starStat})
     }
 
