@@ -1,7 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {PetOwner, PetSitter, Booking, SitterReview, OwnerReview} from 'src/entities'
-import { Repository } from 'typeorm';
+import { PetOwner } from 'src/entities/petowner.entity';
+import { PetSitter } from 'src/entities/petsitter.entity';
+import { Booking } from 'src/entities/booking.entity'
+import { SitterReview } from 'src/entities/sitterreview.entity';
+import { OwnerReview } from 'src/entities/ownerreview.entity';
+import { Report } from 'src/entities/report.entity';
+import { reportStatus } from 'src/entities/report.entity';
+import { MoreThan, Not, Repository } from 'typeorm';
 
 @Injectable()
 export class ReviewService {
@@ -10,10 +16,11 @@ export class ReviewService {
         @InjectRepository(PetSitter) private readonly petSitterRepo: Repository<PetSitter>,
 		@InjectRepository(Booking) private readonly bookingRepo: Repository<Booking>, 
         @InjectRepository(SitterReview) private readonly sitterReviewRepo: Repository<SitterReview>,
-		@InjectRepository(OwnerReview) private readonly ownerReviewRepo: Repository<OwnerReview>
-	){}
+		@InjectRepository(OwnerReview) private readonly ownerReviewRepo: Repository<OwnerReview>,
+        @InjectRepository(Report) private readonly ownerReportRepo: Repository<Report>
+		){}
 
-    async handlePetsitterReview(petSitterId: number, petOwnerId: number){
+    async handlePetSitterReview(petSitterId: number, petOwnerId: number){
         let reviews = await this.sitterReviewRepo.find({
             relations:["owner"],
             where: {sitter: petSitterId}
@@ -26,6 +33,20 @@ export class ReviewService {
         })
         return {reviews, petSitter, petOwner};
     }
+
+    async handlePetOwnerReview(petsitter_id: number, petowner_id: number){
+        let reviews = await this.ownerReviewRepo.find({
+            relations:["sitter"],
+            where: {owner: petowner_id}
+        })
+        let petSitter = await this.petSitterRepo.findOne({
+            where: {id: petsitter_id}
+        })
+        let petOwner = await this.petOwnerRepo.findOne({
+            where: {id: petowner_id}
+        })
+        return {reviews: reviews, petSitter: petSitter, petOwner: petOwner};
+    }
 	
 	async saveOwnerReview(reviewRating:number, reviewDescription:string, petOwnerId:number, petSitterId:number){
 		let petSitter = await this.petSitterRepo.findOne({
@@ -34,11 +55,8 @@ export class ReviewService {
         let petOwner = await this.petOwnerRepo.findOne({
             where: {id: petOwnerId}
         })
-		//import randomInt tool
-		const randomInt = require('random-int');
-		const uid = randomInt(100,999)
 		
-		const review = {id:uid, rating:reviewRating, description: reviewDescription, owner: petOwner ,sitter: petSitter }
+		const review = {rating:reviewRating, description: reviewDescription, owner: petOwner ,sitter: petSitter }
 		//console.log('This is review',review)
 		return await this.sitterReviewRepo.save(review);
 	}
@@ -59,10 +77,45 @@ export class ReviewService {
 		return await this.ownerReviewRepo.save(review);
 	}
 
+    async saveOwnerReport(petowner_id:number ,petsitter_id:number, service:boolean, time:boolean, impolite:boolean, other:boolean, description:string){
+        let petSitter = await this.petSitterRepo.findOne({
+            where: {id: petsitter_id}
+        })
+        let petOwner = await this.petOwnerRepo.findOne({
+            where: {id: petowner_id}
+        })
+        const randomInt = require('random-int');
+		const rid = randomInt(100,999)
+
+        let ser:boolean =false;
+        let tim:boolean =false;
+        let imp:boolean =false;
+        let ot:boolean=false;
+
+        if(service) ser=true;
+        if(time) tim=true;
+        if(impolite) imp=true;
+        if(other) ot=true;
+		
+		const reportTime:Date = new Date();
+
+        const report = {id:rid, reporter:petowner_id, suspect:petsitter_id, status:reportStatus.Requesting,  createDatetime:reportTime, poorOnService: ser, notOnTime:tim, impoliteness:imp, other:ot, description:description}
+        console.log('This is report info',report)
+        return await this.ownerReportRepo.save(report);
+    }
+
     async findPetSitterById(id: number): Promise<PetSitter>{
-        let petSitter = await this.petSitterRepo.findOne(id)
-        if(!petSitter) throw new NotFoundException("Pet sitter not found, recheck ID")
-        return petSitter
+        let pet_sitter = await this.petSitterRepo.findOne(id)
+        if(!pet_sitter) throw new NotFoundException("Pet Sitter not found, recheck ID")
+
+        return pet_sitter
+    }
+
+    async findPetOwnerById(id: number): Promise<PetOwner>{
+        let pet_owner = await this.petOwnerRepo.findOne(id)
+        if(!pet_owner) throw new NotFoundException("Pet Owner not found, recheck ID")
+
+        return pet_owner;
     }
 
 	async findSitter(petSitterId: number){
@@ -81,6 +134,7 @@ export class ReviewService {
 
 	async findBooking(bookingId: number){
 		let bk = await this.bookingRepo.findOne({
+            relations:['owner','sitter','pet'],
             where: {id: bookingId}
         })
 		 return {Booking : bk};
@@ -121,25 +175,48 @@ export class ReviewService {
         return reviews //return list of this petsitter reviews
     }
 
-	async calculateStarStat(petSitterId: number){
+	async calculateStarStat(user_id: number){
         let cnt1: number = 0
 		let cnt2: number = 0
 		let cnt3: number = 0
 		let cnt4: number = 0
 		let cnt5: number = 0
-		let reviews = await this.sitterReviewRepo.find({
-            where: {
-				sitter: petSitterId,
-			}
-        })
-		
-        reviews.forEach(function(review) {
-            if(review.rating < 2) cnt1++;
-            else if (review.rating < 3) cnt2++;
-            else if (review.rating < 4) cnt3++;
-            else if (review.rating < 5) cnt4++;
-            else cnt5++;
-        })
+        let reviews;
+        if(user_id > 2000000){
+            reviews = await this.sitterReviewRepo.find({
+                where: {
+                    sitter: user_id,
+                }
+            })
+        }else{
+            reviews = await this.ownerReviewRepo.find({
+                where: {
+                    owner: user_id,
+                }
+            })
+        }
+        console.log(reviews);
+		if(reviews.length!=0){
+            reviews.forEach(function(review) {
+                if(review.rating < 2) cnt1++;
+                else if (review.rating < 3) cnt2++;
+                else if (review.rating < 4) cnt3++;
+                else if (review.rating < 5) cnt4++;
+                else cnt5++;
+            })
+            console.log("LOOOP")
+        }else{
+            return {
+                star_1: 0,
+                star_2: 0,
+                star_3: 0, 
+                star_4: 0, 
+                star_5: 0,
+                avg_star: 0,           
+                counts: 0
+            }
+        }
+        
 		let reviewCount: number = cnt1+cnt2+cnt3+cnt4+cnt5
 		let cnt1P = (cnt1/reviewCount * 100).toFixed(0)
 		let cnt2P = (cnt2/reviewCount * 100).toFixed(0)
@@ -157,12 +234,22 @@ export class ReviewService {
             counts: reviewCount}
 	}
 
-    async updateSitterReview(petSitterId: number){
-        let reviewStat = await this.calculateStarStat(petSitterId);
-        let petSitter = await this.findPetSitterById(petSitterId);
-        petSitter.reviewerAmount = reviewStat.counts;
-        petSitter.rating = reviewStat.avgStar;
-        await this.petSitterRepo.save(petSitter);
+    async updateUserReviews(user_id: number){
+        let reviewStat = await this.calculateStarStat(user_id);
+		console.log(reviewStat);
+        if(user_id > 2000000){
+            let petSitter = await this.findPetSitterById(user_id);
+            petSitter.reviewerAmount = reviewStat.counts;
+            petSitter.rating = reviewStat.avg_star;
+            await this.petSitterRepo.save(petSitter);
+        }else if(user_id > 1000000 && user_id < 2000000){
+            let petOwner = await this.findPetOwnerById(user_id);
+            petOwner.reviewerAmount = reviewStat.counts;
+            petOwner.rating = reviewStat.avg_star;
+            await this.petOwnerRepo.save(petOwner);
+        }
+        
+        
     }
 /**
 	async getCurrentSitter(){

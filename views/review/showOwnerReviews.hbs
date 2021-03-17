@@ -25,7 +25,7 @@
 
     <link rel="stylesheet" href="/stylesheets/review/reviewAndRating.css">
 
-    <title>reviews and Ratings</title>
+    <title>Reviews and Ratings</title>
 </head>
 
 <body class="vh-100">
@@ -52,7 +52,7 @@
                 <li class="nav-item dropdown mx-3">
                     <div class="d-flex flex-row">
                         <div class='d-flex flex-column mr-2'>
-                            <div class='align-self-end' style='font-size: 10px'>pet owner</div>
+                            <div class='align-self-end' style='font-size: 10px'>pet sitter</div>
                             <div style='font-size: 15px'>{{user.fullName}}</div>
                         </div>
                         <div>
@@ -80,7 +80,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb my-2 bg-white">
             <li class="breadcrumb-item"><a href="/search">SEARCH RESULT</a></li>
-            <li class="breadcrumb-item"><a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a></li>
+            <li class="breadcrumb-item"><a href="/book/{{petOwner.id}}">{{petOwner.fullName}}</a></li>
             <li class="breadcrumb-item active" aria-current="page">REVIEWS AND RATINGS</li>
         </ol>
     </nav>
@@ -94,18 +94,18 @@
                     <div class='row'>
                         <div class="col col-xl-4 d-flex flex-column">
                             <div class="circular--landscape align-self-center">
-                                <img src={{petSitter.picUrl}}>
+                                <img src={{petOwner.picUrl}}>
                             </div>
 
                             <div class='align-self-center mt-3'>
-                                <div rating={{petSitter.rating}}></div>
+                                <div rating={{petOwner.rating}}></div>
                                 <p class='text-center my-2'>Online Now</p>
                             </div>
                         </div>
                         <div class="col col-xl-8  align-self-center">
-                            <h1 class='text-lg-center mb-3'>{{petSitter.fullName}}</h1>
-                            <p class='text-lg-center'>{{petSitter.description}}</h1>
-                            <p class='text-lg-center mt-4 text-muted'><small>{{petSitter.location}}</small></p>
+                            <h1 class='text-lg-center mb-3'>{{petOwner.fullName}}</h1>
+                            <p class='text-lg-center'>{{petOwner.description}}</h1>
+                            <p class='text-lg-center mt-4 text-muted'><small>{{petOwner.location}}</small></p>
 
                         </div>
                     </div>
@@ -116,9 +116,9 @@
                         <h4 class="text-lg-center mb-3">Customer Reviews</h4>
                         <div class="d-flex justify-content-center bg-gray-info py-3 ">
                             <div class='d-flex align-self-center mx-1 '>
-                                <div rating={{petSitter.rating}}></div>
+                                <div rating={{petOwner.rating}}></div>
                             </div>
-                            <p class="d-flex align-self-center mx-2 mb-0">out of 5</p>
+                            <p class="d-flex align-self-center mx-2 mb-0">{{petOwner.rating}} out of 5</p>
                         </div>
                         <p class="d-flex justify-content-center my-2">{{stat.counts}} customer ratings</p>
                     </div>
@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <p class="star5_percent" class='font-weight-bolder'>{{stat.star5}}%</p>
+                                <p class="star5_percent" class='font-weight-bolder'>{{stat.star_5}}%</p>
                             </div>
                         </div>
                         <div class="row  mt-2">
@@ -154,7 +154,7 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <p class="star4_percent" class='font-weight-bolder'>{{stat.star4}}%</p>
+                                <p class="star4_percent" class='font-weight-bolder'>{{stat.star_4}}%</p>
                             </div>
                         </div>
                         <div class="row  mt-2">
@@ -170,7 +170,7 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <p class="star3_percent" class='font-weight-bolder'>{{stat.star3}}%</p>
+                                <p class="star3_percent" class='font-weight-bolder'>{{stat.star_3}}%</p>
                             </div>
                         </div>
                         <div class="row  mt-2">
@@ -186,7 +186,7 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <p class="star2_percent" class='font-weight-bolder'>{{stat.star2}}%</p>
+                                <p class="star2_percent" class='font-weight-bolder'>{{stat.star_2}}%</p>
                             </div>
                         </div>
                         <div class="row  mt-2">
@@ -202,7 +202,7 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <p class="star1_percent" class='font-weight-bolder'>{{stat.star1}}%</p>
+                                <p class="star1_percent" class='font-weight-bolder'>{{stat.star_1}}%</p>
                             </div>
                         </div>
                     </div>

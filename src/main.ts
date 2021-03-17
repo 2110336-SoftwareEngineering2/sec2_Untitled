@@ -11,7 +11,7 @@ async function bootstrap() {
     AppModule,
   );
 
-  require("./helpers").register(hbs.handlebars);
+  require("./common/helpers/helpers").register(hbs.handlebars);
 
   app.use(cookieParser());
   app.use(locals)
