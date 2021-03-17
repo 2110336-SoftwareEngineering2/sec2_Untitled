@@ -21,7 +21,7 @@ export class ReviewController {
 		let starStat  = await this.reviewService.calculateStarStat(petsitter_id);
 		//console.log('This is review star :', starStat.avgStar);
 		//let booking = await this.reviewService.findBookingFromReview(petsitter_id)
-		console.log("SITTER REVIEW", object.reviews);
+		//console.log("SITTER REVIEW", object.reviews);
         res.render('review/showSitterReviews', {reviews: object.reviews, petSitter: object.petSitter, user: user.petOwner, stat: starStat})
     }
 
