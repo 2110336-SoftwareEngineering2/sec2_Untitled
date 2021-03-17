@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-	<title>Review page 1</title>
 	<!-- Required meta tags always come first -->
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -14,16 +13,9 @@
 
 	<!--font-awesome star icon-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-	<!--Golf's stylesheet-->
-	<link rel="stylesheet" href="/stylesheets/review/reviewAndRating.css" />
-
-	<!-- rating.js file 
-		<script src="SE2-ReviewPage/sec2_Untitled/public/javascripts/review/rating2.js"></script>
-		-->
-
-	<!-- <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script> -->
 
 	<style>
+		/*STAR RATING BEGIN*/
 		.checked {
 			color: orange;
 		}
@@ -94,7 +86,13 @@
 			text-shadow: 0 0 5px #09f;
 		}
 
+		/*STAR RATING END*/
 	</style>
+
+	<!--Golf's stylesheet-->
+	<link rel="stylesheet" type="text/css" href="/stylesheets/review/reviewAndRating.css" />
+
+	<title>Review page 1</title>
 </head>
 
 <body>
@@ -148,7 +146,7 @@
 		<ol class="breadcrumb my-2 bg-white">
 			<li class="breadcrumb-item"><a href="#">NOTIFICATION</a></li>
 			<li class="breadcrumb-item">REVIEW PETSITTER</li>
-			<li class="breadcrumb-item active">{{petSitter.fullName}}</li>
+			<li class="breadcrumb-item active"><a href='/book/{{petSitter.id}}'>{{petSitter.fullName}}</a></li>
 		</ol>
 	</nav>
 
@@ -228,24 +226,81 @@
 					<input class="form-control" type="text" id="feedback" name="feedback"
 						placeholder="write your review here.." required autofocus />
 				</div>
-
-				<!-- <div class="col-sm-auto" style="margin-top: 1%;" id="Report">
-						<ul class="navbar-nav ml-auto">
-							<li>
-								<a href="./index.html" style="color: red;">Report Pet Sitter</a>
-							</li>
-						</ul>
-					</div> -->
 			</div>
 
-			<div class="row mb-5">
-				<div class="col-12">
+			<div class="row mb-1">
+				<div class="col">
 					<button type="submit" class="btn btn-primary">
 						SUBMIT
 					</button>
 				</div>
 			</div>
 		</form>
+		<div class="row">
+			<form action="/reviewOwnerForm/Report/{{Booking.id}}" method="POST" class="validated-form" novalidate>
+				<div class="col-sm-auto" id="Report">
+					<ul class="navbar-nav ml-auto">
+						<li>
+							<a href="#">
+								<i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: red;"
+									data-toggle="modal" data-target="#reportModal">
+									REPORT PET SITTER</i>
+							</a>
+						</li>
+					</ul>
+					<!-- Modal -->
+					<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Reasons for Reporting</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- BEGIN FILTER BY CATEGORY -->
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="PoorOnService"
+												name="PoorOnService">
+											Poor on service
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="NotOnTime" name="NotOnTime">
+											Not on time
+										</label>
+									</div>
+
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="Impoliteness" name="Impoliteness">
+											Impoliteness
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="Other" name="Other">
+											Other
+											<input class="form-control" type="text" id="reportDescription"
+												name="reportDescription" placeholder="Inform us.." required autofocus />
+										</label>
+									</div>
+									<!-- END FILTER BY CATEGORY -->
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-primary">Report</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 
 	<footer class="footer bg-dark text-white py-2 mt-auto fixed-bottom">
