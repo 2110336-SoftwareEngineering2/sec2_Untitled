@@ -10,32 +10,31 @@
     <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
 {{!-- <div class='bg-success h-2' style="max-width:1000px; width:100%; height:20px"></div> --}}
 {{!-- <div class="d-flex justify-content-center vh-100 flex-column" style='max-width:1200px; width:100%'> --}}
-
-
+{{profile}}
     <div class='container mt-3' style='max-width:1300px; width:100%'>
         <div class="row">
             <div class="col-12 col-lg-4">
                         <div class='mb-4'>
-                            <p><a href="/search">SEARCH RESLUTS</a> / <span class='font-weight-bolder'>{{pet_sitter.fullName}}</span></p>
+                            <p><a href="/search">SEARCH RESLUTS</a> / <span class='font-weight-bolder'>{{profile.fullName}}</span></p>
                         </div>
                         <div class="d-flex justify-content-center ml-auto mr-auto flex-column profile-frame shadow">
                             {{!-- pet sitter img && ratting --}}
                             <div class="circular--landscape-v2 align-self-center">
-                                <img src='/image/default_img_profile.png'>
+                                <img src='{{profile.picUrl}}'>
                             </div>
-                            <div class='align-self-center mt-3' rating={{pet_sitter.rating}}>
+                            <div class='align-self-center mt-3' rating={{profile.rating}}>
                                 <span class="fa fa-star" style="color: white;"></span>
                                 <span class="fa fa-star" style="color: white;"></span>
+                                <span class="fa fa-star" style="color: white;"></span>  
                                 <span class="fa fa-star" style="color: white;"></span>
                                 <span class="fa fa-star" style="color: white;"></span>
-                                <span class="fa fa-star" style="color: white;"></span>
-                                <span class='font-weight-bolder ml-1' style="color: rgb(255, 165, 0);">5{{rating}}</span>
+                                <span class='font-weight-bolder ml-1' style="color: rgb(255, 165, 0);">5{{profile.rating}}</span>
                             </div>
                             {{!-- pet sitter description --}}
                             <div class="text-align-center align-self-center">
-                                {{#if pet_sitter.fname}}
-                                    <h1 class='text-lg-center'>{{pet_sitter.fullName}}</h1>
-                                    <p class='text-lg-center'>Dedicated pet sitter in the {{pet_sitter.location}}</h1>
+                                {{#if profile.fname}}
+                                    <h1 class='text-lg-center'>{{profile.fullName}}</h1>
+                                    <p class='text-lg-center'>Dedicated pet sitter in the {{profile.location}}</h1>
                                 {{else}}
                                     <h1 class='text-lg-center'>Not found</h1>   
                                 {{/if}}

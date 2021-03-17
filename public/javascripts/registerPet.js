@@ -19,16 +19,27 @@ $(".function-icon").hover(function(){
   $('#cancel_button').click(function(){
       window.location.href = "https://se2-ypebr.run.goorm.io/account";
   })
-
   $('#save_button').click(function(){
         let newPet = {
               name: $('#name').val(),
               type: $(`.selected-icon`).attr('value'),
               gender: $('input[name="inlineRadioOptions"]:checked').val(),
-              birthdate: $('#daterangepicker').val(),
-              apperance: $('#appearance').val()
+              yearOfBirth: $('#daterangepicker').val(),
+              appearance: $('#appearance').val()
         }
-        alert();    
+        console.log(newPet)
+        $.ajax({
+            url: '/register/pet',
+            method: 'POST',
+            data: newPet,
+        dataType: "json",
+        success: function(data){
+            window.location.href = "https://se2-ypebr.run.goorm.io/account";
+        },
+        error: function(data){
+           alert("Sorry we can't register your pet. Please tell support for help.");
+        }
+        })
   })
 
   $(document).ready(function(){
