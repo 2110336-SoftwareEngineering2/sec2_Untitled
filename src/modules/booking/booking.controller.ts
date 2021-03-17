@@ -14,16 +14,23 @@ export class BookingController {
         private readonly notificationService: NotificationService
     ) { }
 
+    // TODO
+    // Refactor 1. Sitter accept/deny and owner cancel to be the same url (PATCH /book with bookingId in body)
+
     // My bookings page
     @Get('my')
     async myBookings(@Req() { user }, @Res() res) {
+        let notifications = await this.notificationService.getNotificationsFor(user.id)
+        let bookingList = undefined
         switch (user.role) {
             case "owner":
-                res.render(viewNames.myBookingsForOwner, await this.getMyBookingsForPetOwner(user.id));
-                break;
+                bookingList = await this.getMyBookingsForPetOwner(user.id)
+                res.render(viewNames.myBookingsForOwner, { bookingList, notifications })
+                break
             case "sitter":
-                res.render(viewNames.myBookingsForSitter, await this.getMyBookingsForPetSitter(user.id))
-                break;
+                bookingList = await this.getMyBookingsForPetSitter(user.id)
+                res.render(viewNames.myBookingsForSitter, { bookingList, notifications })
+                break
         }
     }
 
@@ -59,10 +66,11 @@ export class BookingController {
     @Roles('owner')
     @Get(':petSitterId')
     @Render(viewNames.petSitterBookingInfo)
-    async index(@Param('petSitterId') psid: number, @Req() req) {
+    async index(@Param('petSitterId') psid: number, @Req() { user }) {
         const psInfo = await this.bookingService.handlePetSitterInfo(psid)
-        const po = await this.bookingService.findPetOwnerById(req.user.id)
-        return { petSitter: psInfo, petOwner: po }
+        const po = await this.bookingService.findPetOwnerById(user.id)
+        let notifications = await this.notificationService.getNotificationsFor(user.id)
+        return { petSitter: psInfo, petOwner: po, notifications }
     }
 
     @UseGuards(RolesGuard)
