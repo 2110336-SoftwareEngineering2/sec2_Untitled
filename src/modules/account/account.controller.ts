@@ -41,10 +41,9 @@ export class AccountController {
   }
 
   @Post('/register/pet')
-  createPet(@Body() dto, @Req() req, @Res() res){
-	  console.log(dto);
-    this.accountService.createPet(dto, req);
-    return res.send('/account')
+  async createPet(@Body() dto, @Req() req, @Res() res){
+    await this.accountService.createPet(dto, req);
+    res.send('/account')
   }
 
 }

@@ -8,6 +8,7 @@ import {Booking, Transaction, Employee, Pet, Report,
 import {AccountModule, ReviewModule, 
         BookingModule,SearchModule, AuthModule,
         DummyModule, NotificationModule} from './modules'
+import { NotificationService } from './modules/notification/notification.service';
 
 @Module({
   imports: [
@@ -20,10 +21,10 @@ import {AccountModule, ReviewModule,
       database: 'se2',
       entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview, SitterAnimal, Transaction, Report, Employee] ,
       synchronize: true // this should be false in production
-    }),TypeOrmModule.forFeature([PetOwner]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule, NotificationModule
+    }),TypeOrmModule.forFeature([PetOwner,Transaction,PetSitter]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule, NotificationModule
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService, NotificationService]
 })
 
 export class AppModule {}
