@@ -28,7 +28,6 @@ function sendBookingRequest(){
             pets: pets
         }
     }).done(function(data){
-        console.log(data)
         if(data.status) alert("DONE")
         else alert("FAILED")
     })

@@ -30,8 +30,6 @@ export class BookingService {
         private readonly bookingRepo: Repository<Booking>,
         @InjectRepository(SitterReview)
         private readonly sitterReviewRepo: Repository<SitterReview>,
-        @InjectRepository(Transaction)
-        private readonly transactionRepo: Repository<Transaction>
     ){}
 
     async findPetSitterById(id: number): Promise<PetSitter>{
