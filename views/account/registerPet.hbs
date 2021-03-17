@@ -1,16 +1,24 @@
 {{#> sitter}}
 <link href="/stylesheets/registerpet.css" rel="stylesheet">
+{{!-- Date Range Picker --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
  {{!-- icon library --}}
    <script src="https://kit.fontawesome.com/826f04aac3.js" crossorigin="anonymous"></script>
+{{!-- dayjs --}}
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
 {{!-- <div class='bg-success h-2' style="max-width:1000px; width:100%; height:20px"></div> --}}
 {{!-- <div class="d-flex justify-content-center vh-100 flex-column" style='max-width:1200px; width:100%'> --}}
-    <div class='container mt-3' style='max-width:1200px; width:100%'>
+
+
+    <div class='container mt-3' style='max-width:1300px; width:100%'>
         <div class="row">
             <div class="col-12 col-lg-4">
                         <div class='mb-4'>
                             <p><a href="/search">SEARCH RESLUTS</a> / <span class='font-weight-bolder'>{{pet_sitter.fullName}}</span></p>
                         </div>
-                        <div class="d-flex justify-content-center ml-auto mr-auto flex-column profile-frame">
+                        <div class="d-flex justify-content-center ml-auto mr-auto flex-column profile-frame shadow">
                             {{!-- pet sitter img && ratting --}}
                             <div class="circular--landscape-v2 align-self-center">
                                 <img src='/image/default_img_profile.png'>
@@ -44,114 +52,136 @@
                         
             </div>
             <div class="col-12 col-lg-8">
-                <h5 class="card-title mb-4 mt-5 font-weight-bold">Tell us a little bit aobut your pet</h5>
-                <form action="/account/register/pet" method="POST" class="validated-form petsitter-register" novalidate>
-                    <div class="form-group">
-                        <label for="type">Pet Type</label>
-                        <div class='d-flex flex-wrap justify-content-center wrapper-all-icon' id="petTypeSelect">
-                            <div class="d-flex flex-column justify-content-start wrapper-icon">
-                                <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='dog'>
-                                    <i class="fas fa-dog activity-icon align-self-center"></i>
+                <div class='bg-glassy p-4' style='margin-top:60px'>
+                     <h5 class="mt-3 mb-4 font-weight-bold">Tell us a little bit about your pet</h5>
+                    <form action="/account/register/pet" method="POST" class="validated-form petsitter-register mb-4" novalidate>
+                        <div class="form-group">
+                            <label for="type">Pet Type</label>
+                            <div class='d-flex flex-wrap justify-content-center wrapper-all-icon' id="petTypeSelect">
+                                <div class="d-flex flex-column justify-content-start wrapper-icon">
+                                    <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='dog'>
+                                        <i class="fas fa-dog activity-icon align-self-center"></i>
+                                    </div>
+                                    <p class='align-self-center text-center mb-0'>Dog</p>
                                 </div>
-                                <p class='align-self-center text-center mb-0'>Dog</p>
+                                <div class="d-flex flex-column justify-content-start wrapper-icon">
+                                    <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='cat'>
+                                        <i class="fas fa-cat activity-icon align-self-center"></i>
+                                    </div>
+                                    <p class='align-self-center text-center mb-0'>Cat</p>
+                                </div>
+                                <div class="d-flex flex-column justify-content-start wrapper-icon">
+                                    <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='reptile'>
+                                        <i class="fas fa-dragon activity-icon align-self-center"></i>
+                                    </div>
+                                    <p class='align-self-center text-center mb-0'>Reptile</p>
+                                </div>
+                                <div class="d-flex flex-column justify-content-start wrapper-icon">
+                                    <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='horse'>
+                                        <i class="fas fa-horse activity-icon align-self-center"></i>
+                                    </div>
+                                    <p class='align-self-center text-center mb-0'>Horse</p>
+                                </div>
+                                <div class="d-flex flex-column justify-content-start wrapper-icon">
+                                    <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='fish'>
+                                        <i class="fas fa-fish activity-icon align-self-center"></i>
+                                    </div>
+                                    <p class='align-self-center text-center mb-0'>Fish</p>
+                                </div>
+                                <div class="d-flex flex-column justify-content-start wrapper-icon">
+                                    <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='bird'>
+                                        <i class="fas fa-dove activity-icon align-self-center"></i>
+                                    </div>
+                                    <p class='align-self-center text-center mb-0'>Bird</p>
+                                </div>
+                                <div class="d-flex flex-column justify-content-start wrapper-icon">
+                                    <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='poultry'>
+                                        <i class="fas fa-kiwi-bird activity-icon align-self-center"></i>
+                                    </div>
+                                    <p class='align-self-center text-center mb-0'>Poultry</p>
+                                </div>
+                                <div class="d-flex flex-column justify-content-start wrapper-icon">
+                                    <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='livestock'>
+                                        <i class="fas fa-paw activity-icon align-self-center"></i>
+                                    </div>
+                                    <p class='align-self-center text-center mb-0'>Livestock</p>
+                                </div>
+                                <div class="d-flex flex-column justify-content-start wrapper-icon">
+                                    <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='small pet'>
+                                        <i class="fas fa-tag activity-icon align-self-center"></i>
+                                    </div>
+                                    <p class='align-self-center text-center mb-0'>Small Pet</p>
+                                </div>
                             </div>
-                            <div class="d-flex flex-column justify-content-start wrapper-icon">
-                                <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='cat'>
-                                    <i class="fas fa-cat activity-icon align-self-center"></i>
+                            {{!-- <select name="type" class="form-control" placeholder="Type">
+                                <option value="dog">Dog</option>
+                                <option value="cat">Cat</option>
+                                <option value="reptile">Reptile</option>
+                                <option value="horse">Horse</option>
+                                <option value="fish">Fish</option>
+                                <option value="bird">Bird</option>
+                                <option value="poultry">Poultry</option>
+                                <option value="livestock">Livestock</option>
+                                <option value="small pet">Small Pet</option>
+                            </select> --}}
+                        </div>
+                        <div class="container ml-0 pl-0">
+                            <div class="row">   
+                                <div class=" col-md-6">
+                                    <div class="form-group mr-2">
+                                        <label for="name">Pet Name</label>  
+                                        <input id='name' name="name" class="form-control" placeholder="Pet Name" type="text">
+                                    </div>
                                 </div>
-                                <p class='align-self-center text-center mb-0'>Cat</p>
-                            </div>
-                            <div class="d-flex flex-column justify-content-start wrapper-icon">
-                                <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='reptile'>
-                                    <i class="fas fa-dragon activity-icon align-self-center"></i>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label class='mb-3' for="gender">Gender</label>
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="M">
+                                                <label class="form-check-label" for="inlineRadio1">Male</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="F">
+                                                <label class="form-check-label" for="inlineRadio2">Female</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <p class='align-self-center text-center mb-0'>Reptile</p>
-                            </div>
-                            <div class="d-flex flex-column justify-content-start wrapper-icon">
-                                <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='horse'>
-                                    <i class="fas fa-horse activity-icon align-self-center"></i>
-                                </div>
-                                <p class='align-self-center text-center mb-0'>Horse</p>
-                            </div>
-                            <div class="d-flex flex-column justify-content-start wrapper-icon">
-                                <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='fish'>
-                                    <i class="fas fa-fish activity-icon align-self-center"></i>
-                                </div>
-                                <p class='align-self-center text-center mb-0'>Fish</p>
-                            </div>
-                            <div class="d-flex flex-column justify-content-start wrapper-icon">
-                                <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='bird'>
-                                    <i class="fas fa-dove activity-icon align-self-center"></i>
-                                </div>
-                                <p class='align-self-center text-center mb-0'>Bird</p>
-                            </div>
-                            <div class="d-flex flex-column justify-content-start wrapper-icon">
-                                <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='poultry'>
-                                    <i class="fas fa-kiwi-bird activity-icon align-self-center"></i>
-                                </div>
-                                <p class='align-self-center text-center mb-0'>Poultry</p>
-                            </div>
-                            <div class="d-flex flex-column justify-content-start wrapper-icon">
-                                <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='livestock'>
-                                    <i class="fas fa-paw activity-icon align-self-center"></i>
-                                </div>
-                                <p class='align-self-center text-center mb-0'>Livestock</p>
-                            </div>
-                            <div class="d-flex flex-column justify-content-start wrapper-icon">
-                                <div class='frame-icon d-flex justify-content-center function-icon align-self-center' value='small pet'>
-                                    <i class="fas fa-tag activity-icon align-self-center"></i>
-                                </div>
-                                <p class='align-self-center text-center mb-0'>Small Pet</p>
                             </div>
                         </div>
-                        {{!-- <select name="type" class="form-control" placeholder="Type">
-                            <option value="dog">Dog</option>
-                            <option value="cat">Cat</option>
-                            <option value="reptile">Reptile</option>
-                            <option value="horse">Horse</option>
-                            <option value="fish">Fish</option>
-                            <option value="bird">Bird</option>
-                            <option value="poultry">Poultry</option>
-                            <option value="livestock">Livestock</option>
-                            <option value="small pet">Small Pet</option>
-                        </select> --}}
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Pet Name</label>
-                        <input name="name" class="form-control" placeholder="Pet Name" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="gender">Gender</label>
-                        <select name="gender" class="form-control" placeholder="Gender">
-                            <option value="M">Male</option>
-                            <option value="F">Female</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="yearOfBirth">Year Of Birth</label>
-                        <input name="yearOfBirth" class="form-control" placeholder="Year Of Birth" type="text" pattern="[0-9]{4}">
-                    </div>
-                    <div class="form-group">
-                        <label for="appearance">Appearance</label>
-                        <input name="appearance" class="form-control" placeholder="Describe your pet appearance" type="text">
-                    </div>
 
-                    <input class="form-control d-none" type="text" name="picUrl" value="/public/image/default_img_profile.png">
-                    
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-dark btn-block mt-4">Register</button>
-                    </div>
-                    <div class='mb-2'>
-                        <button type="button" class="btn btn-light btn-outline-dark py-2" style="width:50%; background-color: rgba(256,256,256,0)">
-                            <span class='font-weight-bolder'>SEND A MESSAGE</span>
-                        </button>
-                    </div>
-                    <div class='mb-4' id="bookAServiceDiv">
-                        <button type="button" class="btn btn-dark py-2" style="width:50%;">
-                            <span class='font-weight-bolder'>BOOK A SERVICE</span>
-                        </button>
-                    </div>
-                </form>
+                        {{!-- <div class="form-group">
+                            <label for="yearOfBirth">Year Of Birth</label>
+                            <input name="yearOfBirth" class="form-control" placeholder="Year Of Birth" type="text" pattern="[0-9]{4}">
+                        </div> --}}
+                        <label for="yearOfBirth">Year Of Birth</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" style="background-color:white;"><i class="fa fa-calendar-check-o" aria-hidden="true"></i></div>
+                            </div>
+                            <input id="daterangepicker" type="text" value="01/01/2018 - 03/01/2018" style='border-color: white'/>          
+                        </div>
+                        <div class="form-group">
+                            <label for="appearance">Appearance</label>
+                            <textarea name="appearance" class="form-control" id="appearance" rows="3" placeholder="Describe your pet appearance" type="text"></textarea>
+                        </div>
+
+                        <input class="form-control d-none" type="text" name="picUrl" value="/public/image/default_img_profile.png">
+                        
+                        {{!-- <div class="form-group">
+                            <button type="submit" class="btn btn-dark btn-block mt-4">Register</button>
+                        </div> --}}
+                        <div class='d-flex justify-content-between'>
+                            <button id='save_button' type="button" class="btn btn-dark py-1" style="width:49%; border-radius:15px">
+                                <span class='font-weight-bolder'>SAVE</span>
+                            </button>
+                            <button id='cancel_button' type="button" class="btn btn-light btn-outline-dark py-1" style="width:49%; background-color: rgba(256,256,256,0); border-radius:15px">
+                                <span class='font-weight-bolder'>CANCEL</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
