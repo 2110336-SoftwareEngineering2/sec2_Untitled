@@ -34,8 +34,9 @@ export class AccountController {
   //Pet
 
   @Get('/register/pet')
-  async renderRegisterPet(@Res() res){
-    res.render('account/registerPet')
+  async renderRegisterPet(@Req() {user: {role,id}}, @Res() res){
+    const profile = await this.accountService.findAccountById(role,id);
+    res.render('account/registerPet',profile)
   }
 
   @Post('/register/pet')
