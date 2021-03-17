@@ -51,8 +51,8 @@ export class AccountService {
         return null;
     }
 
-    async findPetbyId(role: string, id: number): Promise<any> {
-        if (role === 'owner')return await this.petRepo.find({id});
+    async findPetbyOwnerId(role: string, owner: number): Promise<any> {
+        if (role === 'owner')return await this.petRepo.find({owner});
         return null;
     }
 
