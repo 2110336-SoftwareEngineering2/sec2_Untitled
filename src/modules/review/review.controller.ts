@@ -9,8 +9,41 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
 export class ReviewController {
     constructor(private readonly reviewService: ReviewService) { }
 	
+	@UseGuards(JwtAuthGuard,RolesGuard)
 	@Roles('owner')
-    @Get('/reviewOwnerForm/:bookingId/:petsitterId')
+    @Get('/sitterReviews/:petsitter_id')
+    async renderSitterReviews(@Response() res, @Request() req, @Param("petsitter_id") petsitter_id) {
+		await this.reviewService.updateUserReviews(petsitter_id);
+        let object = await this.reviewService.handlePetSitterReview(petsitter_id, req.user.id);
+        //console.log(object.reviews)
+        let user = await this.reviewService.findOwner(req.user.id);
+		//console.log('This is current user', user.petOwner)		
+		let starStat  = await this.reviewService.calculateStarStat(petsitter_id);
+		//console.log('This is review star :', starStat.avgStar);
+		//let booking = await this.reviewService.findBookingFromReview(petsitter_id)
+		//console.log("SITTER REVIEW", object.reviews);
+        res.render('review/showSitterReviews', {reviews: object.reviews, petSitter: object.petSitter, user: user.petOwner, stat: starStat})
+    }
+
+	@UseGuards(JwtAuthGuard,RolesGuard)
+	@Roles('sitter')
+    @Get('/ownerReviews/:petowner_id')
+    async renderOwnerReviews(@Response() res, @Request() req, @Param("petowner_id") petowner_id) {
+		await this.reviewService.updateUserReviews(petowner_id);
+		//console.log(petowner_id, req.user.id);
+        let object = await this.reviewService.handlePetOwnerReview(req.user.id, petowner_id);
+        //console.log(object.reviews)
+        let user = await this.reviewService.findSitter(req.user.id);
+		//console.log('This is current user', user.petSitter)
+				
+		let starStat = await this.reviewService.calculateStarStat(petowner_id);
+		//console.log("this is the all petowner's stat", starStat)
+		//console.log('This is review star :', starStat.star3);
+        res.render('review/showOwnerReviews', {reviews: object.reviews, petOwner: object.petOwner, user: user.petSitter, stat: starStat})
+    }
+
+	@Roles('owner')
+    @Get('/ownerReviewForm/:bookingId/:petsitterId')
     async renderOwnerForm(@Response() res, @Req() req, @Param("bookingId") bookingId, @Param("petsitterId") petsitterId ){
 		let {Booking} = await this.reviewService.findBooking(bookingId);
 		// console.log('This is booking',book)
@@ -32,7 +65,7 @@ export class ReviewController {
     }
 
 	@Roles('sitter')
-    @Get('/reviewSitterForm/:bookingId/:petOwnerId')
+    @Get('/sitterReviewForm/:bookingId/:petOwnerId')
     async renderSitterForm(@Response() res, @Req() req, @Param("bookingId") bookingId, @Param("petOwnerId") petOwnerId ){
 		let {Booking} = await this.reviewService.findBooking(bookingId);
 		// console.log('This is booking',book)
@@ -52,7 +85,7 @@ export class ReviewController {
     }
 	
 	@Roles('owner')
-	@Post('/reviewOwnerForm/:petsitterId')
+	@Post('/ownerReviewForm/:petsitterId')
 	async ownerForm(@Response() res, @Body() dto, @Req() req, @Param("petsitterId") petsitterId){ 
 		let {petOwner} = await this.reviewService.findOwner(req.user.id);
 		//console.log('This is user who do request',req.user)
@@ -64,7 +97,7 @@ export class ReviewController {
 	}
 
 	@Roles('sitter')
-	@Post('/reviewSitterForm/:petOwnerId')
+	@Post('/sitterReviewForm/:petOwnerId')
 	async sitterForm(@Response() res, @Body() dto, @Req() req, @Param("petOwnerId") petOwnerId){ 
 		let {petSitter} = await this.reviewService.findSitter(req.user.id);
 		//console.log('This is user who do request',req.user)
@@ -77,40 +110,7 @@ export class ReviewController {
 
 	@UseGuards(JwtAuthGuard,RolesGuard)
 	@Roles('owner')
-    @Get('/sitterReviews/:petsitter_id')
-    async renderSitterReviews(@Response() res, @Request() req, @Param("petsitter_id") petsitter_id) {
-		await this.reviewService.updateUserReviews(petsitter_id);
-        let object = await this.reviewService.handlePetSitterReview(petsitter_id, req.user.id);
-        //console.log(object.reviews)
-        let user = await this.reviewService.findOwner(req.user.id);
-		//console.log('This is current user', user.petOwner)		
-		let starStat  = await this.reviewService.calculateStarStat(petsitter_id);
-		//console.log('This is review star :', starStat.avgStar);
-		//let booking = await this.reviewService.findBookingFromReview(petsitter_id)
-		console.log("SITTER REVIEW", object.reviews);
-        res.render('review/showSitterReviews', {reviews: object.reviews, petSitter: object.petSitter, user: user.petOwner, stat: starStat})
-    }
-
-	@UseGuards(JwtAuthGuard,RolesGuard)
-	@Roles('sitter')
-    @Get('/ownerReviews/:petowner_id')
-    async renderOwnerReviews(@Response() res, @Request() req, @Param("petowner_id") petowner_id) {
-		await this.reviewService.updateUserReviews(petowner_id);
-		//console.log(petowner_id, req.user.id);
-        let object = await this.reviewService.handlePetOwnerReview(req.user.id, petowner_id);
-        //console.log(object.reviews)
-        let user = await this.reviewService.findSitter(req.user.id);
-		//console.log('This is current user', user.petSitter)
-				
-		let starStat = await this.reviewService.calculateStarStat(petowner_id);
-		//console.log("this is the all petowner's stat", starStat)
-		//console.log('This is review star :', starStat.star3);
-        res.render('review/showOwnerReviews', {reviews: object.reviews, petOwner: object.petOwner, user: user.petSitter, stat: starStat})
-    }
-
-	@UseGuards(JwtAuthGuard,RolesGuard)
-	@Roles('owner')
-    @Post('/reviewOwnerForm/Report/:booking_id')
+    @Post('/ownerReviewForm/Report/:booking_id')
     async ownerReport(@Response() res, @Body() dto, @Req() req, @Param("booking_id") booking_id ){
 		let book = await this.reviewService.findBooking(booking_id);
 		//console.log('This is parameter',dto)
@@ -119,7 +119,7 @@ export class ReviewController {
 		//let startDate = book.Booking.startDate.toLocaleDateString() +' ' +book.Booking.startDate.toLocaleTimeString();
 
 		await this.reviewService.saveOwnerReport(req.user.id, book.Booking.sitter.id, dto.PoorOnService, dto.NotOnTime, dto.Impoliteness, dto.Other, dto.reportDescription);
-        return res.redirect('/reviewOwnerForm/'+booking_id+'/'+book.Booking.sitter.id);
+        return res.redirect('/ownerReviewForm/'+booking_id+'/'+book.Booking.sitter.id);
     }
 
 }
