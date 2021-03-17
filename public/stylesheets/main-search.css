@@ -155,11 +155,9 @@ body {
 
 @media (min-width: 992px) {
     .search-sec {
-        position:;
-        /*bottom: -100px;*/
+
         bottom: -100px;
         background: #fff;
-        border-radius:;
     }
     .section-head {
         font-weight: 700;
@@ -357,9 +355,7 @@ body {
 }
 
 @media (max-width: 992px) {
-    .info, .search-result-item-heading {
-        text-wrap
-    }
+
 
     .description, .value3, .fs-mini, .star {
         display: none;
