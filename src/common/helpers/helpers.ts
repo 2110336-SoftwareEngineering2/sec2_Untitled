@@ -1,4 +1,8 @@
 import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc'
+import * as timezone from 'dayjs/plugin/timezone'
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 var register = function (Handlebars) {
     var helpers = {
@@ -30,9 +34,10 @@ var register = function (Handlebars) {
             return dayjs(utcFormat).format(format)
         },
 
-        fromNow: function (utc) {
-            let now = dayjs()
-            let date = dayjs(utc)
+        fromNow: function (inDate) {
+            let offSet = - inDate.getTimezoneOffset() / 60
+            let now = dayjs.utc()
+            let date = dayjs(inDate).add(offSet, 'hour').utc()
             if (now.diff(date, 'second') < 60) return `${now.diff(date, 'second')} seconds ago`
             if (now.diff(date, 'minute') < 60) return `${now.diff(date, 'minute')} minutes ago`
             if (now.diff(date, 'hour') < 24) return `${now.diff(date, 'hour')} hours ago`
@@ -58,7 +63,6 @@ var register = function (Handlebars) {
                 })
                 .join('\n')
         },
-
 
     };
 
