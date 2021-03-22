@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="pet-sitter-id" content={{petSitter.id}}>
+    <meta name="petSitterId" content={{petSitter.id}}>
+    <meta name="petSitterPriceRate" content={{petSitter.priceRate}}>
     <title>Booking</title>
     
     {{!-- icon library --}}
@@ -29,6 +30,7 @@
 
     {{!-- dayjs --}}
     <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.8.21/plugin/customParseFormat.js"></script>
 
     {{!-- css --}}
     <link rel="stylesheet" href="/stylesheets/booking/booking_option.css">
@@ -167,7 +169,7 @@
                      <h5 class="card-head  mt-4">
                         Select Date
                     </h5>
-                    <p style='font-size: 0.9em'>You can select one date by double that date</p>
+                    <p style='font-size: 0.9em'>You can select one day of service by double click on that date</p>
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text" style="background-color:white; border:1px solid black;"><i class="fa fa-calendar-check-o" aria-hidden="true"></i></div>
@@ -177,7 +179,9 @@
                 </div>
                 <div class="card-footer d-flex justify-content-end">
                     <div class="ml-auto">
-                        Prices : 1000 $
+                        Total price
+                        <p id="priceTag">0</p>
+                        $
                     </div>
                 </div>
             </div>
@@ -216,7 +220,7 @@
                         {{else}}
                         <p><i class="fa fa-clock-o" aria-hidden="true" style='font-size:18px'></i> less than a month experience </p>
                         {{/if}}
-                        <p><i class="fa fa-usd" aria-hidden="true" style='font-size:18px'></i> {{petSitter.priceRate}}/hr</p>
+                        <p><i class="fa fa-usd" aria-hidden="true" style='font-size:18px'></i> {{petSitter.priceRate}} / day / pet</p>
                     </p>
                 </div>
                 <div class="card-body d-flex flex-column">
