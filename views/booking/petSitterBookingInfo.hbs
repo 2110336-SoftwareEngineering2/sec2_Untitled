@@ -42,51 +42,7 @@
 
 {{!-- line in the middle page --}}
 <div class="vl-middle-page"></div>
-<nav class="navbar navbar-expand-lg navbar-light" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);'>
-    <a class="navbar-brand" href="#"></a>
-    <button class="navbar-toggler bg-secondary" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-            <ul class="navbar-nav font-weight-bolder">
-                <li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="/search">HOME</a>
-                </li>
-                <li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="/book/my">MY BOOKINGS</a>
-                </li>
-                <li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="/logout">LOGOUT</a>
-                </li>
-                <li class="nav-item dropdown mx-3">
-                    <div class="d-flex flex-row">
-                        <div class='d-flex flex-column mr-2'>
-                            <div class='align-self-end' style='font-size: 10px'>pet owner</div>
-                            <div style='font-size: 15px'>{{petOwner.fullName}}</div>
-                        </div>
-                        <div>
-                            <a class="nav-link dropdown-toggle p-0" href="#" 
-                            id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" 
-                            aria-haspopup="true" aria-expanded="false"
-                            >
-                                <div class="circular--landscape--nav align-self-center">
-                                    <img src='{{petOwner.picUrl}}'>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                 <a class="dropdown-item" href="/logout">Logout</a>
-                                {{!-- <a class="dropdown-item" href="#"></a>
-                                <a class="dropdown-item" href="#"></a> --}}
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item" style='margin-top:5px'>
-                    <i class="fa fa-bell" style='font-size:25px' aria-hidden="true"></i>
-                </li>
-            </ul>
-    </div>
-</nav>
+{{> navbar}}
 
 <div class="container mt-3" style='max-width:90%'>
     <div class="row">
@@ -95,7 +51,7 @@
         <div class="col-12 col-lg-6 book-info-padding mb-5">
             {{!-- show path --}}
             <div class='mb-4'>
-                <p><a href="/search">SEARCH RESLUTS</a> / <span class='font-weight-bolder'>{{petSitter.fullName}}</span></p>
+                <p><a href="/search">SEARCH RESULTS</a> / <span class='font-weight-bolder'>{{petSitter.fullName}}</span></p>
             </div>
             {{!-- pet sitter infomation --}}
             <div class='container'>
@@ -188,7 +144,7 @@
                     <div class='d-flex flex-row font-weight-bolder justify-content-between'>
                         <div>Reviews({{petSitter.reviews.length}})</div>
                         {{#if petSitter.reviews.length}}
-                        <div><a name="more_reviews" href="/reviews/{{petSitter.id}}">More Reviews</a> ></div>
+                        <div><a name="more_reviews" href="/sitterReviews/{{petSitter.id}}">More Reviews</a> ></div>
                         {{/if}}
                     </div>
                     <div class="hl my-4"></div>

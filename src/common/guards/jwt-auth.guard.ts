@@ -21,15 +21,28 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     // You can throw an exception based on either "info" or "err" arguments
     if (err || !user) throw err || new UnauthorizedException();
     const res = context.switchToHttp().getResponse()
+    res.locals.notifications = null
     this.getNotifications(user.id).then(notifications => {
       res.locals.notifications = notifications
     })
     res.locals.currentUser = user
-    return user;
+    // if (!res.locals.notifications) return setTimeout(() => {this.handleRequest(err,user,info,context)},500)
+    return user
+    // return user;
   }
 
   async getNotifications(id) {
     return await this.notificationService.getNotificationsFor(id)
+  }
+
+  wait(notification,user){
+    if (!notification){
+      console.log(notification, user)
+      setTimeout(() => {this.wait(notification,user)},100);
+    } else {
+      console.log("ha")
+      return user
+    }
   }
 
 }

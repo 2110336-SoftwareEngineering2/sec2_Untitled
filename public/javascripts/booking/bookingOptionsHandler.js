@@ -28,7 +28,7 @@ function sendBookingRequest(){
             pets: pets
         }
     }).done(function(data){
-        if(data.status) alert("DONE")
+        if(data.status) window.location.replace('/book/my')
         else alert("FAILED")
     })
 }
