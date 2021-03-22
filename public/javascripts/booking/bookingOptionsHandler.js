@@ -44,7 +44,7 @@ function sendBookingRequest(){
             price: priceForEachPet
         }
     }).done(function(data){
-        if(data.status) alert("DONE")
+        if(data.status) window.location.replace('/book/my')
         else alert("FAILED")
     })
 }

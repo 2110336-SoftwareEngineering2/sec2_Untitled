@@ -7,5 +7,5 @@ function backtoProfile(){
 }
 
 function addPet(){
-    window.location = 'account/register/pet'
+    window.location = '/account/register/pet'
 }
