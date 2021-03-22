@@ -1,75 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<title>Review page 2</title>
-	<!-- Required meta tags always come first -->
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta http-equiv="x-ua-compatible" content="ie=edge" />
-
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-		integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+{{#>default}}
 
 	<!--font-awesome star icon-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 	<!--Golf's stylesheet-->
 	<link rel="stylesheet" href="/stylesheets/review/reviewAndRating.css" />
-
-	<!-- rating.js file 
-		<script src="SE2-ReviewPage/sec2_Untitled/public/javascripts/review/rating2.js"></script>
-		-->
-
-	<!-- <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script> -->
-</head>
-
-<body>
-	<!--navbar-->
-	<nav class="navbar navbar-expand-md navbar-dark mb-3" id="navbar">
-		<a href=""></a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse justify-content-end" style="padding-top: 1%;" id="navbarNavAltMarkup">
-			<ul class="navbar-nav font-weight-bolder">
-				<li class="nav-item mr-3">
-					<a class="nav-link text-white" href="/search">HOME</a>
-				</li>
-				<li class="nav-item mr-3">
-					<a class="nav-link text-white" href="#">MY BOOKINGS</a>
-				</li>
-				<li class="nav-item mr-3">
-					<a class="nav-link text-white" href="/logout">LOG OUT</a>
-				</li>
-				<li class="nav-item dropdown mx-3">
-					<div class="d-flex flex-row">
-						<div class="d-flex flex-column mr-2">
-							<div class="align-self-end" style="font-size: 10px;">pet sitter</div>
-							<div style="font-size: 15px;">{{petSitter.fullName}}</div>
-						</div>
-						<div>
-							<a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdownMenuLink" role="button"
-								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<div class="circular--landscape--nav align-self-center">
-									<img src="{{petSitter.picUrl}}" />
-								</div>
-							</a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<a class="dropdown-item" href="#">Action</a>
-								<a class="dropdown-item" href="#">Another action</a>
-								<a class="dropdown-item" href="#">Something else here</a>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li class="nav-item" style="margin-top: 5px;">
-					<i class="fa fa-bell" style="font-size: 25px;" aria-hidden="true"></i>
-				</li>
-			</ul>
-		</div>
-	</nav>
 
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb my-2 bg-white">
@@ -103,17 +37,5 @@
 		</div>
 	</footer>
 
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-		crossorigin="anonymous"></script>
 
-	<!--include js/script.js
-		<script src="js/scripts.js"></script> -->
-
-	<!-- endbuild -->
-</body>
-
-</html>
+{{/default}}
