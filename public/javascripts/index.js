@@ -12,8 +12,7 @@ const petsitterRegisterPopup = document.querySelector('.petsitter-register')
 const petownerRegisterPopup = document.querySelector('.petowner-register')
 const petsitterRegisterButton = document.getElementById("petsitter-register-btn")
 const petownerRegisterButton = document.getElementById("petowner-register-btn")
-
-
+const test = "jsut for test"
 console.dir(registerButtons)
 
 function displayElem(elem) {
