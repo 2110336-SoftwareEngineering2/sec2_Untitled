@@ -1,7 +1,7 @@
 const priceRate = $("meta[name='petSitterPriceRate").attr('content')
 const psid = $("meta[name='petSitterId'").attr('content')
 
-$(document).ready(function(){
+$(document).ready(function () {
     dayjs.extend(window.dayjs_plugin_customParseFormat)
 
     $("#daterangepicker").daterangepicker({
@@ -15,21 +15,16 @@ $(document).ready(function(){
 })
 
 // event listenings
-$("#bookBtn").on('click', sendBookingRequest)
+$('#bookBtn').on('click', sendBookingRequest)
+$('#daterangepicker').on('apply.daterangepicker', updateTotalPrice);
+$('.dropzone').on('drop', updateTotalPrice)
 
-$('#daterangepicker').on('apply.daterangepicker', function(ev, picker) {
-    let startDate = picker.startDate.format('DD/MM/YYYY')
-    let endDate = picker.endDate.format('DD/MM/YYYY')
-    let totalPrice = calculateTotalPrice(startDate, endDate, getSelectedPets().length)
-    updateTotalPrice(totalPrice)
-});
-
-function sendBookingRequest(){
+function sendBookingRequest() {
     let pets = getSelectedPets()
-    if(pets.length == 0) {alert("Select at least one pet"); return;}
+    if (pets.length == 0) { alert("Select at least one pet"); return; }
 
-    let {startDate, endDate} = getStartAndEndDate()
-    if(startDate == '' || endDate == '') {} // do something
+    let { startDate, endDate } = getStartAndEndDate()
+    if (startDate == '' || endDate == '') { } // do something
 
     let priceForEachPet = calculateTotalPrice(startDate, endDate, pets.length) / pets.length
 
@@ -43,14 +38,14 @@ function sendBookingRequest(){
             pets: pets,
             price: priceForEachPet
         }
-    }).done(function(data){
-        if(data.status) window.location.replace('/book/my')
+    }).done(function (data) {
+        if (data.status) window.location.replace('/book/my')
         else alert("FAILED")
     })
 }
 
 // startDate and endDate are in "DD/MM/YYYY" format
-function calculateTotalPrice(startDate, endDate, num_of_pets){
+function calculateTotalPrice(startDate, endDate, num_of_pets) {
     let _startDate = dayjs(startDate, "DD/MM/YYYY")
     let _endDate = dayjs(endDate, "DD/MM/YYYY")
     // one day is added because 22/xx/xx - 22/xx/xx is 1 day, not 0
@@ -58,20 +53,23 @@ function calculateTotalPrice(startDate, endDate, num_of_pets){
     return diff_in_day * num_of_pets * priceRate
 }
 
-function updateTotalPrice(totalPrice){
+function updateTotalPrice() {
+    let { startDate, endDate } = getStartAndEndDate()
+    let num_of_pets = getSelectedPets().length
+    let totalPrice = calculateTotalPrice(startDate, endDate, num_of_pets)
     $("#priceTag").text(totalPrice)
 }
 
-function getSelectedPets(){
+function getSelectedPets() {
     let pets_tag = $("#selectedPetZone").children()
     let pets = []
-    for(let i=0; i<pets_tag.length; i++){
+    for (let i = 0; i < pets_tag.length; i++) {
         pets.push(pets_tag.eq(i).attr("pet-id"))
     }
     return pets
 }
 
-function getStartAndEndDate(){
+function getStartAndEndDate() {
     let [startDate, endDate] = $("#daterangepicker").val().split(' - ')
-    return {startDate, endDate}
+    return { startDate, endDate }
 }
