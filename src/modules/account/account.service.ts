@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, Req, Res } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'bcryptjs';
+import { Employee } from 'src/entities';
 import { Pet } from 'src/entities/pet.entity';
 import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
@@ -11,18 +12,20 @@ export class AccountService {
     constructor(
         @InjectRepository(PetOwner) private readonly petOwnerRepo: Repository<PetOwner>,
         @InjectRepository(PetSitter) private readonly petSitterRepo: Repository<PetSitter>,
+        @InjectRepository(Employee) private readonly employeeRepo: Repository<Employee>,
         @InjectRepository(Pet) private readonly petRepo: Repository<Pet>
     ){}
 
     // CREATE
-    async saveToRepo(role: string, user: PetOwner | PetSitter) : Promise<PetOwner | PetSitter> {
+    async saveToRepo(role: string, user: PetOwner | PetSitter | Employee) : Promise<PetOwner | PetSitter | Employee> {
         if (role === 'owner') return await this.petOwnerRepo.save(user);
         else if (role === 'sitter') return await this.petSitterRepo.save(user);
+        else if (role === 'admin') return await this.employeeRepo.save(user);
         // ! this code should never be reached
         return null
     }
 
-    async createAccount(role: string, dto: Omit<PetOwner | PetSitter, 'id'>) : Promise<PetOwner | PetSitter> {
+    async createAccount(role: string, dto: Omit<PetOwner | PetSitter | Employee, 'id'>) : Promise<PetOwner | PetSitter | Employee> {
         const user = await this.findAccountByUsername(role,dto.username)
         if (user) throw new BadRequestException('This username is already exist');
         else {
@@ -30,7 +33,7 @@ export class AccountService {
             const password = await hash(dto.password, 10);
             if (role === 'owner') newUser  = { ... new PetOwner(), ... dto, password};
             else if (role === 'sitter') newUser = { ... new PetSitter(), ... dto, password}
-            console.log('new user', newUser)
+            else if (role === 'admin') newUser = { ... new Employee(), ... dto, password}
             return this.saveToRepo(role, newUser)
         }
     }
@@ -40,6 +43,7 @@ export class AccountService {
     async findAccountById(role: string, id: number): Promise<any> {
         if (role === 'sitter') return await this.petSitterRepo.findOne(id);
         else if (role === 'owner') return await this.petOwnerRepo.findOne(id);
+        else if (role === 'admin') return await this.employeeRepo.findOne(id);
         // ! this code should never be reached
         return null;
     }
@@ -47,6 +51,7 @@ export class AccountService {
     async findAccountByUsername(role: string, username: string): Promise<any> {
         if (role === 'sitter') return await this.petSitterRepo.findOne({username});
         else if (role === 'owner') return await this.petOwnerRepo.findOne({username});
+        else if (role === 'admin') return await this.employeeRepo.findOne({username});
         // ! this code should never be reached
         return null;
     }
@@ -58,8 +63,8 @@ export class AccountService {
 
     // UPDATE
 
-    async updateAccount(role: string, id: number, dto: Partial<Omit<PetOwner | PetSitter,'id'>>)
-                    : Promise<PetOwner | PetSitter> {
+    async updateAccount(role: string, id: number, dto: Partial<Omit<PetOwner | PetSitter | Employee,'id'>>)
+                    : Promise<PetOwner | PetSitter | Employee> {
         const user = {... (await this.findAccountById(role,id)), ... dto};
         return await this.saveToRepo(role, user);
     }
