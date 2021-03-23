@@ -57,7 +57,7 @@ export class ReviewService {
         })
 		
 		const review = {rating:reviewRating, description: reviewDescription, owner: petOwner ,sitter: petSitter }
-		//console.log('This is review',review)
+		
 		return await this.sitterReviewRepo.save(review);
 	}
 
@@ -68,10 +68,10 @@ export class ReviewService {
         let petOwner = await this.petOwnerRepo.findOne({
             where: {id: petOwnerId}
         })
-		//import randomInt tool
+		
 
 		const review = {rating:reviewRating, description: reviewDescription, owner: petOwner ,sitter: petSitter }
-		//console.log('This is review',review)
+		
 		return await this.ownerReviewRepo.save(review);
 	}
 
@@ -191,7 +191,7 @@ export class ReviewService {
                 }
             })
         }
-        //console.log(reviews);
+
 		if(reviews.length!=0){
             reviews.forEach(function(review) {
                 if(review.rating < 2) cnt1++;
@@ -231,40 +231,23 @@ export class ReviewService {
 
     async updateUserReviews(user_id: number){
         let reviewStat = await this.calculateStarStat(user_id);
-		//console.log(reviewStat);
+
         if(user_id > 2000000){
             let petSitter = await this.findPetSitterById(user_id);
             
-            console.log("updated petsitter reviews")
             petSitter.reviewerAmount = reviewStat.counts;
             petSitter.rating = reviewStat.avgStar;
-            //console.log(reviewStat.avgStar)
-            //console.log(petSitter.rating)
             await this.petSitterRepo.save(petSitter);
         }
         else{
             let petOwner = await this.findPetOwnerById(user_id);
 
-            //console.log("updated petowner reviews")
             petOwner.reviewerAmount = reviewStat.counts;
             petOwner.rating = reviewStat.avgStar;
-            //console.log(reviewStat.avgStar)
-            //console.log(petOwner.rating)
             await this.petOwnerRepo.save(petOwner);
         }
         
         
     }
-/**
-	async getCurrentSitter(){
-		console.log(this.currentSitter)
-		//return {number : currentSitter};
-	 }
 
-
-	async setCurrentSitter(petSitterId: number){
-		let currentSitter = {number:petSitterId};
-		return ;
-	 }	
-**/
 }
