@@ -7,6 +7,7 @@ import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
 import { Booking } from 'src/entities/booking.entity';
 import { SitterAnimal } from 'src/entities/sitteranimal.entity';
+import { NotificationService } from 'src/notification/notification.service';
 
 //import {getConnection} from "typeorm";
 
@@ -15,7 +16,8 @@ export class SearchService {
   
 	
    constructor(
-        @InjectRepository(PetOwner) private readonly petOwnerRepo: Repository<PetOwner>
+		
+    	@InjectRepository(PetOwner) private readonly petOwnerRepo: Repository<PetOwner>
 	,@InjectRepository(PetSitter) private readonly PetSitterRepo: Repository<PetSitter>
 	,@InjectRepository(SitterAnimal) private readonly SitterAnimalRepo: Repository<SitterAnimal>
 	,@InjectRepository(Booking) private readonly BookingRepo: Repository<Booking>){}	

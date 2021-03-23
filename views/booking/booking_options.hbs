@@ -74,6 +74,13 @@
                 </li>
                 <li class="nav-item" style='margin-top:5px'>
                     <i class="fa fa-bell" style='font-size:25px' aria-hidden="true"></i>
+                    <ul>
+                        {{#each notifications}}
+                        <img src = {{performancePicUrl}} alt = "Picture" width = "70px">
+                        <p>{{description}}</p>
+                        <p>{{fromNow createDatetime}}</p>
+                        {{/each}}
+                    </ul>
                 </li>
             </ul>
     </div>
