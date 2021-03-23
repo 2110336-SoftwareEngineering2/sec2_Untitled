@@ -19,6 +19,7 @@ export class AuthService {
         return res.redirect('/')
     }
 
+
     async validateUser(role: string, username: string, pass: string): Promise<any> {
         const user = await this.accountService.findAccountByUsername(role,username);
         if (user && await compare(pass,user.password)) {
@@ -32,8 +33,10 @@ export class AuthService {
         const payload = { username, sub: id, role};
         const token = this.jwtService.sign(payload)
         res.cookie('token', token);
+        console.log(username,id,role)
         if (role === "owner") return res.redirect('/search')
         else if (role === "sitter") return res.redirect('/book/my')
+        else if (role === "admin") return res.redirect('/admin')
         else return res.redirect('/') // ! this code should never run
     }
 
