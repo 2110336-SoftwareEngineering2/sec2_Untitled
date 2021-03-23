@@ -39,7 +39,7 @@ function sendBookingRequest() {
             price: priceForEachPet
         }
     }).done(function (data) {
-        if (data.status) window.location.replace('/book/my')
+        if (data.status) window.location.href = '/book/my'
         else alert("FAILED")
     })
 }
