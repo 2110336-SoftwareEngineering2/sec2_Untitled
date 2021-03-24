@@ -206,4 +206,6 @@ export class BookingService {
         if(strId.length != 7 || strId[0] != '1') return false
         return true
     }
+
+    
 }
