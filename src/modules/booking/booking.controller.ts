@@ -27,6 +27,8 @@ export class BookingController {
             case "owner": // If the user is a pet owner
                 user_info = await this.bookingService.findPetOwnerById(user.id)
                 bookingList = await this.bookingService.handleShowOwnerBookings(user.id)
+                console.dir(user_info)
+                console.dir(bookingList)
                 res.render(viewNames.myBookingsForOwner, { bookingList, petOwner: user_info, notifications })
                 break
             case "sitter": // If the user is a pet sitter
@@ -106,5 +108,21 @@ export class BookingController {
     @Roles('owner')
     petOwnerModifyBooking(@Req() req, @Param('bookingId') bid) {
         return this.bookingService.handleCancleBookingForPetOwner(bid, req.user.id)
+    }
+
+    @UseGuards(RolesGuard)
+    @Roles('owner')
+    @Patch('pay')
+    async ownerBookingPayment(@Req() { user: { id } }, @Body() { booking_id }) {
+        const success = await this.bookingService.handleBookingPayment(booking_id, id)
+        if (success) return {
+            result : success,
+            code: HttpStatus.OK,
+            status: true
+        }
+        else return {
+            code: HttpStatus.OK,
+            status: false
+        }
     }
 }
