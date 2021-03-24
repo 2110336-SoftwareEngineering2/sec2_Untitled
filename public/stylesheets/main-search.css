@@ -2,11 +2,11 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    background-image: url('/image/home3.png');
+    background-image:url('/image/logo1.png'), url("/image/0home2.png"), url("/image/0home.png");
     background-repeat: no-repeat;
-    background-size: 100% auto;
-    background-position: center top;
+    background-size: 190px ,600px, 100% 100%;
     background-attachment: fixed;
+    background-position:10px 2px, center bottom, 0px;
 }
 
 .navbar-brand {

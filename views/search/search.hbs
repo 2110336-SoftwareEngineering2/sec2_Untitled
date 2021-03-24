@@ -1,4 +1,4 @@
-
+{{!-- 
 
 <!DOCTYPE html>
 
@@ -6,7 +6,6 @@
 <head>
     <title>Search Pet Sitters</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="/stylesheets/main-search.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="pet_sitter_id" content="{{id}}">
 
@@ -33,8 +32,8 @@
 <body>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-	{{> navbar}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> --}}
+	{{#> default title='Search Pet Sitters'}}
 	
 	 <h2 class="section-head text-center">Find the best caretaker for your pet </h2>
     <section class="search-sec text-center mx-5 p-0" style="Background:none">
@@ -220,8 +219,8 @@
 			</div>
 		</div>
 	</div>
-      
-	<script src="/javascripts/search.js"></script>
+    {{/default}}
+	{{!--
 
 </body>
-</html>
+</html> --}}
