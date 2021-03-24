@@ -1,80 +1,102 @@
-<nav class="navbar navbar-expand-lg navbar-light" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);'>
+<nav class="navbar navbar-expand-lg navbar-light navbar-pet-sitter">
     <a class="navbar-brand" href="#"></a>
     <button class="navbar-toggler bg-secondary" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <ul class="navbar-nav font-weight-bolder ml-auto">
-            <li class="nav-item mr-3">
-                <a class="nav-link text-white" href="/">HOME</a>
-            </li>
-            <li class="nav-item mr-3">
-                <a class="nav-link text-white" href="/search">SEARCH</a>
-            </li>
-            <li class="nav-item mr-3">
-                <a class="nav-link text-white" href="/book/my">MY BOOKINGS</a>
-            </li>
-            <li class="nav-item dropdown mx-3">
-                <div class="d-flex flex-row">
-                    <div class='d-flex flex-column mr-2'>
-                        <div class='align-self-end' style='font-size: 10px'>pet {{currentUser.role}}</div>
-                        {{!-- <div style='font-size: 15px'>{{pet_owner.fullName}}</div> --}}
-                        <div style='font-size: 15px'>{{currentUser.username}}</div>
-                    </div>
-                    <div>
-                        <a class="nav-link dropdown-toggle p-0"
-                        id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" 
-                        aria-haspopup="true" aria-expanded="false"
-                        >
-                            <div class="circular--landscape--nav align-self-center">
-                                {{!-- <img src='{{pet_owner.picUrl}}'> --}}
-                                <img src='/image/profile.png'>
+        <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">HOME</a>
+                </li>
+            {{#if (eq navTitle 'home')}}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">ABOUT US</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">PROMOTION</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">CONTACT US</a>
+                </li>
+            {{/if}}
+            {{#if token}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/search">SEARCH</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/book/my">MY BOOKINGS</a>
+                </li>
+                <li class="nav-item dropdown mx-3">
+                    <div class="d-flex flex-row">
+                        <div class='d-flex flex-column mr-2'>
+                            <div class='align-self-end' style='font-size: 10px'>pet {{currentUser.role}}</div>
+                            <div style='font-size: 15px'>{{currentUser.username}}</div>
+                        </div>
+                        <div>
+                            <a class="nav-link dropdown-toggle p-0"
+                            id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" 
+                            aria-haspopup="true" aria-expanded="false"
+                            >
+                                <div class="circular--landscape--nav align-self-center">
+                                    {{#ifNotEquals currentUser.picUrl null}}
+                                        <img src='{{currentUser.picUrl}}'>
+                                    {{else}}
+                                        <img src='/image/profile.png'>
+                                    {{/ifNotEquals}}
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/account">My Profile</a>
+                                <a class="dropdown-item" href="/logout">Logout</a>
                             </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="/account">My Profile</a>
-                            <a class="dropdown-item" href="/logout">Logout</a>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown" style='margin-top:5px'>
-                <div class="p-0" data-toggle="dropdown">
-                <i class="fa fa-bell" style='font-size:25px' aria-hidden="true"></i>
-                </div>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <h4 class='mb-3 mt-2' style='padding: .25rem 1.5rem;'>notifications</h4>
+                </li>
+                <li class="nav-item dropdown" style='margin-top:5px'>
+                    <div class="p-0" data-toggle="dropdown">
+                    <i class="fa fa-bell" style='font-size:25px' aria-hidden="true"></i>
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <h4 class='mb-3 mt-2' style='padding: .25rem 1.5rem;'>notifications</h4>
                         {{#if notifications.length}}
-                        {{#each notifications}}
-                            <div class="dropdown-item d-flex flex-row">
-                                <div class='mr-3'>
-                                    <img class='mt-2' src={{performerPicUrl}} alt="Picture" width="50px">
+                            {{#each notifications}}
+                                <div class="dropdown-item d-flex flex-row">
+                                    <div class='mr-3'>
+                                        <img class='mt-2' src={{performerPicUrl}} alt="Picture" width="50px">
+                                    </div>
+                                    <div class='d-flex flex-column'>    
+                                        <p class='mb-1 ' style='width:220px; white-space: initial;'> {{description}} </p>
+                                        <p class='font-weight-bold text-info' style='font-size: 10px'>{{fromNow createDatetime}}</p>
+                                    </div>
                                 </div>
-                                <div class='d-flex flex-column'>    
-                                    <p class='mb-1 ' style='width:220px; white-space: initial;'> {{description}} </p>
-                                    <p class='font-weight-bold text-info' style='font-size: 10px'>{{fromNow createDatetime}}</p>
-                                </div>
+                            {{/each}}
+                        {{else}}
+                            <div class="d-flex justify-content-center mb-2 mt-5">
+                                <i class="fas fa-file" style='font-size: 20px'></i>
                             </div>
-                        {{/each}}
-                    {{else}}
-                        <div class="d-flex justify-content-center mb-2 mt-5">
-                            <i class="fas fa-file" style='font-size: 20px'></i>
-                        </div>
-                        <div class="text-muted mb-3" style=' display: block;
-                            width: 100%; 
-                            padding: .25rem 1.5rem;
-                            clear: both;
-                            font-weight:400;
-                            color: gray;
-                            text-align: inherit; 
-                            white-space: nowrap; 
-                            background-color: transparent; 
-                            border: 0; '>
-                            Dont have any notification yet
-                        </div>
-                    {{/if}}
-                </div>
-            </li>
+                            <div class="text-muted mb-3" style=' display: block;
+                                width: 100%; 
+                                padding: .25rem 1.5rem;
+                                clear: both;
+                                font-weight:400;
+                                color: gray;
+                                text-align: inherit; 
+                                white-space: nowrap; 
+                                background-color: transparent; 
+                                border: 0; '>
+                                Dont have any notification yet
+                            </div>
+                        {{/if}}
+                    </div>
+                </li>
+            {{else}}
+                <li class="nav-item">
+                    <button class="btn btn-dark login-button menu-font-button">SIGN IN</button>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-light register-button menu-font-button">SIGN UP</button>
+                </li>
+            {{/if}}
         </ul>
     </div>
 </nav>

@@ -1,0 +1,48 @@
+.nav-link {
+    color: white !important;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+}
+.dropdown-toggle::after {
+	margin-bottom: 14px;
+	margin-left: 5px;
+}
+
+.menu-font-button {
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 15px;
+    padding: .375rem 1.5rem;
+}
+
+.nav-item {
+    margin-right: 1rem;
+}
+
+.navbar-pet-sitter {
+    margin-top: 1rem;
+    background-color: transparent;
+}
+
+.circular--landscape--nav {
+	display: inline-block;
+	position: relative;
+	width: 40px;
+	height: 40px;
+	overflow: hidden;
+	border-radius: 50%;
+
+}
+
+.circular--landscape--nav img {
+    width: auto;
+    max-height: 40px;
+    height: 100%;
+    margin-left: 0px;
+    margin-top: 0px;
+}

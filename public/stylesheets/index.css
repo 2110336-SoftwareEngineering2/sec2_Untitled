@@ -1,19 +1,12 @@
 body {
     background-image: url("/image/homeBackground.png");
-    /* Full height */
-    height: 100%;
 
     /* Center and scale the image nicely */
     /* background-position: center; */
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100%;
+    /* background-size: cover; */
     background-attachment: fixed;
-}
-
-#navbar {
-    background-image: none;
-    background-color: transparent;
-    overflow: visible;
 }
 
 .text {
