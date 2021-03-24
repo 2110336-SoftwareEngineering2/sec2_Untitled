@@ -1,23 +1,31 @@
-body {
-    background-image: url("/image/homeBackground.png");
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
 
+body {
+    background-image:url('/image/logo1.png'), url("/image/0home2.png"), url("/image/0home.png");
     /* Center and scale the image nicely */
     /* background-position: center; */
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 190px ,contain, 100% 100%;
     /* background-size: cover; */
     background-attachment: fixed;
+    background-position:10px 2px, left bottom, 0px;
 }
 
 .text {
     position: relative;
     top: 6rem;
-    right: 8rem;
-    width: 125%;
+    right: 14.5rem;
+    width: 127%;
+}
+
+.info-text {
+    padding: 0px 30px 0px 30px;
+
 }
 
 .slogan-text{
-    font-size: 3.25rem;
+    font-size: 3.9rem;
+    font-family: 'Calistoga', cursive;
 }
 
 .form-group {
@@ -29,6 +37,7 @@ body {
     right: 2.5rem;
     top: 4rem;
     font-size: 0.75rem;
+    border-radius: 12px;
 }
 
 .register-popup {
@@ -36,6 +45,7 @@ body {
     right: 2.5rem;
     top: 1rem;
     font-size: 0.75rem;
+    border-radius: 12px;
 }
 
 .deactived {
