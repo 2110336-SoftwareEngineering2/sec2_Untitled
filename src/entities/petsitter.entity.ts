@@ -66,6 +66,9 @@ export class PetSitter {
     @Column({ length: 200 , nullable: true})
     services: string;
 
+    @Column({default:0})
+    balance: number;
+
     public get fullGender(): string {
         return this.gender == "F" ? "Female" : "Male"
     }

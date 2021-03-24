@@ -1,3 +1,24 @@
-{{#> sitter}}
-content in body
-{{/sitter}}
+{{#> default}}
+{{!-- handlebar --}}
+<div class="container" id="output"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js" integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg==" crossorigin="anonymous"></script>
+<script id="entry-template" type="text/x-handlebars-template">
+  <div class="entry">
+    \{{#if title}}
+        <h1>\{{title}}</h1>
+        <div class="body">
+        \{{body}}
+        </div>
+    \{{/if}}
+  </div>
+</script>
+
+<script>
+    var source = document.getElementById("entry-template").innerHTML;
+    var template = Handlebars.compile(source);
+    var context = { title: "My New Post", body: "This is my first post!" };
+    var html = template(context);
+    document.getElementById('output').innerHTML = html
+</script>
+
+{{/default}}
