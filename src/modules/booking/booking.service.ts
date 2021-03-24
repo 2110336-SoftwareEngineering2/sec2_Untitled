@@ -208,5 +208,27 @@ export class BookingService {
         return true
     }
 
-    
+    async handleBookingPayment(bookingId: number, poid: number){
+        let record = await this.bookingRepo.findOne({
+            relations: ['sitter', 'owner', 'pet'],
+            where:{id: bookingId}
+        })
+        console.dir(record)
+        if(!record) throw new NotFoundException(`Booking ID ${bookingId} not found`)
+        if(record.owner.id != poid) throw new UnauthorizedException(`This booking record does not belong to pet owner ${poid}`)
+        if(record.status == Status.Completed) throw new BadRequestException(`Booking record ID ${bookingId} has already been paid`)
+        if(record.status == Status.Requesting) throw new BadRequestException(`Booking record ID ${bookingId} is waiting for pet sitter comfirmation`)
+        if(record.status == Status.Denied) throw new BadRequestException(`Booking record ID ${bookingId} has already been denied`)
+
+        if(record.status == Status.Pending){
+            let petOwner = await this.findPetOwnerById(poid)
+            record.status = Status.Completed
+            let result = await this.bookingRepo.save(record)
+            if(result){
+                this.notificationService.createTransaction(poid, record.sitter.id, `${petOwner.fname} paid your booking for ${record.pet.name}`)
+                return result
+            }
+            return false
+        }
+    }
 }
