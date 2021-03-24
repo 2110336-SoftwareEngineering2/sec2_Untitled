@@ -1,5 +1,6 @@
 {{#>default title="Booking"}} 
-    <meta name="pet-sitter-id" content={{petSitter.id}}>
+    <meta name="petSitterId" content={{petSitter.id}}>
+    <meta name="petSitterPriceRate" content={{petSitter.priceRate}}>
 
     {{!-- Date Range Picker --}}
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -47,7 +48,7 @@
                     <h5 class="card-head">
                         Pet list
                     </h5>
-                    <p style='font-size: 0.9em'>Drag pet in the list to selected pet list</p>
+                    <p style='font-size: 0.9em'>List of your pets</p>
                     <div class='dropzone'>
                         {{#each pets}}
 						{{!-- <div class='draggable p-0' style='border-radius:50%; width:100px;height:100px' draggable='true' pet-id={{id}}> --}}
@@ -64,14 +65,14 @@
                     <h5 class="card-head">
                         Selected Pet list
                     </h5>
-                    <p style='font-size: 0.9em'>This is pet that ypu gonna let pet sitter do care</p>
+                    <p style='font-size: 0.9em'>This is the list of pets which will be serviced</p>
                     <div class='dropzone dropzonesSeleted' id="selectedPetZone">
                         {{!-- <p class='draggable font-weight-bolder text-white' draggable='true'>bulldog : foke 5 years old</p> --}}
 					</div>
                      <h5 class="card-head  mt-4">
                         Select Date
                     </h5>
-                    <p style='font-size: 0.9em'>You can select one day of service by double click on that date</p>
+                    <p style='font-size: 0.9em'>You can select one day of service by double clicking on that date</p>
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text" style="background-color:white; border:1px solid black;"><i class="fa fa-calendar-check-o" aria-hidden="true"></i></div>
@@ -82,7 +83,8 @@
                 <div class="card-footer d-flex justify-content-end">
                     <div class="ml-auto">
                         Total price
-                        <p id="priceTag">0</p>
+                        <span id="priceTag">0</span> 
+                        {{!-- รู้จัก span ไหมครับ --}}
                         $
                     </div>
                 </div>
