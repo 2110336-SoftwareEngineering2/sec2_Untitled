@@ -73,4 +73,15 @@ export class AccountService {
         let newPet = {... new Pet(), ... dto, owner:id};
         return this.petRepo.save(newPet)
     }
+
+    async withdrawBalance(sitterId : number, amount : number){
+        let sitter = await this.findAccountById('sitter', sitterId)
+        if(amount<0)return 'impossible'
+        else if(sitter.balance < amount)return 'poor'
+        else{
+            sitter.balance= sitter.balance-amount
+            return this.petSitterRepo.save(sitter)
+        }
+
+    }
 }
