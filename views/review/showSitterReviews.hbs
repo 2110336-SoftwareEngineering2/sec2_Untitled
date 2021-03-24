@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="pet_sitter_id" content="2000017">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    {{!-- jQuery Ui --}}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/stylesheets/review/reviewAndRating.css">
+
+    <title>Reviews and Ratings</title>
+</head>
+
+<body class="vh-100">
+
+
+    <nav class="navbar navbar-expand-lg navbar-light" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);width: 100%'>
+        <a class="navbar-brand" href="#"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+            <ul class="navbar-nav font-weight-bolder">
+                <li class="nav-item mr-3">
+                    <a class="nav-link text-white" href="/search">HOME</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link text-white" href="#">MY BOOKINGS</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link text-white" href="/logout">LOG OUT</a>
+                </li>
+                <li class="nav-item dropdown mx-3">
+                    <div class="d-flex flex-row">
+                        <div class='d-flex flex-column mr-2'>
+                            <div class='align-self-end' style='font-size: 10px'>pet owner</div>
+                            <div style='font-size: 15px'>{{user.fullName}}</div>
+                        </div>
+                        <div>
+                            <a class="nav-link dropdown-toggle p-0" href="#" id="navbarDropdownMenuLink" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="circular--landscape--nav align-self-center">
+                                    <img src={{user.picUrl}}>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item" style='margin-top:5px'>
+                    <i class="fa fa-bell" style='font-size:25px' aria-hidden="true"></i>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb my-2 bg-white">
+            <li class="breadcrumb-item"><a href="/search">SEARCH RESULT</a></li>
+            <li class="breadcrumb-item"><a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">REVIEWS AND RATINGS</li>
+        </ol>
+    </nav>
+
+    <div class="vl-middle-page"></div>
+
+    <div class="reviewAndRating d-flex mt-4 container" style='max-width:90%'>
+        <div class="row m-auto">
+
+            <div class="profileAndRatings col-12 col-lg-6 info-padding mb-5">
+                <div class='profile'>
+                    <div class='row'>
+                        <div class="col col-xl-4 d-flex flex-column">
+                            <div class="circular--landscape align-self-center">
+                                <img src={{petSitter.picUrl}}>
+                            </div>
+
+                            <div class='align-self-center mt-3'>
+                                <div rating={{petSitter.rating}}></div>
+                                <p class='text-center my-2'>Online Now</p>
+                            </div>
+                        </div>
+                        <div class="col col-xl-8  align-self-center">
+                            <h1 class='text-lg-center mb-3'>{{petSitter.fullName}}</h1>
+                            <p class='text-lg-center'>{{petSitter.description}}</h1>
+                            <p class='text-lg-center mt-4 text-muted'><small>{{petSitter.location}}</small></p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="ratings mt-5 ">
+
+                    <div class="overall-rating container mb-5">
+                        <h4 class="text-lg-center mb-3">Customer Reviews</h4>
+                        <div class="d-flex justify-content-center bg-gray-info py-3 ">
+                            <div class='d-flex align-self-center mx-1 '>
+                                <div rating={{petSitter.rating}}></div>
+                            </div>
+                            <p class="d-flex align-self-center mx-2 mb-0">out of 5</p>
+                        </div>
+                        <p class="d-flex justify-content-center my-2">{{stat.counts}} customer ratings</p>
+                    </div>
+                    <div class='percent-rating container'>
+                        <div class="row  mt-2">
+                            <div class="col-2">
+                                <p class='font-weight-bolder text-primary text-lg-right'>5 star</p>
+                            </div>
+                            <div class="col-8 mt-1">
+                                <div class="progress progress-petsitter-info"
+                                    style=' border-radius:10px; overflow: visible;'>
+                                    {{!-- ปรับขนาดหลอดตรงนี้ --}}
+                                    <div id="5_star_bar" class="progress-bar bg-petsitter-info" role="progressbar"
+                                        style="width: 0; border-radius:10px; box-shadow: 0 4px 8px 0 rgba(253, 204, 71, 0.2), 0 6px 20px 0 rgba(253, 204, 71, 0.19); background-color:rgb(253, 204, 71);"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <p class="star5_percent" class='font-weight-bolder'>{{stat.star5}}%</p>
+                            </div>
+                        </div>
+                        <div class="row  mt-2">
+                            <div class="col-2">
+                                <p class='font-weight-bolder text-primary text-lg-right'>4 star</p>
+                            </div>
+                            <div class="col-8 mt-1">
+                                <div class="progress progress-petsitter-info"
+                                    style=' border-radius:10px; overflow: visible;'>
+                                    {{!-- ปรับขนาดหลอดตรงนี้ --}}
+                                    <div id="4_star_bar" class="progress-bar bg-petsitter-info" role="progressbar"
+                                        style="width: 0; border-radius:10px; box-shadow: 0 4px 8px 0 rgba(253, 204, 71, 0.2), 0 6px 20px 0 rgba(253, 204, 71, 0.19); background-color:rgb(253, 204, 71);"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <p class="star4_percent" class='font-weight-bolder'>{{stat.star4}}%</p>
+                            </div>
+                        </div>
+                        <div class="row  mt-2">
+                            <div class="col-2">
+                                <p class='font-weight-bolder text-primary text-lg-right'>3 star</p>
+                            </div>
+                            <div class="col-8 mt-1">
+                                <div class="progress progress-petsitter-info"
+                                    style=' border-radius:10px; overflow: visible;'>
+                                    <div id="3_star_bar" class="progress-bar bg-petsitter-info" role="progressbar"
+                                        style="width: 0; border-radius:10px; box-shadow: 0 4px 8px 0 rgba(253, 204, 71, 0.2), 0 6px 20px 0 rgba(253, 204, 71, 0.19); background-color:rgb(253, 204, 71);"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <p class="star3_percent" class='font-weight-bolder'>{{stat.star3}}%</p>
+                            </div>
+                        </div>
+                        <div class="row  mt-2">
+                            <div class="col-2">
+                                <p class='font-weight-bolder text-primary text-lg-right'>2 star</p>
+                            </div>
+                            <div class="col-8 mt-1">
+                                <div class="progress progress-petsitter-info"
+                                    style=' border-radius:10px; overflow: visible;'>
+                                    <div id="2_star_bar" class="progress-bar bg-petsitter-info" role="progressbar"
+                                        style="width: 0; border-radius:10px; box-shadow: 0 4px 8px 0 rgba(253, 204, 71, 0.2), 0 6px 20px 0 rgba(253, 204, 71, 0.19); background-color:rgb(253, 204, 71);"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <p class="star2_percent" class='font-weight-bolder'>{{stat.star2}}%</p>
+                            </div>
+                        </div>
+                        <div class="row  mt-2">
+                            <div class="col-2">
+                                <p class='font-weight-bolder text-primary text-lg-right'>1 star</p>
+                            </div>
+                            <div class="col-8 mt-1">
+                                <div class="progress progress-petsitter-info"
+                                    style=' border-radius:10px; overflow: visible;'>
+                                    <div id="1_star_bar" class="progress-bar bg-petsitter-info" role="progressbar"
+                                        style="width: 0; border-radius:10px; box-shadow: 0 4px 8px 0 rgba(253, 204, 71, 0.2), 0 6px 20px 0 rgba(253, 204, 71, 0.19); background-color:rgb(253, 204, 71);"
+                                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <p class="star1_percent" class='font-weight-bolder'>{{stat.star1}}%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="reviews col-12 col-lg-6 info-padding mb-5">
+                <h3 class="mb-4 pb-3">Reviews ({{stat.counts}})</h3>
+                <div class="reviews-list">
+                    {{#each reviews}}
+                    <div class="review">
+                        <div class=" d-flex flex-row ">
+                            <div class=''>
+                                <div class="circular--landscape--review align-self-center">
+                                    <img src={{owner.picUrl}}>
+                                </div>
+                            </div>
+                            <div class='flex-fill ml-3'>
+                                <div class='my-3'>
+                                    <h5 class='mb-0'>{{owner.fullName}}</h5>
+                                    <div rating={{rating}}></div>
+                                </div>
+                                <div>
+                                    <p class="mt-4 mb-2">{{description}}</p>
+                                    <p class='mt-2 mb-1 text-muted'><small>27 sep - 30 sep 2019</small></p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="hl my-3"></div>
+                    </div>
+                    {{/each}}
+
+
+
+                    <!--</div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>-->
+                </div>
+
+
+            </div>
+        </div>
+        <script src="/javascripts/review/reviewAndRating.js"></script>
+        <script src="/javascripts/booking/starsHandler.js"></script>
+</body>
+
+</html>

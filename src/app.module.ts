@@ -1,7 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AppGateway } from './app.gateway';
+<<<<<<< HEAD
 import { PetOwner } from './entities/petowner.entity';
 import { PetSitter } from './entities/petsitter.entity';
 import { AccountModule } from './account/account.module';
@@ -22,6 +24,14 @@ import { Employee } from './entities/employee.entity';
 import { NotificationModule } from './notification/notification.module';
 import { ChatModule } from './chat/chat.module';
 import { AppGateway } from './app.gateway';
+=======
+import {Booking, Transaction, Employee, Pet, Report,
+        OwnerReview, PetOwner,
+        PetSitter, SitterAnimal, SitterReview} from './entities'
+import {AccountModule, ReviewModule, 
+        BookingModule,SearchModule, AuthModule,
+        DummyModule, NotificationModule} from './modules'
+>>>>>>> 1aaea6157d0ba7ceeaa20d2b74274b3ccd95a857
 
 @Module({
   imports: [
@@ -41,10 +51,3 @@ import { AppGateway } from './app.gateway';
 })
 
 export class AppModule {}
-
-// export class AppModule implements NestModule{
-//   configure(consumer: MiddlewareConsumer) {
-//     consumer
-//       .apply(AuthMiddleware).forRoutes('/secret');
-//   }
-// }

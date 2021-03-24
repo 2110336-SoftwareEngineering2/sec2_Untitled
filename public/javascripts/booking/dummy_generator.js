@@ -4,6 +4,7 @@ let faker = require('faker')
 
 // How many dummy would be generated
 // SHOULD NOT BE OVER 200 !!!
+
 const PET_SITTER_TIMES = 100;
 const PET_OWNER_TIMES = 0;
 const PET_TIMES = 0;
@@ -32,6 +33,7 @@ const PET_SITTER_START_ID = 2000001
 
 // const BASE_URL = "https://se2-ypebr.run.goorm.io/dummy/"
 const BASE_URL = "http://localhost:3000/dummy/"
+
 
 function send_req(type, data){
     axios({
