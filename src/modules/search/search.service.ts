@@ -3,15 +3,14 @@ import {searchvalue} from './searchvalue.entity';
 import {getRepository , Repository , getConnection , getManager} from "typeorm";
 import { InjectRepository } from '@nestjs/typeorm';
 import {PetOwner,PetSitter, Booking, SitterAnimal} from 'src/entities'
-import { NotificationService } from '../notification/notification.service';
 
 @Injectable()
 export class SearchService {
   
 	
    constructor(
-	   private readonly notificationService: NotificationService,
-        @InjectRepository(PetOwner) private readonly petOwnerRepo: Repository<PetOwner>
+		
+    	@InjectRepository(PetOwner) private readonly petOwnerRepo: Repository<PetOwner>
 	,@InjectRepository(PetSitter) private readonly PetSitterRepo: Repository<PetSitter>
 	,@InjectRepository(SitterAnimal) private readonly SitterAnimalRepo: Repository<SitterAnimal>
 	,@InjectRepository(Booking) private readonly BookingRepo: Repository<Booking>){}	
@@ -22,9 +21,8 @@ export class SearchService {
 
   async renderSearch(@Res() res, ownerId: number){
 	  let petOwner = await this.petOwnerRepo.findOne(ownerId)
-	  let notifications = await this.notificationService.getNotificationsFor(ownerId)
 	  return res.render('search/search', {
-		  petOwner, notifications: notifications
+		  petOwner
 	  })
   }
 
