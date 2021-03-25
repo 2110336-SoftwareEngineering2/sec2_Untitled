@@ -89,15 +89,14 @@ export class BookingService {
     // po requests -> ps confirms -> paid by po
     //  requesting      pending       completed  
     async handleIncomingRequest(incomingBooking: any, poid: number): Promise<any> {
-        if(!poid) throw new UnauthorizedException("Pet owner id is required")
+        if(!poid) throw new UnauthorizedException("Pet owner ID is required")
         if(!this.isValidPetOwnerId(poid)) throw new UnauthorizedException("Pet owner ID is invalid")
 
         // store booking status requesting
-        const price = (await this.findPetSitterById(incomingBooking.sitter)).priceRate
-        const startDate = dayjs(incomingBooking.startDate, DATE_FORMAT).format()
-        const endDate = dayjs(incomingBooking.endDate, DATE_FORMAT).format()
+        incomingBooking.startDate = dayjs(incomingBooking.startDate, DATE_FORMAT).format()
+        incomingBooking.endDate = dayjs(incomingBooking.endDate, DATE_FORMAT).format()
+        incomingBooking.owner = poid
 
-        incomingBooking = {...incomingBooking, price, startDate, endDate, owner: poid}
         const petOwner = await this.findPetOwnerById(poid)
 
         // loop by pet#
@@ -193,7 +192,7 @@ export class BookingService {
             else return { success: false, message: "Error occured when removing request."}
         }
 
-        return { success: false, message: "Can not cancel, must be done in 24 hours."}
+        return { success: false, message: "Can not cancel, must be done within 24 hours."}
     }
 
     isValidPetSitterId(id: number): boolean{
@@ -207,4 +206,6 @@ export class BookingService {
         if(strId.length != 7 || strId[0] != '1') return false
         return true
     }
+
+    
 }

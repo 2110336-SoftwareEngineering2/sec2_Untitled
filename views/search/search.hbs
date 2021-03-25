@@ -34,52 +34,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <nav class="navbar navbar-expand-lg navbar-light" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);'>
-        <a class="logo" href="#"><img src="/image/logo1.png" class="img-fluid" alt="Responsive image" /></a>
-        <a class="navbar-brand" href="#"></a>
-        <button class="navbar-toggler bg-secondary" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-            <ul class="navbar-nav font-weight-bolder">
-                <li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="#">HOME</a>
-                </li>
-                <li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="#">MY BOOKINGS</a>
-                </li>
-				<li class="nav-item mr-3">
-                    <a class="nav-link text-nav-selfmade" href="/logout">LOGOUT</a>
-                </li>
-                <li class="nav-item dropdown mx-3">
-                    <div class="d-flex flex-row">
-                        <div class='d-flex flex-column mr-2'>
-                            <div class='align-self-end' style='font-size: 10px'>pet owner</div>
-                            <div style='font-size: 15px'>{{pet_owner.fullName}}</div>
-                        </div>
-                        <div>
-                            <a class="nav-link dropdown-toggle p-0" href="#"
-                               id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">
-                                <div class="circular--landscape--nav align-self-center">
-                                    <img src='{{pet_owner.picUrl}}'>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item" style='margin-top:5px'>
-                    <i class="fa fa-bell" style='font-size:25px' aria-hidden="true"></i>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!---Search-->
+	{{> navbar}}
 	
 	 <h2 class="section-head text-center">Find the best caretaker for your pet </h2>
     <section class="search-sec text-center mx-5 p-0" style="Background:none">

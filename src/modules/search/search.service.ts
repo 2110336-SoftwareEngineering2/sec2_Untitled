@@ -2,17 +2,7 @@ import { Injectable, Res } from '@nestjs/common';
 import {searchvalue} from './searchvalue.entity';
 import {getRepository , Repository , getConnection , getManager} from "typeorm";
 import { InjectRepository } from '@nestjs/typeorm';
-<<<<<<< HEAD:src/search/search.service.ts
-import { PetOwner } from 'src/entities/petowner.entity';
-import { PetSitter } from 'src/entities/petsitter.entity';
-import { Booking } from 'src/entities/booking.entity';
-import { SitterAnimal } from 'src/entities/sitteranimal.entity';
-import { NotificationService } from 'src/notification/notification.service';
-
-//import {getConnection} from "typeorm";
-=======
 import {PetOwner,PetSitter, Booking, SitterAnimal} from 'src/entities'
->>>>>>> 1aaea6157d0ba7ceeaa20d2b74274b3ccd95a857:src/modules/search/search.service.ts
 
 @Injectable()
 export class SearchService {

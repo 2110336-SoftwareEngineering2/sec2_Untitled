@@ -12,6 +12,7 @@ export class AppController {
 
   @Get('/dummy')
   renderDummy(@Response() res): any {
+    console.log("yay")
     res.render('dummy')
   }
 

@@ -17,7 +17,7 @@ $(".function-icon").hover(function(){
   });
 
   $('#cancel_button').click(function(){
-      window.location.href = "https://se2-ypebr.run.goorm.io/account";
+      window.location.href = "/account";
   })
   $('#save_button').click(function(){
         let newPet = {
@@ -27,19 +27,11 @@ $(".function-icon").hover(function(){
               yearOfBirth: $('input[name="yearOfBirth"]').val(),
               appearance: $('#appearance').val()
         }
-        console.log(newPet)
         $.ajax({
             url: '/account/register/pet',
             method: 'POST',
-            data: newPet,
-        dataType: "json",
-        success: function(data){
-            window.location.replace(data)
-        },
-        error: function(data){
-           alert("Sorry we can't register your pet. Please tell support for help.");
-        }
-        })
+            data: newPet
+        }).done(data => {window.location.replace(data)})
   })
 
   $(document).ready(function(){

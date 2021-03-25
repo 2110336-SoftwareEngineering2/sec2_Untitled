@@ -1,0 +1,29 @@
+{{#> default title="ADMIN"}}
+<div class="container">
+    <form action="/register" method="POST" class="validated-form petowner-register" novalidate>
+        <div class="form-group">
+            <label for="fname">First Name</label>
+            <input name="fname" class="form-control" placeholder="First Name" type="text" id="fname">
+        </div>
+        <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input name="lname" class="form-control" placeholder="Last Name" type="text" id="lname">
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input name="username" class="form-control" placeholder="Username" type="text" id="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" type="password" name="password" id="password">
+        </div>
+        <div class="form-group d-none">
+            <input class="form-control" type="text" name="gender" id="gender" value="M">
+        </div>
+        <input class="form-control d-none" type="text" name="role" value="admin">
+        <div class="form-group">
+            <button type="submit" class="btn btn-dark btn-block mt-4">Register</button>
+        </div>
+    </form>
+</div>
+{{/default}}

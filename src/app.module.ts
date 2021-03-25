@@ -3,35 +3,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AppGateway } from './app.gateway';
-<<<<<<< HEAD
-import { PetOwner } from './entities/petowner.entity';
-import { PetSitter } from './entities/petsitter.entity';
-import { AccountModule } from './account/account.module';
-import { ReviewModule } from './review/review.module';
-import { BookingModule } from './booking/booking.module';
-import { SearchModule } from './search/search.module';
-import { Pet } from './entities/pet.entity';
-import { Booking } from './entities/booking.entity';
-import { SitterReview } from './entities/sitterreview.entity';
-import { OwnerReview } from './entities/ownerreview.entity';
-import { AuthModule } from './auth/auth.module';
-import { DummyModule } from './dummy/dummy.module';
-import { AuthMiddleware } from './middleware/auth.middleware';
-import { SitterAnimal } from './entities/sitteranimal.entity';
-import { Transaction } from './entities/transaction.entity';
-import { Report } from './entities/report.entity';
-import { Employee } from './entities/employee.entity';
-import { NotificationModule } from './notification/notification.module';
-import { ChatModule } from './chat/chat.module';
-import { AppGateway } from './app.gateway';
-=======
 import {Booking, Transaction, Employee, Pet, Report,
         OwnerReview, PetOwner,
         PetSitter, SitterAnimal, SitterReview} from './entities'
+import { Message } from './entities/message.entity';
 import {AccountModule, ReviewModule, 
         BookingModule,SearchModule, AuthModule,
         DummyModule, NotificationModule} from './modules'
->>>>>>> 1aaea6157d0ba7ceeaa20d2b74274b3ccd95a857
+import { NotificationService } from './modules/notification/notification.service';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -42,12 +22,13 @@ import {AccountModule, ReviewModule,
       username: 'se2',
       password: 'se2',
       database: 'se2',
-      entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview, SitterAnimal, Transaction, Report, Employee] ,
+      entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview, SitterAnimal, Transaction, Report, Employee, Message] ,
       synchronize: true // this should be false in production
-    }),TypeOrmModule.forFeature([PetOwner]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule, NotificationModule, ChatModule
+
+    }),TypeOrmModule.forFeature([PetOwner,Transaction,PetSitter]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule, NotificationModule, AdminModule
   ],
   controllers: [AppController],
-  providers: [AppService, AppGateway]
+  providers: [AppService, NotificationService]
 })
 
 export class AppModule {}
