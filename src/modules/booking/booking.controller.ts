@@ -19,6 +19,8 @@ export class BookingController {
 
     // My bookings page
     @Get('my')
+    @UseGuards(RolesGuard)
+    @Roles('sitter', 'owner')
     async myBookings(@Req() { user }, @Res() res) {
         let notifications = await this.notificationService.getNotificationsFor(user.id)
         let bookingList = undefined
