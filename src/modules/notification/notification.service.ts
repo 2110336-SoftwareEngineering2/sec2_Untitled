@@ -29,15 +29,15 @@ export class NotificationService {
         return results
     }
 
-    async getPicUrlOf(user_id: number){
-        let str_id = String(user_id)
+    async getPicUrlOf(userId: number){
+        let strId = String(userId)
         // pet owner
-        if(str_id[0] == '1'){
-            return (await this.petOwnerRepo.findOne(user_id)).picUrl
+        if(strId[0] == '1'){
+            return (await this.petOwnerRepo.findOne(userId)).picUrl
         }
         // pet sitter
-        else if(str_id[0] == '2'){
-            return (await this.petSitterRepo.findOne(user_id)).picUrl
+        else if(strId[0] == '2'){
+            return (await this.petSitterRepo.findOne(userId)).picUrl
         }
     }
 
