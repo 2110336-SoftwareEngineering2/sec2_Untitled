@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PetOwner, PetSitter } from 'src/entities';
 import { Message } from 'src/entities/message.entity';
-import { Repository } from 'typeorm';
+import { Repository , getManager } from 'typeorm';
 
 @Injectable()
 export class ChatService {
@@ -26,7 +26,16 @@ export class ChatService {
 
     // retrieve messages from DB corresponding to input receiver ID
     getMessagesFor(receiverId){
-        
+		
+		if(receiverId == 1){ //owner
+			return await entityManager.query(``);
+			
+		}else if(receiverId == 2){ //sitter
+			return await entityManager.query(``);
+			
+		}
+		
+       
     }
 
     // retrieve messages from DB corresponding to input receiver ID since input time
