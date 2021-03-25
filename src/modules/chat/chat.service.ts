@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { PetOwner, PetSitter } from 'src/entities';
 import { Message } from 'src/entities/message.entity';
-import { MoreThan, Repository } from 'typeorm';
+
+import { MoreThan, Repository , getManager } from 'typeorm';
 import * as dayjs from "dayjs";
 import * as customParseFormat from 'dayjs/plugin/customParseFormat'
 import * as utc from 'dayjs/plugin/utc'
 import { AccountService } from '../account/account.service';
 dayjs.extend(utc)
 dayjs.extend(customParseFormat)
+
 
 @Injectable()
 export class ChatService {
@@ -31,7 +34,27 @@ export class ChatService {
     }
 
     // retrieve messages from DB corresponding to input receiver ID
-    getMessagesFor(receiverId, senderId) {
+    async getMessagesFor(receiverId,senderId) {
+		
+		const entityManager = getManager();
+		
+		let messages = Object(await this.messageRepo.find({
+			//id:id,
+			senderId: senderId,
+            receiverId: receiverId,
+			//createDatetime: MoreThan(sinceUtcFormat),
+			//message: message,
+        }))
+		
+		await this.getSenderInfo(receiverId)
+		
+		for (let i = 0; i < messages.length; i++) {
+            messages[i].sender = await this.getSenderInfo(messages[i].senderId)
+        }
+		
+		
+		return messages
+		
 
     }
 
@@ -68,3 +91,4 @@ export class ChatService {
         else if (strId[0] == '2') return await this.accountService.findAccountById("sitter", id)
     }
 }
+
