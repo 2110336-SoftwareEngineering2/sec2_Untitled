@@ -20,8 +20,6 @@ async function bootstrap() {
   hbs.registerPartials(join(__dirname, '..', '/views/partials'));
   hbs.registerPartials(join(__dirname, '..', '/views/layouts'));
   app.setViewEngine('hbs');
-//might comflict
-app.useStaticAssets(join(__dirname, '..', 'static'));
 
   const port = 3000;
   await app.listen(port, () => {

@@ -34,17 +34,10 @@ export class ChatService {
     }
 
     // retrieve messages from DB corresponding to input receiver ID
-
     async getMessagesFor(receiverId,senderId) {
-		
-		const entityManager = getManager();
-		
 		let messages = Object(await this.messageRepo.find({
-			//id:id,
 			senderId: senderId,
-            receiverId: receiverId,
-			//createDatetime: MoreThan(sinceUtcFormat),
-			//message: message,
+            receiverId: receiverId
         }))
 		
 		await this.getSenderInfo(receiverId)
@@ -53,23 +46,22 @@ export class ChatService {
             messages[i].sender = await this.getSenderInfo(messages[i].senderId)
         }
 		
-		
 		return messages
-		
-
     }
 
     // retrieve messages from DB corresponding to input receiver ID since input time
-    async getMessageSince(receiverId, since) {
+    async getMessageSince(receiverId, senderId, since) {
         // validate "since" format to be in "DD/MM/YYYY HH:mm:ss" utc
         if (!dayjs(since, "DD/MM/YYYY HH:mm:ss", true).isValid()) return {
             success: false,
             message: "Expected since format is \"DD/MM/YYYY HH:mm:ss\" in UTC time"
         }
+
         let sinceUtcFormat = dayjs(since, "DD/MM/YYYY HH:mm:ss").utc().format()
         let messages = Object(await this.messageRepo.find({
             createDatetime: MoreThan(sinceUtcFormat),
-            receiverId: receiverId
+            receiverId: receiverId,
+            senderId: senderId
         }))
 
         // retrieve sender info for each message
@@ -77,7 +69,9 @@ export class ChatService {
             messages[i].sender = await this.getSenderInfo(messages[i].senderId)
         }
 
-        return messages
+        let latestUpdate = dayjs.utc().format("DD/MM/YYYY HH:mm:ss")
+
+        return { success: true, latestUpdate, messages }
     }
 
     async getSenderInfo(id) {

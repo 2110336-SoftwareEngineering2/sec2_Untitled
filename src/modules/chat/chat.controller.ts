@@ -14,11 +14,11 @@ export class ChatController {
     ) { }
 
     @Get('/chat')
-    index(@Res() res){
-        // render with cooking
+    index() {
+        // render with messages (getMessagesFor)
     }
 
-    // {
+    // body {
     //     receiverId: number,
     //     message: string
     // }
@@ -29,15 +29,14 @@ export class ChatController {
         return this.chatService.handleIncomingMessage(id, receiverId, message)
     }
 
-    // {
+    // body {
     //     (Optional) since: "DD/MM/YYYY HH:mm:ss" utc time zone
     // }
     @Roles('sitter', 'owner')
-    @Get('/api/chat/:receiverId')
-    getMessages(@Param('receiverId') receiverId, @Body() { since }, @Req() {user: {id}}) {
-
-        if (!since) return this.chatService.getMessagesFor(id,receiverId)
-        else return this.chatService.getMessageSince(receiverId, since)
+    @Get('/api/chat/:senderId')
+    getMessages(@Param('senderId') senderId, @Body() { since }, @Req() { user: { id } }) {
+        if (!since) return this.chatService.getMessagesFor(id, senderId)
+        else return this.chatService.getMessageSince(id, senderId, since)
     }
 }
 
