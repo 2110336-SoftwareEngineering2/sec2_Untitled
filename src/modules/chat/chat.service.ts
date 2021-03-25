@@ -35,15 +35,9 @@ export class ChatService {
 
     // retrieve messages from DB corresponding to input receiver ID
     async getMessagesFor(receiverId,senderId) {
-		
-		const entityManager = getManager();
-		
 		let messages = Object(await this.messageRepo.find({
-			//id:id,
 			senderId: senderId,
-            receiverId: receiverId,
-			//createDatetime: MoreThan(sinceUtcFormat),
-			//message: message,
+            receiverId: receiverId
         }))
 		
 		await this.getSenderInfo(receiverId)
@@ -52,10 +46,7 @@ export class ChatService {
             messages[i].sender = await this.getSenderInfo(messages[i].senderId)
         }
 		
-		
 		return messages
-		
-
     }
 
     // retrieve messages from DB corresponding to input receiver ID since input time
