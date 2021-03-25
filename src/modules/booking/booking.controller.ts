@@ -19,6 +19,8 @@ export class BookingController {
 
     // My bookings page
     @Get('my')
+    @UseGuards(RolesGuard)
+    @Roles('sitter', 'owner')
     async myBookings(@Req() { user }, @Res() res) {
         let notifications = await this.notificationService.getNotificationsFor(user.id)
         let bookingList = undefined
@@ -106,5 +108,21 @@ export class BookingController {
     @Roles('owner')
     petOwnerModifyBooking(@Req() req, @Param('bookingId') bid) {
         return this.bookingService.handleCancleBookingForPetOwner(bid, req.user.id)
+    }
+
+    @UseGuards(RolesGuard)
+    @Roles('owner')
+    @Patch('pay')
+    async ownerBookingPayment(@Req() { user: { id } }, @Body() { booking_id }) {
+        const success = await this.bookingService.handleBookingPayment(booking_id, id)
+        if (success) return {
+            result: success,
+            code: HttpStatus.OK,
+            status: true
+        }
+        else return {
+            code: HttpStatus.OK,
+            status: false
+        }
     }
 }

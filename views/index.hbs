@@ -1,64 +1,18 @@
-<!DOCTYPE html>
-<html lang="en" class="h-100">
+{{#> default title='home'}}
+<link href="/stylesheets/index.css" rel="stylesheet">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link href="/stylesheets/index.css" rel="stylesheet">
-    <title>Untitled</title>
-</head>
-
-<body class="h-100">
-    <nav class="navbar navbar-expand-md navbar-dark mb-3" id="navbar">
-        <a href=""></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto mr-5">
-                <li class="nav-item active">
-                    <a class="nav-link home-link">Home</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">About Us</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Promotion</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Contact Us</a>
-                </li>
-                {{#if token}}
-                    <li class="nav-item active">
-                        <a href="/logout" class="btn btn-light">Logout</a>
-                    </li>
-                {{else}}
-                    <li class="nav-item active mx-3">
-                        <button class="btn btn-dark login-button">Login</button>
-                    </li>
-                    <li class="nav-item active">
-                        <button class="btn btn-light register-button">Register</button>
-                    </li>
-                {{/if}}
-            </ul>
-        </div>
-    </nav>
     <div class="h-100 col-6 offset-6 col-lg-4 offset-lg-8">
         <div class="text d-block">
             <h1 class="slogan-text mb-4">Discover what's best for your beloved pets</h1>
             <p class="info-text">PetSitter aims to help pet owners find the perfect pet sitters for their pets via
                 access to more than 100
-                available care takers on our platform</p>
+                available care takers on our platform.</p>
         </div>
-        <div class="card mx-2 login-popup d-none">
+        <div class="card mx-2 login-popup d-none shadow">
             <article class="card-body p-5">
-                <h4 class="card-title mb-4 mt-1">Login</h4>
+                <h4 class="card-title mb-4 mt-1 font-weight-bolder">SIGN IN</h4>
 
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between  mb-3">
                     <button class="btn rounded-0 actived" id="petowner-login-btn" onclick="displayPetOwnerLoginPopup()">Pet Owner</button>
 
                     <button class="btn rounded-0 deactived" id="petsitter-login-btn" onclick="displayPetSitterLoginPopup()">Pet Sitter</button>
@@ -105,11 +59,11 @@
                 </form>
             </article>
         </div>
-        <div class="card mx-2 register-popup d-none">
+        <div class="card mx-2 register-popup d-none shadow">
             <article class="card-body p-5">
-                <h4 class="card-title mb-4 mt-1">Register</h4>
+                <h4 class="card-title mb-4 mt-1 font-weight-bolder">SIGN UP</h4>
 
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between mb-3">
                     <button class="btn rounded-0 actived" id="petowner-register-btn" onclick="displayPetOwnerRegisterPopup()">Pet Owner</button>
 
                     <button class="btn rounded-0 deactived" id="petsitter-register-btn" onclick="displayPetSitterRegisterPopup()">Pet Sitter</button>
@@ -197,14 +151,7 @@
             </article>
         </div>
     </div>
-    <script src="/javascripts/index.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+    
+<script src="/javascripts/index.js"></script>
+{{/default}}
 

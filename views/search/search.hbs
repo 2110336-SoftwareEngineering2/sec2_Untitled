@@ -1,4 +1,4 @@
-
+{{!-- 
 
 <!DOCTYPE html>
 
@@ -6,7 +6,6 @@
 <head>
     <title>Search Pet Sitters</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="/stylesheets/main-search.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="pet_sitter_id" content="{{id}}">
 
@@ -33,16 +32,17 @@
 <body>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-	{{> navbar}}
-	
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> --}}
+	{{#> default title='Search Pet Sitters'}}
+	<link href="/stylesheets/main-search.css" rel="stylesheet">
+
 	 <h2 class="section-head text-center">Find the best caretaker for your pet </h2>
     <section class="search-sec text-center mx-5 p-0" style="Background:none">
         <div class="container bg-white shadow ">
             <form method="post" action="#" novalidate="novalidate">
                 <div class="search-form row">
                     <div class="search-col col-md-3 p-2">
-                        <select class="form-control search-slt border-0" id="exampleFormControlSelect1" name="type">
+                        <select class="form-control search-slt search-type" id="exampleFormControlSelect1" name="type">
                             <option value='All'>All</option>
                             <option value="dog">Dog</option>
                             <option value="cat">Cat</option>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="col p-2 bg-none">
 
-                        <input type="text" class="form-control search-slt border-0" placeholder="Enter Location" name="location">
+                        <input type="text" class="form-control search-slt" placeholder="Enter Location" name="location">
                     </div>
 
                     <div class="col-md-auto p-2">
@@ -220,8 +220,10 @@
 			</div>
 		</div>
 	</div>
-      
+	
 	<script src="/javascripts/search.js"></script>
+    {{/default}} 
+	{{!--
 
 </body>
-</html>
+</html> --}}
