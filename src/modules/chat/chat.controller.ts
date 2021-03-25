@@ -34,8 +34,9 @@ export class ChatController {
     // }
     @Roles('sitter', 'owner')
     @Get('/api/chat/:receiverId')
-    getMessages(@Param('receiverId') receiverId, @Body() { since }) {
-        if (!since) return this.chatService.getMessagesFor(receiverId)
+    getMessages(@Param('receiverId') receiverId, @Body() { since }, @Req() {user: {id}}) {
+
+        if (!since) return this.chatService.getMessagesFor(id,receiverId)
         else return this.chatService.getMessageSince(receiverId, since)
     }
 }
