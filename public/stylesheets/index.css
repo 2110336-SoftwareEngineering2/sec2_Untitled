@@ -15,7 +15,7 @@ body {
     position: relative;
     top: 6rem;
     right: 14.5rem;
-    width: 127%;
+    width: 150%;
 }
 
 .info-text {
@@ -30,6 +30,7 @@ body {
 
 .form-group {
     margin-bottom: 0.5rem;
+
 }
 
 .login-popup {
