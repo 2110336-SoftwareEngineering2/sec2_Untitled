@@ -12,12 +12,12 @@ $(document).ready(function () {
         singleDatePicker: false,
         autoApply: true
     })
-})
 
-// event listenings
-$('#bookBtn').on('click', sendBookingRequest)
-$('#daterangepicker').on('apply.daterangepicker', updateTotalPrice);
-$('.dropzone').on('drop', updateTotalPrice)
+    // event listenings
+    $('#bookBtn').on('click', sendBookingRequest)
+    $('#daterangepicker').on('apply.daterangepicker', updateTotalPrice);
+    $('.dropzone').on('drop', updateTotalPrice)
+})
 
 function sendBookingRequest() {
     let pets = getSelectedPets()
