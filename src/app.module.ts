@@ -2,15 +2,20 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import {Booking, Transaction, Employee, Pet, Report,
-        OwnerReview, PetOwner,
-        PetSitter, SitterAnimal, SitterReview} from './entities'
+import {
+  Booking, Transaction, Employee, Pet, Report,
+  OwnerReview, PetOwner,
+  PetSitter, SitterAnimal, SitterReview
+} from './entities'
 import { Message } from './entities/message.entity';
-import {AccountModule, ReviewModule, 
-        BookingModule,SearchModule, AuthModule,
-        DummyModule, NotificationModule} from './modules'
+import {
+  AccountModule, ReviewModule,
+  BookingModule, SearchModule, AuthModule,
+  DummyModule, NotificationModule
+} from './modules'
 import { NotificationService } from './modules/notification/notification.service';
 import { AdminModule } from './modules/admin/admin.module';
+import { ChatModule } from './modules/chat/chat.module';
 
 @Module({
   imports: [
@@ -21,12 +26,12 @@ import { AdminModule } from './modules/admin/admin.module';
       username: 'se2',
       password: 'se2',
       database: 'se2',
-      entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview, SitterAnimal, Transaction, Report, Employee, Message] ,
+      entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview, SitterAnimal, Transaction, Report, Employee, Message],
       synchronize: true // this should be false in production
-    }),TypeOrmModule.forFeature([PetOwner,Transaction,PetSitter]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule, NotificationModule, AdminModule
+    }), TypeOrmModule.forFeature([PetOwner, Transaction, PetSitter]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule, NotificationModule, AdminModule, ChatModule
   ],
   controllers: [AppController],
   providers: [AppService, NotificationService]
 })
 
-export class AppModule {}
+export class AppModule { }
