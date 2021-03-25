@@ -1,4 +1,6 @@
 {{#> default title='home'}}
+<link href="/stylesheets/index.css" rel="stylesheet">
+
     <div class="h-100 col-6 offset-6 col-lg-4 offset-lg-8">
         <div class="text d-block">
             <h1 class="slogan-text mb-4">Discover what's best for your beloved pets</h1>
@@ -10,7 +12,7 @@
             <article class="card-body p-5">
                 <h4 class="card-title mb-4 mt-1 font-weight-bolder">SIGN IN</h4>
 
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between  mb-3">
                     <button class="btn rounded-0 actived" id="petowner-login-btn" onclick="displayPetOwnerLoginPopup()">Pet Owner</button>
 
                     <button class="btn rounded-0 deactived" id="petsitter-login-btn" onclick="displayPetSitterLoginPopup()">Pet Sitter</button>
@@ -61,7 +63,7 @@
             <article class="card-body p-5">
                 <h4 class="card-title mb-4 mt-1 font-weight-bolder">SIGN UP</h4>
 
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between mb-3">
                     <button class="btn rounded-0 actived" id="petowner-register-btn" onclick="displayPetOwnerRegisterPopup()">Pet Owner</button>
 
                     <button class="btn rounded-0 deactived" id="petsitter-register-btn" onclick="displayPetSitterRegisterPopup()">Pet Sitter</button>
@@ -150,5 +152,6 @@
         </div>
     </div>
     
+<script src="/javascripts/index.js"></script>
 {{/default}}
 
