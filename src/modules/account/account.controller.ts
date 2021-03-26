@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, Req, Res, Patch } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { PetOwner } from 'src/entities/petowner.entity';
 import { PetSitter } from 'src/entities/petsitter.entity';
@@ -46,4 +46,9 @@ export class AccountController {
     res.send('/account')
   }
 
+  @Patch('/withdraw')
+  @Roles('sitter')
+  async withdrawMoney(@Req() { user: { id } },  @Body() { amount }){
+    return await this.accountService.withdrawBalance(id,amount)
+  }
 }

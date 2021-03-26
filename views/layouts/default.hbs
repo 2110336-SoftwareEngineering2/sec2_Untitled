@@ -6,40 +6,65 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-	<link href="/stylesheets/sitter.css" rel="stylesheet">
-
-    {{!-- icon library --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    {{!-- font awesome --}}
-    <script src="https://kit.fontawesome.com/826f04aac3.js" crossorigin="anonymous"></script>
-
-    {{!-- moment js --}}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-
-    {{!-- date range picker --}}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-        crossorigin="anonymous"></script>
-
-
     {{#if title}}
         <title>{{title}}</title>
     {{else}}
         <title>Untitled</title>
     {{/if}}
+
+    {{!-- css --}}
+
+    {{!-- boostrap 4.6.0 css --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    {{!-- icon library --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {{!-- defualt .css for entry web --}}
+    <link href="/stylesheets/navbar.css" rel="stylesheet">
+    <link href="/stylesheets/default.css" rel="stylesheet">
+
+    {{!-- js --}}
+
+    {{!-- jquery latest --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    {{!-- boostrap 4.6.0 js --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+    crossorigin="anonymous"></script>
+    {{!-- font awesome --}}
+    <script src="https://kit.fontawesome.com/826f04aac3.js" crossorigin="anonymous"></script>
+    {{!-- moment js --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    {{!-- date range picker --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    
+    {{!-- specific .css for each page --}}
+    {{!-- {{#if (eq title "home")}}
+        <link href="/stylesheets/index.css" rel="stylesheet">
+    {{/if}}
+    {{#if (eq title "Search Pet Sitters")}}
+        <link href="/stylesheets/main-search.css" rel="stylesheet">
+    {{/if}} --}}
+
+    {{!-- specific .js for each page --}}
+    {{!-- {{#if (eq title "home")}}
+        <script src="/javascripts/index.js"></script>
+    {{/if}}
+    {{#if (eq title "Search Pet Sitters")}}
+        <script src="/javascripts/search.js"></script>
+    {{/if}}
+    {{#if (eq title "Bookings")}}
+        <script src="/javascripts/booking/myBookingOwnerHandler.js"></script>
+    {{/if}} --}}
+
 </head>
 
-<body>
-    {{> navbar}}
-    <div class="vh-100 root-container">
-        {{> @partial-block }}
 
+<body>
+
+    {{> navbar navTitle=title}}
+    <div class="root-container">
+        {{> @partial-block }}
     </div>
 
 </body>

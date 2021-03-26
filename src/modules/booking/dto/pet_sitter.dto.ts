@@ -14,7 +14,6 @@ type sitterReview = {
 }
 
 export class BookPetSitterDto {
-    id: number;
     fname: string;
     lname: string;
     signUpDate: Date;

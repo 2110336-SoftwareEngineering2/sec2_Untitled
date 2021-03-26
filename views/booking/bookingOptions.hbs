@@ -1,14 +1,18 @@
 {{#>default title="Booking"}} 
-    <meta name="pet-sitter-id" content={{petSitter.id}}>
+    <meta name="petSitterId" content={{petSitter.id}}>
+    <meta name="petSitterPriceRate" content={{petSitter.priceRate}}>
+
+    {{!-- jQuery --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 
     {{!-- Date Range Picker --}}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     {{!-- dayjs --}}
     <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.8.21/plugin/customParseFormat.js"></script>
 
     {{!-- css --}}
     <link rel="stylesheet" href="/stylesheets/booking/booking_option.css">
@@ -16,6 +20,95 @@
 
 <div class='vh-100'>
 
+<<<<<<< HEAD
+{{!-- navbar --}}
+<nav class="navbar navbar-expand-lg navbar-light" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);'>
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler bg-secondary" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+            <ul class="navbar-nav font-weight-bolder">
+                <li class="nav-item mr-3">
+                    <a class="nav-link text-nav-selfmade" href="/search">HOME</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a class="nav-link text-nav-selfmade" href="/book/my">MY BOOKINGS</a>
+                </li>
+                <li class="nav-item dropdown mx-3">
+                    <div class="d-flex flex-row">
+                        <div class='d-flex flex-column mr-2'>
+                            <div class='align-self-end' style='font-size: 10px'>pet owner</div>
+                            <div style='font-size: 15px'>{{petOwner.fullName}}</div>
+                        </div>
+                        <div>
+                            <a class="nav-link dropdown-toggle p-0" href="#" 
+                            id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" 
+                            aria-haspopup="true" aria-expanded="false"
+                            >
+                                <div class="circular--landscape--nav align-self-center">
+                                    <img src='{{petOwner.picUrl}}'>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown" style='margin-top:7px'>
+                    <div class="p-0" data-toggle="dropdown">
+                    <i class="fa fa-bell" style='font-size:25px' aria-hidden="true"></i>
+<<<<<<< HEAD:views/booking/booking_options.hbs
+                    <ul>
+                        {{#each notifications}}
+                        <img src = {{performancePicUrl}} alt = "Picture" width = "70px">
+                        <p>{{description}}</p>
+                        <p>{{fromNow createDatetime}}</p>
+                        {{/each}}
+                    </ul>
+=======
+                    </div>
+                    <div class="dropdown-menu">
+                        <h4 class='mb-3 mt-2' style='padding: .25rem 1.5rem;'>notifications</h4>
+                         {{#if notifications.length}}
+                            {{#each notifications}}
+                                <div class="dropdown-item d-flex flex-row">
+                                    <div class='mr-3'>
+                                        <img class='mt-2' src={{performerPicUrl}} alt="Picture" width="50px">
+                                    </div>
+                                    <div class='d-flex flex-column'>    
+                                        <p class='mb-1 ' style='width:220px; white-space: initial;'> {{description}} </p>
+                                        <p class='font-weight-bold text-info' style='font-size: 10px'>{{fromNow createDatetime}}</p>
+                                    </div>
+                                </div>
+                            {{/each}}
+                        {{else}}
+                            <div class="d-flex justify-content-center mb-2 mt-5">
+                                <i class="fas fa-file" style='font-size: 20px'></i>
+                            </div>
+                            <div class="text-muted mb-3" style=' display: block;
+                                width: 100%; 
+                                padding: .25rem 1.5rem;
+                                clear: both;
+                                font-weight:400;
+                                color: gray;
+                                text-align: inherit; 
+                                white-space: nowrap; 
+                                background-color: transparent; 
+                                border: 0; '>
+                                Dont have any notification yet
+                            </div>
+                        {{/if}}
+                    </div>
+>>>>>>> 1aaea6157d0ba7ceeaa20d2b74274b3ccd95a857:views/booking/bookingOptions.hbs
+                </li>
+            </ul>
+    </div>
+</nav>
+{{!-- /navbar --}}
+=======
+>>>>>>> main
 <div class="container mt-3" style='max-width:90%'>
     <div class="row">
         {{!-- show path --}}
@@ -46,7 +139,7 @@
                     <h5 class="card-head">
                         Pet list
                     </h5>
-                    <p style='font-size: 0.9em'>Drag pet in the list to selected pet list</p>
+                    <p style='font-size: 0.9em'>List of your pets</p>
                     <div class='dropzone'>
                         {{#each pets}}
 						{{!-- <div class='draggable p-0' style='border-radius:50%; width:100px;height:100px' draggable='true' pet-id={{id}}> --}}
@@ -63,14 +156,14 @@
                     <h5 class="card-head">
                         Selected Pet list
                     </h5>
-                    <p style='font-size: 0.9em'>This is pet that ypu gonna let pet sitter do care</p>
+                    <p style='font-size: 0.9em'>This is the list of pets which will be serviced</p>
                     <div class='dropzone dropzonesSeleted' id="selectedPetZone">
                         {{!-- <p class='draggable font-weight-bolder text-white' draggable='true'>bulldog : foke 5 years old</p> --}}
 					</div>
                      <h5 class="card-head  mt-4">
                         Select Date
                     </h5>
-                    <p style='font-size: 0.9em'>You can select one date by double that date</p>
+                    <p style='font-size: 0.9em'>You can select one day of service by double clicking on that date</p>
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text" style="background-color:white; border:1px solid black;"><i class="fa fa-calendar-check-o" aria-hidden="true"></i></div>
@@ -80,7 +173,10 @@
                 </div>
                 <div class="card-footer d-flex justify-content-end">
                     <div class="ml-auto">
-                        Prices : 1000 $
+                        Total price
+                        <span id="priceTag">0</span> 
+                        {{!-- รู้จัก span ไหมครับ --}}
+                        $
                     </div>
                 </div>
             </div>
@@ -119,7 +215,7 @@
                         {{else}}
                         <p><i class="fa fa-clock-o" aria-hidden="true" style='font-size:18px'></i> less than a month experience </p>
                         {{/if}}
-                        <p><i class="fa fa-usd" aria-hidden="true" style='font-size:18px'></i> {{petSitter.priceRate}}/hr</p>
+                        <p><i class="fa fa-usd" aria-hidden="true" style='font-size:18px'></i> {{petSitter.priceRate}} / day / pet</p>
                     </p>
                 </div>
                 <div class="card-body d-flex flex-column">
