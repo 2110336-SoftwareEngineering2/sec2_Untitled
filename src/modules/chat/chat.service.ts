@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
-
 import { InjectRepository } from '@nestjs/typeorm';
-import { PetOwner, PetSitter } from 'src/entities';
 import { Message } from 'src/entities/message.entity';
-
-import { MoreThan, Repository , getManager } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import * as dayjs from "dayjs";
 import * as customParseFormat from 'dayjs/plugin/customParseFormat'
 import * as utc from 'dayjs/plugin/utc'
@@ -12,16 +9,11 @@ import { AccountService } from '../account/account.service';
 dayjs.extend(utc)
 dayjs.extend(customParseFormat)
 
-
 @Injectable()
 export class ChatService {
     constructor(
         @InjectRepository(Message)
         private readonly messageRepo: Repository<Message>,
-        @InjectRepository(PetOwner)
-        private readonly petOwnerRepo: Repository<PetOwner>,
-        @InjectRepository(PetSitter)
-        private readonly petSitterRepo: Repository<PetSitter>,
         private readonly accountService: AccountService
     ) { }
 
@@ -34,19 +26,19 @@ export class ChatService {
     }
 
     // retrieve messages from DB corresponding to input receiver ID
-    async getMessagesFor(receiverId,senderId) {
-		let messages = Object(await this.messageRepo.find({
-			senderId: senderId,
+    async getMessagesFor(receiverId, senderId) {
+        let messages = Object(await this.messageRepo.find({
+            senderId: senderId,
             receiverId: receiverId
         }))
-		
-		await this.getSenderInfo(receiverId)
-		
-		for (let i = 0; i < messages.length; i++) {
+
+        await this.getSenderInfo(receiverId)
+
+        for (let i = 0; i < messages.length; i++) {
             messages[i].sender = await this.getSenderInfo(messages[i].senderId)
         }
-		
-		return messages
+
+        return messages
     }
 
     // retrieve messages from DB corresponding to input receiver ID since input time
