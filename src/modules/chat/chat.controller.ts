@@ -13,30 +13,33 @@ export class ChatController {
         private readonly chatService: ChatService
     ) { }
 
-    @Get('/chat')
-    index() {
-        // render with messages (getMessagesFor)
+    @Get('/chat/:otherUser')
+    @Roles('owner', 'sitter')
+    async index(@Res() res, @Req() { user: { id } }, @Param('otherUser') otherUser) {
+        let { success, latestUpdate, messages } = await this.chatService.getMessagesFor(id, otherUser)
+        if (success) res.render("testChat", { latestUpdate, messages })
+        else res.send("Error occured when retrieving messages")
     }
 
     // body {
     //     receiverId: number,
     //     message: string
     // }
-    @Roles('sitter', 'owner')
     @Post('/api/chat')
-    incomingMessage(@Req() { user: { id } }, @Body() { receiverId, message }) {
+    @Roles('sitter', 'owner')
+    saveMessage(@Req() { user: { id } }, @Body() { receiverId, message }) {
         // id is the id of sender
-        return this.chatService.handleIncomingMessage(id, receiverId, message)
+        return this.chatService.handleSaveMessage(id, receiverId, message)
     }
 
     // body {
     //     (Optional) since: "DD/MM/YYYY HH:mm:ss" utc time zone
     // }
+    @Get('/api/chat/:otherUser')
     @Roles('sitter', 'owner')
-    @Get('/api/chat/:senderId')
-    getMessages(@Param('senderId') senderId, @Body() { since }, @Req() { user: { id } }) {
-        if (!since) return this.chatService.getMessagesFor(id, senderId)
-        else return this.chatService.getMessageSince(id, senderId, since)
+    getMessages(@Param('otherUser') otherUser, @Body() { since }, @Req() { user: { id } }) {
+        if (!since) return this.chatService.getMessagesFor(id, otherUser)
+        else return this.chatService.getMessagesSince(id, otherUser, since)
     }
 }
 
