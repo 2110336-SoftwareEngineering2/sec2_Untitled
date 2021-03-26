@@ -18,7 +18,7 @@ export class ChatService {
     ) { }
 
     // save message into DB
-    async handleIncomingMessage(senderId, receiverId, message) {
+    async handleSaveMessage(senderId, receiverId, message) {
         // validate receiverId (no need for senderId because it came from JwtAuthGuard not user's input)
         let result = await this.messageRepo.save({ senderId, receiverId, message })
         if (result) return { success: true }
@@ -26,23 +26,29 @@ export class ChatService {
     }
 
     // retrieve messages from DB corresponding to input receiver ID
-    async getMessagesFor(receiverId, senderId) {
+    async getMessagesFor(requestingUser, otherUser) {
         let messages = Object(await this.messageRepo.find({
-            senderId: senderId,
-            receiverId: receiverId
+            where: [
+                { senderId: requestingUser, receiverId: otherUser },
+                { senderId: otherUser, receiverId: requestingUser }
+            ]
         }))
 
-        await this.getSenderInfo(receiverId)
-
         for (let i = 0; i < messages.length; i++) {
-            messages[i].sender = await this.getSenderInfo(messages[i].senderId)
+            if (messages[i].senderId == requestingUser) messages[i].isMe = true
+            else {
+                messages[i].isMe = false
+                messages[i].sender = await this.getSenderInfo(messages[i].senderId)
+            }
         }
 
-        return messages
+        let latestUpdate = dayjs.utc().format("DD/MM/YYYY HH:mm:ss")
+
+        return { success: true, latestUpdate, messages }
     }
 
     // retrieve messages from DB corresponding to input receiver ID since input time
-    async getMessageSince(receiverId, senderId, since) {
+    async getMessagesSince(requestingUser, otherUser, since) {
         // validate "since" format to be in "DD/MM/YYYY HH:mm:ss" utc
         if (!dayjs(since, "DD/MM/YYYY HH:mm:ss", true).isValid()) return {
             success: false,
@@ -51,14 +57,19 @@ export class ChatService {
 
         let sinceUtcFormat = dayjs(since, "DD/MM/YYYY HH:mm:ss").utc().format()
         let messages = Object(await this.messageRepo.find({
-            createDatetime: MoreThan(sinceUtcFormat),
-            receiverId: receiverId,
-            senderId: senderId
+            where: [
+                { senderId: requestingUser, receiverId: otherUser, createDatetime: MoreThan(sinceUtcFormat) },
+                { senderId: otherUser, receiverId: requestingUser, createDatetime: MoreThan(sinceUtcFormat) }
+            ]
         }))
 
         // retrieve sender info for each message
         for (let i = 0; i < messages.length; i++) {
-            messages[i].sender = await this.getSenderInfo(messages[i].senderId)
+            if (messages[i].senderId == requestingUser) messages[i].isMe = true
+            else {
+                messages[i].isMe = false
+                messages[i].sender = await this.getSenderInfo(messages[i].senderId)
+            }
         }
 
         let latestUpdate = dayjs.utc().format("DD/MM/YYYY HH:mm:ss")
