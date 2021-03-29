@@ -6,10 +6,12 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class SupportService {
     constructor(
-        
+        @InjectRepository(PetOwner) private readonly petOwnerRepo: Repository<PetOwner>,
+        @InjectRepository(PetSitter) private readonly petSitterRepo: Repository<PetSitter>,
+        @InjectRepository(Report) private readonly ReportRepo: Repository<Report>
 		){}
 
-        async showAllReport(){
-            console.log("This is report page")
+        async getAllReports(){
+            return await this.ReportRepo.find();
         }
 }
