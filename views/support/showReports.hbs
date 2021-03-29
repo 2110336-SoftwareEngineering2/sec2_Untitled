@@ -1,6 +1,87 @@
-{{#>default title="Support"}} 
+{{#>default title="Support"}}
 <div class="vh-100">
-    <h2>Report List</h2>
-    <p>Hello report pages</p>
+    <h1>SUPPORT PAGE</h1>
+
+    <div class="container mt-3" style='max-width:94%'>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body d-flex flex-wrap">
+
+                        <div class="col-12 col-lg-12">
+                            <h2>
+                                All Report Lists
+                            </h2>
+
+                            <div class='d-flex flex-wrap'>
+                                {{#each reports}}
+                                <div class="card my-1 " name="report" report_id={{id}} style='width:100%'>
+
+                                    <div class="row no-gutters">
+                                        <div class="col-12">
+                                            <div class="card-body p-2 pl-3">
+                                                <div class="card-title row px-2 pr-3 d-flex">
+                                                    <h5 class="col m-0 py-3" style="align-self: center;">Report id:
+                                                        {{id}}</h5>
+                                                    <p class='col-3 m-0 btn btn-warning btn-md rounded-pill'
+                                                        style="align-self: center;">{{status}}</p>
+                                                </div>
+                                                <div class="card-text">
+                                                    <div class="d-flex">
+                                                        <p class="px-2">Reporter id: {{reporter}}</p>
+                                                        <p class="px-2">Suspect id: {{suspect}}</p>
+                                                    </div>
+                                                    <p class="px-2">Report Time: {{formatDate createDatetime "DD MMMM
+                                                        YYYY"}}</p>
+                                                    {{#if (eq other true)}}
+                                                    <p class='px-2'>Description: {{description}}</p>
+                                                    {{/if}}
+
+                                                    <div class="row d-flex mb-3">
+                                                        <div class="col d-flex " style="align-self: center;">
+                                                            {{#if (eq poorOnService true)}}
+                                                            <p class='mx-1 btn btn-danger btn-sm rounded-pill my-auto' style="align-self: center;">Poor Service</p>
+                                                            {{/if}}
+                                                            {{#if (eq notOnTime true)}}
+                                                            <p class='mx-1 btn btn-danger btn-sm rounded-pill my-auto' style="align-self: center;">Not OnTime</p>
+                                                            {{/if}}
+                                                            {{#if (eq impoliteness true)}}
+                                                            <p class='mx-1 btn btn-danger btn-sm rounded-pill my-auto' style="align-self: center;">Impolite</p>
+                                                            {{/if}}
+                                                        </div>
+
+                                                        <div class="col-3 d-flex m-auto" style="align-self: center;">
+                                                            <button class='btn btn-primary my-auto mx-2'
+                                                                name="resolveReportRequest">RESOLVE</button>
+                                                            <button class='btn btn-danger  my-auto mx-2'
+                                                                name="cancelReportRequest">CANCEL</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{!-- <div class="col-4 d-flex align-self-center">
+                                            <div class="d-flex flex-column">
+                                                <div>
+                                                    <button class='btn btn-primary mb-3' id='test'
+                                                        ownerID='{{owner.fullName}}'
+                                                        name="accept_booking">ACCEPT</button>
+                                                </div>
+                                                <div>
+                                                    <button class='btn btn-danger  mb-3'
+                                                        name="deny_booking">DENY</button>
+                                                </div>
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {{/default}}
