@@ -7,7 +7,7 @@ import { SitterReview } from 'src/entities/sitterreview.entity';
 import { OwnerReview } from 'src/entities/ownerreview.entity';
 import { Report } from 'src/entities/report.entity';
 import { reportStatus } from 'src/entities/report.entity';
-import { MoreThan, Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ReviewService {
