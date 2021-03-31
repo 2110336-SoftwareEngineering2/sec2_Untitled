@@ -1,5 +1,5 @@
 
-import { Body, Controller, Get, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
@@ -17,7 +17,10 @@ export class ChatController {
     @Roles('owner', 'sitter')
     async index(@Res() res, @Req() { user: { id } }, @Param('otherUser') otherUser) {
         let { success, latestUpdate, messages } = await this.chatService.getMessagesFor(id, otherUser)
-        if (success) res.render("testChat", { latestUpdate, messages })
+        if (success) {
+            res.cookie('latestUpdate', latestUpdate)
+                .render("testChat", { latestUpdate, messages, receiverId: otherUser })
+        }
         else res.send("Error occured when retrieving messages")
     }
 
@@ -32,14 +35,18 @@ export class ChatController {
         return this.chatService.handleSaveMessage(id, receiverId, message)
     }
 
-    // body {
-    //     (Optional) since: "DD/MM/YYYY HH:mm:ss" utc time zone
-    // }
+    // (Optional parameter) onlyNewMessages : 'true' | 'false'
     @Get('/api/chat/:otherUser')
     @Roles('sitter', 'owner')
-    getMessages(@Param('otherUser') otherUser, @Body() { since }, @Req() { user: { id } }) {
-        if (!since) return this.chatService.getMessagesFor(id, otherUser)
-        else return this.chatService.getMessagesSince(id, otherUser, since)
+    async getMessages(@Param('otherUser') otherUser, @Query('onlyNewMessages') onlyNewMessages: Boolean, @Req() req, @Res() res) {
+        let latestUpdate = req.cookies['latestUpdate']
+        if (!latestUpdate) return { success: false, message: "latestUpdate is required in cookie" }
+
+        let messages = undefined
+        if (!onlyNewMessages) messages = await this.chatService.getMessagesFor(req.user.id, otherUser)
+        else messages = await this.chatService.getMessagesSince(req.user.id, otherUser, latestUpdate)
+
+        res.cookie('latestUpdate', messages.latestUpdate).send(messages)
     }
 }
 
