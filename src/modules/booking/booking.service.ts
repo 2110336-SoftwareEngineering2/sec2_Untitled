@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { BookPetSitterDto } from './dto/pet_sitter.dto';
 import * as dayjs from "dayjs";
 import { NotificationService } from 'src/modules/notification/notification.service';
+import { AccountService } from '../account/account.service';
 
 let customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
@@ -30,35 +31,12 @@ export class BookingService {
         private readonly bookingRepo: Repository<Booking>,
         @InjectRepository(SitterReview)
         private readonly sitterReviewRepo: Repository<SitterReview>,
+        private readonly accountService: AccountService
     ) { }
-
-    async findPetSitterById(id: number): Promise<PetSitter> {
-        let petSitter = await this.petSitterRepo.findOne(id)
-        if (!petSitter) throw new NotFoundException("Pet sitter not found, recheck ID")
-
-        return petSitter
-    }
-
-    async findPetOwnerById(id: number): Promise<PetOwner> {
-        let petOwner = await this.petOwnerRepo.findOne(id)
-        if (!petOwner) throw new NotFoundException("Pet Owner not found, recheck ID")
-        return petOwner
-    }
-
-    async findPetsByOwnerId(id: number): Promise<Pet[]> {
-        let pets = await this.petRepo.find({
-            where: {
-                owner: id
-            }
-        })
-        if (!pets) throw new NotFoundException
-
-        return pets
-    }
 
     async handlePetSitterInfo(psid: number): Promise<BookPetSitterDto> {
         if (!this.isValidPetSitterId(psid)) throw new BadRequestException("Pet sitter ID is invalid")
-        let ps = await this.findPetSitterById(psid)
+        let ps = await this.accountService.findAccountById('sitter',psid)
         if (!ps) throw new NotFoundException("Pet sitter ID doesn't match any record")
         // get sitter reviews
         let reviews = await this.sitterReviewRepo.find({
@@ -97,7 +75,7 @@ export class BookingService {
         incomingBooking.endDate = dayjs(incomingBooking.endDate, DATE_FORMAT).format()
         incomingBooking.owner = poid
 
-        const petOwner = await this.findPetOwnerById(poid)
+        const petOwner = await this.accountService.findAccountById('owner',poid)
 
         // loop by pet#
         for (let i = 0; i < incomingBooking.pets.length; i++) {
@@ -140,7 +118,7 @@ export class BookingService {
             record.status = Status.Pending
 
             // create transaction
-            let petSitter = await this.findPetSitterById(psid)
+            let petSitter = await this.accountService.findAccountById('sitter',psid)
             this.notificationService.createTransaction(psid, record.owner.id, `${petSitter.fname} accepts your request for ${record.pet.name}`)
 
             if (await this.bookingRepo.save(record)) return true
@@ -149,7 +127,7 @@ export class BookingService {
             record.status = Status.Denied
 
             // create transaction
-            let petSitter = await this.findPetSitterById(psid)
+            let petSitter = await this.accountService.findAccountById('sitter',psid)
             this.notificationService.createTransaction(psid, record.owner.id, `${petSitter.fname} denies your request for ${record.pet.name}`)
 
             if (await this.bookingRepo.save(record)) return true
@@ -220,8 +198,8 @@ export class BookingService {
         if (record.status == Status.Denied) throw new BadRequestException(`Booking record ID ${bookingId} has already been denied`)
 
         if (record.status == Status.Pending) {
-            let petOwner = await this.findPetOwnerById(poid)
-            let petSitter = await this.findPetSitterById(record.sitter.id)
+            let petOwner = await this.accountService.findAccountById('owner',poid)
+            let petSitter = await this.accountService.findAccountById('sitter',record.sitter.id)
             record.status = Status.Completed
             let result = await this.bookingRepo.save(record)
             if (result) {
