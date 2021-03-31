@@ -100,6 +100,32 @@ export class ReviewService {
         return await this.ownerReportRepo.save(report);
     }
 
+    async renderReportNotification(service:boolean, time:boolean, impolite:boolean){
+        let report = "You have been reported by the pet owners.";
+        let firstCheck = true;
+
+        if(service) {
+            report = report+"\nThey complained about you giving a bad service";
+            firstCheck=false;
+        }
+        if(time) {
+            if(firstCheck){report = report+"\nThey complained about you not being on time";}
+            else{report = report+", not being on time";}
+            firstCheck=false;
+        }
+        if(impolite) {
+            if(firstCheck){report = report+"\nThey complained about you being impolite";}
+            else{report = report+", being impolite";}
+            firstCheck=false;
+        }
+        if(!firstCheck) report = report+".";
+        //if(other) report = report+"They also commented '"+description+"'\n";
+
+        report = report+"\nPlease improve your behavior!"
+
+        return report;
+    }
+
     async findPetSitterById(id: number): Promise<PetSitter>{
         let pet_sitter = await this.petSitterRepo.findOne(id)
         if(!pet_sitter) throw new NotFoundException("Pet Sitter not found, recheck ID")

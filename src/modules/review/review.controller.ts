@@ -51,7 +51,7 @@ export class ReviewController {
     @Get('/ownerReviewForm/:bookingId')
     async renderOwnerForm(@Response() res, @Req() req, @Param("bookingId") bookingId ){
 		let {Booking} = await this.reviewService.findBooking(bookingId);
-		console.log('This is booking',Booking)
+		//console.log('This is booking',Booking)
 		
 		let petSitter = Booking.sitter;
 		//console.log('This is sitter id',petSitter.id)
@@ -72,7 +72,7 @@ export class ReviewController {
     @Get('/sitterReviewForm/:bookingId')
     async renderSitterForm(@Response() res, @Req() req, @Param("bookingId") bookingId){
 		let {Booking} = await this.reviewService.findBooking(bookingId);
-		console.log('This is booking',Booking)
+		//console.log('This is booking',Booking)
 		
 		let petOwner = Booking.owner;
 		//console.log('This is owner id',petOwner.id)
@@ -124,8 +124,9 @@ export class ReviewController {
 
 		await this.reviewService.saveOwnerReport(req.user.id, book.Booking.sitter.id, dto.PoorOnService, dto.NotOnTime, dto.Impoliteness, dto.Other, dto.reportDescription);
 		
-		let description =  "You was reported";
-		await this.notificationService.createTransaction(999,book.Booking.sitter.id,description);
+		let reportContent =  await this.reviewService.renderReportNotification(dto.PoorOnService, dto.NotOnTime, dto.Impoliteness);
+		console.log(reportContent)
+		await this.notificationService.createTransaction(999,book.Booking.sitter.id,reportContent);
 		
         return res.redirect('/ownerReviewForm/'+booking_id);
     }
