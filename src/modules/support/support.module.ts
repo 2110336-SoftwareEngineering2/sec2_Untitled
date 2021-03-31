@@ -4,9 +4,10 @@ import { PetOwner, PetSitter, SitterReview, OwnerReview, Booking, Report } from 
 import { NotificationModule } from '..';
 import { SupportController } from './support.controller';
 import { SupportService } from './support.service';
+import { AccountModule } from '../account/account.module';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([PetOwner, PetSitter, SitterReview, OwnerReview, Booking, Report]), NotificationModule],
+  imports:[TypeOrmModule.forFeature([PetOwner, PetSitter, SitterReview, OwnerReview, Booking, Report]), NotificationModule, AccountModule],
   controllers: [SupportController],
   providers: [SupportService],
   exports: [SupportService]
