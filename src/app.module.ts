@@ -16,8 +16,10 @@ import {
   DummyModule, NotificationModule
 } from './modules'
 import { NotificationService } from './modules/notification/notification.service';
+import { SupportModule } from './modules/support/support.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { ChatModule } from './modules/chat/chat.module';
+
 
 @Module({
   imports: [
@@ -30,9 +32,7 @@ import { ChatModule } from './modules/chat/chat.module';
       database: 'se2',
       entities: [PetOwner, PetSitter, Pet, Booking, OwnerReview, SitterReview, SitterAnimal, Transaction, Report, Employee, Message],
       synchronize: true // this should be false in production
-
-    }), TypeOrmModule.forFeature([PetOwner, Transaction, PetSitter]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule, NotificationModule, AdminModule, ChatModule
-
+    }), TypeOrmModule.forFeature([PetOwner, Transaction, PetSitter]), AccountModule, ReviewModule, BookingModule, SearchModule, AuthModule, DummyModule, NotificationModule, AdminModule, ChatModule, SupportModule
   ],
   controllers: [AppController],
   providers: [AppService, NotificationService]
