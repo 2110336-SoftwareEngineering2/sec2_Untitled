@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { report } from 'process';
-import { PetOwner, PetSitter, Booking, SitterReview, OwnerReview, Report } from 'src/entities';
+import { Booking, SitterReview, OwnerReview, Report } from 'src/entities';
 import { Repository } from 'typeorm';
 import { AccountService } from '../account/account.service';
 
@@ -13,15 +13,12 @@ export class SupportService {
 		){}
 
         async getAllReports(){
-            let reports = await this.ReportRepo.find();
-            const modReports = []
+            let reports:any = await this.ReportRepo.find();
             for(const report of reports){
                 const {reporter, suspect} = report
-                const modReport:any = {...report}
-                modReport.reporterName = (await this.accountService.findAccountById("owner",reporter)).fullName
-                modReport.suspectName = (await this.accountService.findAccountById("sitter",suspect)).fullName
-                modReports.push(modReport)
+                report.reporterName = (await this.accountService.findAccountById("owner",reporter)).fullName
+                report.suspectName = (await this.accountService.findAccountById("sitter",suspect)).fullName
             }
-            return modReports;
+            return reports;
         }
 }
