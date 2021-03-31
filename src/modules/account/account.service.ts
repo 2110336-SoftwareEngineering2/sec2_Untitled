@@ -76,7 +76,7 @@ export class AccountService {
 
     async withdrawBalance(sitterId : number, amount : number){
         let sitter = await this.findAccountById('sitter', sitterId)
-        if(amount<0)return 'impossible'
+        if(amount<=0) return 'impossible'
         else if(sitter.balance < amount)return 'poor'
         else{
             sitter.balance= sitter.balance-amount
