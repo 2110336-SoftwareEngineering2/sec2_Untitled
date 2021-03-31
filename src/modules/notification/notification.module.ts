@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PetOwner } from 'src/entities/petowner.entity';
-import { PetSitter } from 'src/entities/petsitter.entity';
-import { Transaction } from 'src/entities/transaction.entity';
+import {Transaction} from 'src/entities'
 import { NotificationService } from './notification.service';
 import { NotificationController } from './notification.controller';
+import { AccountModule } from '../account/account.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Transaction, PetOwner, PetSitter])],
+  imports: [TypeOrmModule.forFeature([Transaction]), AccountModule],
   providers: [NotificationService],
   exports: [NotificationService],
   controllers: [NotificationController]

@@ -18,6 +18,10 @@ var register = function (Handlebars) {
             return arg1 == arg2
         },
 
+        neq: function (arg1, arg2) {
+            return arg1 != arg2
+        },
+
         ifNotEquals: function (arg1, arg2, options) {
             return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
         },

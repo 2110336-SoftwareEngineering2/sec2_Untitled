@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PetOwner } from 'src/entities/petowner.entity';
-import { PetSitter } from 'src/entities/petsitter.entity';
-import { Transaction } from 'src/entities/transaction.entity';
+import {Transaction} from 'src/entities'
 import { Repository } from 'typeorm';
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc'
 import * as timezone from 'dayjs/plugin/timezone'
+import { AccountService } from '../account/account.service';
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
@@ -15,10 +14,7 @@ export class NotificationService {
     constructor(
         @InjectRepository(Transaction)
         private readonly transactionRepo: Repository<Transaction>,
-        @InjectRepository(PetOwner)
-        private readonly petOwnerRepo: Repository<PetOwner>,
-        @InjectRepository(PetSitter)
-        private readonly petSitterRepo: Repository<PetSitter>
+        private readonly accountService: AccountService
     ){}
 
     async createTransaction(performerId: number, receiverId: number, description: string){
@@ -27,24 +23,17 @@ export class NotificationService {
 
     // get all transaction for receiverId
     async getNotificationsFor(receiverId: number){
-        let results = Object(await this.transactionRepo.find({where: {receiverId}}))
-        for(let i=0; i<results.length; i++){
-            results[i].performerPicUrl = await this.getPicUrlOf(results[i].performerId)
-            results[i].fromNow = this.fromNow(results[i].createDatetime)
+        const results:any = await this.transactionRepo.find({where: {receiverId}})
+        for (const result of results){
+            result.performerPicUrl = await this.getPicUrlOf(result.performerId)
+            result.fromNow = this.fromNow(result.createDatetime)
         }
         return results
     }
 
     async getPicUrlOf(userId: number){
-        let strId = String(userId)
-        // pet owner
-        if(strId[0] == '1'){
-            return (await this.petOwnerRepo.findOne(userId)).picUrl
-        }
-        // pet sitter
-        else if(strId[0] == '2'){
-            return (await this.petSitterRepo.findOne(userId)).picUrl
-        }
+        const role = userId.toString()[0] == '1' ? "owner" : "sitter"
+        return (await this.accountService.findAccountById(role,userId)).picUrl
     }
 
     private fromNow(inDate){

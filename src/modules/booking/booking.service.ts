@@ -225,7 +225,7 @@ export class BookingService {
             record.status = Status.Completed
             let result = await this.bookingRepo.save(record)
             if (result) {
-                petSitter.balance = petSitter.balance + record.price
+                petSitter.balance += record.price
                 this.petSitterRepo.save(petSitter)
                 this.notificationService.createTransaction(poid, record.sitter.id, `${petOwner.fname} paid your booking for ${record.pet.name}`)
                 return result

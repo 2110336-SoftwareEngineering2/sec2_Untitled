@@ -63,35 +63,6 @@
                         <h4 class='mb-3 mt-2' style='padding: .25rem 1.5rem;'>notifications</h4>
                         <div id="output">
                         </div>
-                        {{#if notifications.length}}
-                            {{#each notifications}}
-                                <div class="dropdown-item d-flex flex-row">
-                                    <div class='mr-3'>
-                                        <img class='mt-2' src={{performerPicUrl}} alt="Picture" width="50px">
-                                    </div>
-                                    <div class='d-flex flex-column'>    
-                                        <p class='mb-1 ' style='width:220px; white-space: initial;'> {{description}} </p>
-                                        <p class='font-weight-bold text-info' style='font-size: 10px'>{{fromNow createDatetime}}</p>
-                                    </div>
-                                </div>
-                            {{/each}}
-                        {{else}}
-                            <div class="d-flex justify-content-center mb-2 mt-5">
-                                <i class="fas fa-file" style='font-size: 20px'></i>
-                            </div>
-                            <div class="text-muted mb-3" style=' display: block;
-                                width: 100%; 
-                                padding: .25rem 1.5rem;
-                                clear: both;
-                                font-weight:400;
-                                color: gray;
-                                text-align: inherit; 
-                                white-space: nowrap; 
-                                background-color: transparent; 
-                                border: 0; '>
-                                Dont have any notification yet
-                            </div>
-                        {{/if}}
                     </div>
                 </li>
             {{else}}
@@ -115,7 +86,7 @@
             </div>
             <div class='d-flex flex-column'>    
                 <p class='mb-1 ' style='width:220px; white-space: initial;'> \{{description}} </p>
-                <p class='font-weight-bold text-info' style='font-size: 10px'>\{{createDatetime}}</p>
+                <p class='font-weight-bold text-info' style='font-size: 10px'>\{{fromNow}}</p>
             </div>
         </div>
     \{{/each}}
