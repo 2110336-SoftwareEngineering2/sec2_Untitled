@@ -36,7 +36,7 @@ export class AuthService {
         console.log(username,id,role)
         if (role === "owner") return res.redirect('/search')
         else if (role === "sitter") return res.redirect('/book/my')
-        else if (role === "admin") return res.redirect('/admin')
+        else if (role === "admin") return res.redirect('/support')
         else return res.redirect('/') // ! this code should never run
     }
 
