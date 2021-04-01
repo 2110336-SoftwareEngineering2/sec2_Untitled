@@ -1,24 +1,25 @@
-{{#>default title="Booking"}} 
-    <meta name="petSitterId" content={{petSitter.id}}>
+
+    {{!-- <meta name="petSitterId" content={{petSitter.id}}>
     <meta name="petSitterPriceRate" content={{petSitter.priceRate}}>
 
-    {{!-- Date Range Picker --}}
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-    {{!-- dayjs --}}
-    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
-    <script src="https://unpkg.com/dayjs@1.8.21/plugin/customParseFormat.js"></script>
 
-    {{!-- css --}}
-    <link rel="stylesheet" href="/stylesheets/booking/booking_option.css">
-    <link rel='stylesheet' href='/stylesheets/booking/dragAndDrop.css'>
 
 <div class='vh-100'>
+ --}}
+{{#> default title="Booking"}} 
+{{!-- dayjs --}}
+<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+<script src="https://unpkg.com/dayjs@1.8.21/plugin/customParseFormat.js"></script>
+{{!-- css --}}
+<link rel="stylesheet" href="/stylesheets/booking/booking_option.css">
+<link rel='stylesheet' href='/stylesheets/booking/dragAndDrop.css'>
 
-<div class="container mt-3" style='max-width:90%'>
+<div class="container mt-3" style='max-width:100%'>
     <div class="row">
         {{!-- show path --}}
         <div class="col-12 col-lg-6 book-info-padding">
