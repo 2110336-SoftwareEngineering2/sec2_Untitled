@@ -6,8 +6,9 @@ import { PetSitter } from "./petsitter.entity";
 export enum Status {
     Requesting = 'Requesting',
     Pending = 'Pending',
-    Completed = 'Completed',
+    Paid = 'Paid',
     Denied = 'Denied',
+    Finished = 'Finished'
 }
 
 @Entity()
