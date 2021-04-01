@@ -101,20 +101,20 @@ export class ReviewService {
     }
 
     async renderReportNotification(service:boolean, time:boolean, impolite:boolean){
-        let report = "You have been reported by the pet owners.";
+        let report = "You have been reported by the pet owners about ";
         let firstCheck = true;
 
         if(service) {
-            report = report+"\nThey complained about you giving a bad service";
+            report = report+"having a bad service";
             firstCheck=false;
         }
         if(time) {
-            if(firstCheck){report = report+"\nThey complained about you not being on time";}
+            if(firstCheck){report = report+"not being on time";}
             else{report = report+", not being on time";}
             firstCheck=false;
         }
         if(impolite) {
-            if(firstCheck){report = report+"\nThey complained about you being impolite";}
+            if(firstCheck){report = report+"\nbeing impolite";}
             else{report = report+", being impolite";}
             firstCheck=false;
         }
