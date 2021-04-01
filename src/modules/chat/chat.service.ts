@@ -65,7 +65,8 @@ export class ChatService {
             ]
         }))
 
-        let latestUpdate = dayjs.utc().format("DD/MM/YYYY HH:mm:ss") // default is current time
+        // let latestUpdate = dayjs.utc().format("DD/MM/YYYY HH:mm:ss") // default is current time
+        let latestUpdate = since
         // retrieve sender info for each message
         for (let i = 0; i < messages.length; i++) {
             if (messages[i].senderId == requestingUser) messages[i].isMe = true
@@ -77,6 +78,7 @@ export class ChatService {
             // Problem is because createDatetime stored in datacase has 6 digits millisecond
             // with dayjs you can only use 3 ex. 12:00.123456 > 12:00.123
             if (i == messages.length - 1) latestUpdate = dayjs(messages[i].createDatetime).add(1, 'second').format("DD/MM/YYYY HH:mm:ss")
+
         }
 
         return { success: true, latestUpdate, messages }
