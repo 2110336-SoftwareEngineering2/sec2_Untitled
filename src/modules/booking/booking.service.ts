@@ -1,10 +1,11 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Booking, Status, Pet, PetOwner, PetSitter, SitterReview, Transaction} from 'src/entities'
+import { Booking, Status, Pet, PetOwner, PetSitter, SitterReview, Transaction } from 'src/entities'
 import { Repository } from 'typeorm';
 import { BookPetSitterDto } from './dto/pet_sitter.dto';
 import * as dayjs from "dayjs";
 import { NotificationService } from 'src/modules/notification/notification.service';
+import { AccountService } from '../account/account.service';
 
 let customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
@@ -30,36 +31,13 @@ export class BookingService {
         private readonly bookingRepo: Repository<Booking>,
         @InjectRepository(SitterReview)
         private readonly sitterReviewRepo: Repository<SitterReview>,
-    ){}
+        private readonly accountService: AccountService
+    ) { }
 
-    async findPetSitterById(id: number): Promise<PetSitter>{
-        let petSitter = await this.petSitterRepo.findOne(id)
-        if(!petSitter) throw new NotFoundException("Pet sitter not found, recheck ID")
-
-        return petSitter
-    }
-
-    async findPetOwnerById(id: number): Promise<PetOwner>{
-        let petOwner = await this.petOwnerRepo.findOne(id)
-        if(!petOwner) throw new NotFoundException("Pet Owner not found, recheck ID")
-        return petOwner
-    }
-
-    async findPetsByOwnerId(id: number): Promise<Pet[]> {
-        let pets = await this.petRepo.find({
-            where: {
-                owner: id
-            }
-        })
-        if(!pets) throw new NotFoundException
-
-        return pets
-    }
-
-    async handlePetSitterInfo(psid: number): Promise<BookPetSitterDto>{
-        if(!this.isValidPetSitterId(psid)) throw new BadRequestException("Pet sitter ID is invalid")
-        let ps = await this.findPetSitterById(psid)
-        if(!ps) throw new NotFoundException("Pet sitter ID doesn't match any record")
+    async handlePetSitterInfo(psid: number): Promise<BookPetSitterDto> {
+        if (!this.isValidPetSitterId(psid)) throw new BadRequestException("Pet sitter ID is invalid")
+        let ps = await this.accountService.findAccountById('sitter',psid)
+        if (!ps) throw new NotFoundException("Pet sitter ID doesn't match any record")
         // get sitter reviews
         let reviews = await this.sitterReviewRepo.find({
             relations: ['owner'],
@@ -72,38 +50,38 @@ export class BookingService {
         return result
     }
 
-    calculatePetSitterExp(signUpDate: Date){
+    calculatePetSitterExp(signUpDate: Date) {
         let exp;
         const now = dayjs()
         const expY = now.diff(signUpDate, "year")
         const expM = now.diff(signUpDate, "month")
-        if(expY > 1) exp = {value: expY, unit: "years"}
-        else if(expY == 1) exp = {value: expY, unit: "year"}
-        else if(expM > 1) exp = {value: expM, unit: "months"}
-        else if(expM == 1) exp = {value: expM, unit: "month"}
-        else exp = {value: -1, unit: "month"} // less than a month
+        if (expY > 1) exp = { value: expY, unit: "years" }
+        else if (expY == 1) exp = { value: expY, unit: "year" }
+        else if (expM > 1) exp = { value: expM, unit: "months" }
+        else if (expM == 1) exp = { value: expM, unit: "month" }
+        else exp = { value: -1, unit: "month" } // less than a month
         return exp
     }
 
     // creating booking requests
     // po requests -> ps confirms -> paid by po
-    //  requesting      pending       completed  
+    //  requesting      pending       paid  
     async handleIncomingRequest(incomingBooking: any, poid: number): Promise<any> {
-        if(!poid) throw new UnauthorizedException("Pet owner ID is required")
-        if(!this.isValidPetOwnerId(poid)) throw new UnauthorizedException("Pet owner ID is invalid")
+        if (!poid) throw new UnauthorizedException("Pet owner ID is required")
+        if (!this.isValidPetOwnerId(poid)) throw new UnauthorizedException("Pet owner ID is invalid")
 
         // store booking status requesting
         incomingBooking.startDate = dayjs(incomingBooking.startDate, DATE_FORMAT).format()
         incomingBooking.endDate = dayjs(incomingBooking.endDate, DATE_FORMAT).format()
         incomingBooking.owner = poid
 
-        const petOwner = await this.findPetOwnerById(poid)
+        const petOwner = await this.accountService.findAccountById('owner',poid)
 
         // loop by pet#
-        for(let i=0; i<incomingBooking.pets.length; i++){
-            let {pets, ...temp} = incomingBooking
+        for (let i = 0; i < incomingBooking.pets.length; i++) {
+            let { pets, ...temp } = incomingBooking
             temp.pet = incomingBooking.pets[i]
-            if(! await this.bookingRepo.save(temp)) return false
+            if (! await this.bookingRepo.save(temp)) return false
 
             // create transaction
             this.notificationService.createTransaction(poid, incomingBooking.sitter, `${petOwner.fname} requests your service`)
@@ -112,7 +90,7 @@ export class BookingService {
         return true
     }
 
-    async handleShowSitterBookings(psid: number){
+    async handleShowSitterBookings(psid: number) {
         let requests = await this.bookingRepo.find({
             relations: ['pet', 'owner'],
             where: {
@@ -124,58 +102,58 @@ export class BookingService {
         return requests
     }
 
-    async handleBookingResponseForPetSitter(bookingId: number, action: BookingAction, psid: number){
+    async handleBookingResponseForPetSitter(bookingId: number, action: BookingAction, psid: number) {
         let record = await this.bookingRepo.findOne({
             relations: ['sitter', 'owner', 'pet'],
-            where: {id: bookingId}
+            where: { id: bookingId }
         })
 
         // Error checking
-        if(!record) throw new NotFoundException(`Booking ID ${bookingId} not found`)
-        if(record.sitter.id != psid) throw new UnauthorizedException(`This booking record does not belong to sitter ${psid}`)
-        if(record.status != Status.Requesting) throw new BadRequestException(`Booking record ID ${bookingId} has already been accepted`)
+        if (!record) throw new NotFoundException(`Booking ID ${bookingId} not found`)
+        if (record.sitter.id != psid) throw new UnauthorizedException(`This booking record does not belong to sitter ${psid}`)
+        if (record.status != Status.Requesting) throw new BadRequestException(`Booking record ID ${bookingId} has already been accepted`)
 
         // action taking
-        if(action == BOOKING_ACTION.ACCEPT){
+        if (action == BOOKING_ACTION.ACCEPT) {
             record.status = Status.Pending
 
             // create transaction
-            let petSitter = await this.findPetSitterById(psid)
+            let petSitter = await this.accountService.findAccountById('sitter',psid)
             this.notificationService.createTransaction(psid, record.owner.id, `${petSitter.fname} accepts your request for ${record.pet.name}`)
 
-            if(await this.bookingRepo.save(record)) return true
+            if (await this.bookingRepo.save(record)) return true
             return false
-        }else if(action == BOOKING_ACTION.DENY){
+        } else if (action == BOOKING_ACTION.DENY) {
             record.status = Status.Denied
 
             // create transaction
-            let petSitter = await this.findPetSitterById(psid)
+            let petSitter = await this.accountService.findAccountById('sitter',psid)
             this.notificationService.createTransaction(psid, record.owner.id, `${petSitter.fname} denies your request for ${record.pet.name}`)
 
-            if(await this.bookingRepo.save(record)) return true
+            if (await this.bookingRepo.save(record)) return true
             return false
-        }   
+        }
     }
 
-    async handleShowOwnerBookings(poid : number){
+    async handleShowOwnerBookings(poid: number) {
         // find all booking history of poid
         let bookings = await this.bookingRepo.find({
-            relations : ['pet', 'sitter'],
-            where : {owner: poid}
+            relations: ['pet', 'sitter'],
+            where: { owner: poid }
         })
         return bookings
     }
 
     // Pet owner must be able to cancle within 24 hours
-    async handleCancleBookingForPetOwner(bid: number, poid: number){
+    async handleCancleBookingForPetOwner(bid: number, poid: number) {
         // booking must be in REQUESING state
         // time since last modified must be less than 24 hours
         let booking = await this.bookingRepo.findOne({
             relations: ['owner', 'sitter', 'pet'],
-            where: {id: bid}
+            where: { id: bid }
         })
 
-        if(booking.owner.id != poid) return {
+        if (booking.owner.id != poid) return {
             success: false,
             message: "You are not the owner of this booking request."
         }
@@ -184,48 +162,48 @@ export class BookingService {
         let hoursSinceLastModified = dayjs().diff(lastModified, "hour")
 
         // if conditions are fulfilled then delete the booking
-        if(booking.status == Status.Requesting && hoursSinceLastModified <= 24) {
+        if (booking.status == Status.Requesting && hoursSinceLastModified <= 24) {
             // create transaction
             this.notificationService.createTransaction(poid, booking.sitter.id, `${booking.owner.fname} cancels request for ${booking.pet.name}`)
 
-            if(await this.bookingRepo.remove(booking)) return { success: true }
-            else return { success: false, message: "Error occured when removing request."}
+            if (await this.bookingRepo.remove(booking)) return { success: true }
+            else return { success: false, message: "Error occured when removing request." }
         }
 
-        return { success: false, message: "Can not cancel, must be done within 24 hours."}
+        return { success: false, message: "Can not cancel, must be done within 24 hours." }
     }
 
-    isValidPetSitterId(id: number): boolean{
+    isValidPetSitterId(id: number): boolean {
         let strId = "" + id
-        if(strId.length != 7 || strId[0] != '2') return false
+        if (strId.length != 7 || strId[0] != '2') return false
         return true
     }
 
-    isValidPetOwnerId(id: number): boolean{
+    isValidPetOwnerId(id: number): boolean {
         let strId = "" + id
-        if(strId.length != 7 || strId[0] != '1') return false
+        if (strId.length != 7 || strId[0] != '1') return false
         return true
     }
 
-    async handleBookingPayment(bookingId: number, poid: number){
+    async handleBookingPayment(bookingId: number, poid: number) {
         let record = await this.bookingRepo.findOne({
             relations: ['sitter', 'owner', 'pet'],
-            where:{id: bookingId}
+            where: { id: bookingId }
         })
         console.dir(record)
-        if(!record) throw new NotFoundException(`Booking ID ${bookingId} not found`)
-        if(record.owner.id != poid) throw new UnauthorizedException(`This booking record does not belong to pet owner ${poid}`)
-        if(record.status == Status.Completed) throw new BadRequestException(`Booking record ID ${bookingId} has already been paid`)
-        if(record.status == Status.Requesting) throw new BadRequestException(`Booking record ID ${bookingId} is waiting for pet sitter comfirmation`)
-        if(record.status == Status.Denied) throw new BadRequestException(`Booking record ID ${bookingId} has already been denied`)
+        if (!record) throw new NotFoundException(`Booking ID ${bookingId} not found`)
+        if (record.owner.id != poid) throw new UnauthorizedException(`This booking record does not belong to pet owner ${poid}`)
+        if (record.status == Status.Paid) throw new BadRequestException(`Booking record ID ${bookingId} has already been paid`)
+        if (record.status == Status.Requesting) throw new BadRequestException(`Booking record ID ${bookingId} is waiting for pet sitter comfirmation`)
+        if (record.status == Status.Denied) throw new BadRequestException(`Booking record ID ${bookingId} has already been denied`)
 
-        if(record.status == Status.Pending){
-            let petOwner = await this.findPetOwnerById(poid)
-            let petSitter = await this.findPetSitterById(record.sitter.id)
-            record.status = Status.Completed
+        if (record.status == Status.Pending) {
+            let petOwner = await this.accountService.findAccountById('owner',poid)
+            let petSitter = await this.accountService.findAccountById('sitter',record.sitter.id)
+            record.status = Status.Paid
             let result = await this.bookingRepo.save(record)
-            if(result){
-                petSitter.balance = petSitter.balance+record.price
+            if (result) {
+                petSitter.balance += record.price
                 this.petSitterRepo.save(petSitter)
                 this.notificationService.createTransaction(poid, record.sitter.id, `${petOwner.fname} paid your booking for ${record.pet.name}`)
                 return result

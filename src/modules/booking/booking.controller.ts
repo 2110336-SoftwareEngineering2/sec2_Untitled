@@ -5,13 +5,15 @@ import { NotificationService } from 'src/modules/notification/notification.servi
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { BookingService } from './booking.service';
+import { AccountService } from '../account/account.service';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('book')
 export class BookingController {
     constructor(
         private readonly bookingService: BookingService,
-        private readonly notificationService: NotificationService
+        private readonly notificationService: NotificationService,
+        private readonly accountService: AccountService
     ) { }
 
     // TODO
@@ -19,27 +21,24 @@ export class BookingController {
 
     // My bookings page
     @Get('my')
+    @Roles('sitter', 'owner')
     async myBookings(@Req() { user }, @Res() res) {
-        let notifications = await this.notificationService.getNotificationsFor(user.id)
         let bookingList = undefined
         let user_info = undefined
         switch (user.role) {
             case "owner": // If the user is a pet owner
-                user_info = await this.bookingService.findPetOwnerById(user.id)
+                user_info = await this.accountService.findAccountById("owner",user.id)
                 bookingList = await this.bookingService.handleShowOwnerBookings(user.id)
-                console.dir(user_info)
-                console.dir(bookingList)
-                res.render(viewNames.myBookingsForOwner, { bookingList, petOwner: user_info, notifications })
+                res.render(viewNames.myBookingsForOwner, { bookingList, petOwner: user_info })
                 break
             case "sitter": // If the user is a pet sitter
-                user_info = await this.bookingService.findPetSitterById(user.id)
+                user_info = await this.accountService.findAccountById('sitter',user.id)
                 bookingList = await this.bookingService.handleShowSitterBookings(user.id)
-                res.render(viewNames.myBookingsForSitter, { bookingList, petSitter: user_info, notifications })
+                res.render(viewNames.myBookingsForSitter, { bookingList, petSitter: user_info })
                 break
         }
     }
 
-    @UseGuards(RolesGuard)
     @Roles('sitter')
     @Patch()
     async sitterResponseBooking(@Req() { user: { id } }, @Body() { booking_id, action }) {
@@ -55,40 +54,34 @@ export class BookingController {
     }
 
     // show pet sitter info
-    @UseGuards(RolesGuard)
     @Roles('owner')
     @Get(':petSitterId')
     @Render(viewNames.petSitterBookingInfo)
     async index(@Param('petSitterId') psid: number, @Req() { user }) {
         const psInfo = await this.bookingService.handlePetSitterInfo(psid)
-        const po = await this.bookingService.findPetOwnerById(user.id)
-        let notifications = await this.notificationService.getNotificationsFor(user.id)
-        return { petSitter: psInfo, petOwner: po, notifications }
+        const po = await this.accountService.findAccountById('owner',user.id)
+        return { petSitter: psInfo, petOwner: po }
     }
 
-    @UseGuards(RolesGuard)
     @Roles('owner')
     @Get(':petSitterId/options')
     @Render(viewNames.bookingOptions)
     async showOptions(@Param('petSitterId') psid: number, @Req() req) {
         const ownerId = req.user.id; // this should be retrieved from auth
-        const petOwner = await this.bookingService.findPetOwnerById(ownerId)
-        const pets = await this.bookingService.findPetsByOwnerId(ownerId)
-        const petSitter = await this.bookingService.findPetSitterById(psid)
+        const petOwner = await this.accountService.findAccountById('owner',ownerId)
+        const pets = await this.accountService.findPetbyOwnerId('owner',ownerId)
+        const petSitter = await this.accountService.findAccountById('sitter',psid)
         const exp = this.bookingService.calculatePetSitterExp(petSitter.signUpDate)
         const servicesList = petSitter.services == null ? [] : petSitter.services.split(', ').slice(0, -1)
         const outOitter = Object(petSitter)
         outOitter.services = servicesList
         outOitter.exp = exp
 
-        // retrieve notifications
-        const notifications = await this.notificationService.getNotificationsFor(req.user.id)
-        return { petOwner, pets, petSitter: outOitter, notifications }
+        return { petOwner, pets, petSitter: outOitter }
     }
 
     // create requesting booking
     // startDate endDate sitter pet[]
-    @UseGuards(RolesGuard)
     @Roles('owner')
     @Post()
     async bookPetSitter(@Body() request: any, @Req() req) {
@@ -104,19 +97,17 @@ export class BookingController {
     }
 
     @Patch("my/petowner/:bookingId")
-    @UseGuards(RolesGuard)
     @Roles('owner')
     petOwnerModifyBooking(@Req() req, @Param('bookingId') bid) {
         return this.bookingService.handleCancleBookingForPetOwner(bid, req.user.id)
     }
 
-    @UseGuards(RolesGuard)
     @Roles('owner')
     @Patch('pay')
     async ownerBookingPayment(@Req() { user: { id } }, @Body() { booking_id }) {
-        const success = await this.bookingService.handleBookingPayment(booking_id, id)
-        if (success) return {
-            result : success,
+        const result = await this.bookingService.handleBookingPayment(booking_id, id)
+        if (result) return {
+            result,
             code: HttpStatus.OK,
             status: true
         }

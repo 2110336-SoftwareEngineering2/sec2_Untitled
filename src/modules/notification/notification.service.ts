@@ -1,19 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PetOwner } from 'src/entities/petowner.entity';
-import { PetSitter } from 'src/entities/petsitter.entity';
-import { Transaction } from 'src/entities/transaction.entity';
+import {Transaction} from 'src/entities'
 import { Repository } from 'typeorm';
+import * as dayjs from 'dayjs';
+import * as utc from 'dayjs/plugin/utc'
+import * as timezone from 'dayjs/plugin/timezone'
+import { AccountService } from '../account/account.service';
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 @Injectable()
 export class NotificationService {
     constructor(
         @InjectRepository(Transaction)
         private readonly transactionRepo: Repository<Transaction>,
-        @InjectRepository(PetOwner)
-        private readonly petOwnerRepo: Repository<PetOwner>,
-        @InjectRepository(PetSitter)
-        private readonly petSitterRepo: Repository<PetSitter>
+        private readonly accountService: AccountService
     ){}
 
     async createTransaction(performerId: number, receiverId: number, description: string){
@@ -22,23 +23,27 @@ export class NotificationService {
 
     // get all transaction for receiverId
     async getNotificationsFor(receiverId: number){
-        let results = Object(await this.transactionRepo.find({where: {receiverId}}))
-        for(let i=0; i<results.length; i++){
-            results[i].performerPicUrl = await this.getPicUrlOf(results[i].performerId)
+        const results:any = await this.transactionRepo.find({where: {receiverId}})
+        for (const result of results){
+            result.performerPicUrl = await this.getPicUrlOf(result.performerId)
+            result.fromNow = this.fromNow(result.createDatetime)
         }
         return results
     }
 
-    async getPicUrlOf(user_id: number){
-        let str_id = String(user_id)
-        // pet owner
-        if(str_id[0] == '1'){
-            return (await this.petOwnerRepo.findOne(user_id)).picUrl
-        }
-        // pet sitter
-        else if(str_id[0] == '2'){
-            return (await this.petSitterRepo.findOne(user_id)).picUrl
-        }
+    async getPicUrlOf(userId: number){
+        const role = userId.toString()[0] == '1' ? "owner" : "sitter"
+        return (await this.accountService.findAccountById(role,userId)).picUrl
+    }
+
+    private fromNow(inDate){
+        let offSet = - inDate.getTimezoneOffset() / 60
+        let now = dayjs.utc()
+        let date = dayjs(inDate).add(offSet, 'hour').utc()
+        if (now.diff(date, 'second') < 60) return `${now.diff(date, 'second')} seconds ago`
+        if (now.diff(date, 'minute') < 60) return `${now.diff(date, 'minute')} minutes ago`
+        if (now.diff(date, 'hour') < 24) return `${now.diff(date, 'hour')} hours ago`
+        if (now.diff(date, 'day') < 31) return `${now.diff(date, 'day')} days ago`
     }
 
     // get all tracsantion for receiverId since "date"
