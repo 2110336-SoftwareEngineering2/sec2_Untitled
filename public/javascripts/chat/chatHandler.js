@@ -60,7 +60,6 @@ $(document).ready(() => {
             let message = $(this).val()
             // send message
             sendMessage(message, RECEIVER_ID)
-            retrieveNewMessages()
             // clear input
             $(this).val('')
         }
