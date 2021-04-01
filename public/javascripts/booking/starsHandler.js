@@ -6,11 +6,11 @@
 <span class='font-weight-bolder ml-1' style="color: orange;">{{rating}}</span> */
 
 const RATING_COLOR = "rgb(255, 165, 0)"
-const NOT_CHECKED = "<span class='fa fa-star-o checked mr-1' style='font-size: 23px'></span>"
-const CHECKED_HALF = `<span class='fa fa-star-half-o checked mr-1' style='font-size: 23px'></span>`
-const CHECKED_FULL = `<span class='fa fa-star checked mr-1' style='font-size: 23px'></span>`
+const NOT_CHECKED = "<span class='fa fa-star-o checked mr-1'</span>"
+const CHECKED_HALF = `<span class='fa fa-star-half-alt checked mr-1'</span>`
+const CHECKED_FULL = `<span class='fa fa-star checked mr-1'</span>`
 
-const RATING_TAG_OPEN = `<span class='font-weight-bolder ml-1' style='color: ${RATING_COLOR}; font-size: 23px'>`
+const RATING_TAG_OPEN = `<span class='font-weight-bolder ml-1' style='color: ${RATING_COLOR};'>`
 const RATING_TAG_END = "</span>"
 
 const TOTAL_STARS = 5
