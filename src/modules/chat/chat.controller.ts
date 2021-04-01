@@ -1,5 +1,5 @@
 
-import { Body, Controller, Get, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
@@ -16,6 +16,8 @@ export class ChatController {
     @Get('/chat/:otherUser')
     @Roles('owner', 'sitter')
     async index(@Res() res, @Req() { user: { id } }, @Param('otherUser') otherUser) {
+        // chat with yourself
+        if(otherUser == id) throw new BadRequestException("You can not chat with yourself")
         let { success, latestUpdate, messages } = await this.chatService.getMessagesFor(id, otherUser)
         if (success) {
             res.cookie('latestUpdate', latestUpdate)
