@@ -1,11 +1,18 @@
 body {
-    background-image: url("/image/bg1.png");
+    background-image:url('/image/logo1.png'), url("/image/bg-profile.png");
     /* Full height
     height: 100%;
     Center and scale the image nicely */
-      background-position: center;
+    background-position:10px 2px, center;
+    background-repeat:no-re ,repeat;
+    background-size:190px, 100% 100%;  
+	background-attachment:scroll ,fixed;
+
+	/* background-image:url('/image/logo1.png'), url("/image/0home2.png"), url("/image/0home.png");
     background-repeat: no-repeat;
-    background-size: cover;  
+    background-size: 190px ,600px, 100% 100%;
+    background-attachment: fixed;
+    background-position:10px 2px, center bottom, 0px; */
 } 
 
 .bg-glassy {
@@ -38,7 +45,7 @@ body {
     padding: 20px 0px 100px 0px;
     background-color: white;
     border-radius: 150px;
-    margin: 20px 0px 20px 0px;
+    margin: 20px auto;
     width: 300px;
 }
 
@@ -48,11 +55,16 @@ body {
 	width: 60px;
 	height: 60px;
 	margin-bottom: 5px;
+	display: flex;
+	justify-content: center!important;
+	align-self: center!important;
 }
+
 
 .activity-icon {
 	font-size: 25px;
 	color: #0d6efd;
+	align-self: center!important;
 }
 
 .selected-icon {
@@ -72,6 +84,15 @@ body {
 	width: 75px;
 	height: 110px;
 	margin: 10px 5px 0px 5px;
+	display: flex;
+	justify-content: start;
+	flex-direction: column;
+}
+
+.wrapper-icon p {
+	margin-bottom: 0;
+	text-align: center!important;
+	align-self: center!important;
 }
 
 .wrapper-all-icon {
@@ -79,4 +100,15 @@ body {
     border-radius: 10px;
     padding: 10px 0px 10px 0px; 
     margin-bottom: 20px;
+}
+
+.cancel_button {
+	width:49%; 
+	background-color: rgba(256,256,256,0); 
+	border-radius:15px;
+}
+
+.save_button {
+	width:49%; 
+	border-radius:15px;
 }
