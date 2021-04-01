@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Response, Request, Param, UseGuards, Req, Header } from '@nestjs/common';
+import { Controller, Get, Post, Body, Response, Request, Param, UseGuards, Req } from '@nestjs/common';
+import { PATH_METADATA } from '@nestjs/common/constants';
 import { ReviewService } from './review.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { NotificationService } from 'src/modules/notification/notification.service'
+import { NotificationService } from 'src/modules/notification/notification.service';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 
 @UseGuards(JwtAuthGuard,RolesGuard)
@@ -10,7 +11,7 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
 export class ReviewController {
     constructor(
 		private readonly reviewService: ReviewService,
-		private readonly notificationService : NotificationService		
+		private readonly notificationService : NotificationService	
 	) { }
 	
 	@UseGuards(JwtAuthGuard,RolesGuard)
@@ -50,6 +51,10 @@ export class ReviewController {
 	@Roles('owner')
     @Get('/ownerReviewForm/:bookingId')
     async renderOwnerForm(@Response() res, @Req() req, @Param("bookingId") bookingId ){
+		//let routePath = Reflect.getMetadata(PATH_METADATA, this.appController);
+		//console.log(routePath)
+		//console.log(req.url)
+		
 		let {Booking} = await this.reviewService.findBooking(bookingId);
 		//console.log('This is booking',Booking)
 		

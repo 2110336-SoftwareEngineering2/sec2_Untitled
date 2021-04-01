@@ -121,10 +121,15 @@ export class ReviewService {
         if(!firstCheck) report = report+".";
         //if(other) report = report+"They also commented '"+description+"'\n";
 
-        report = report+"\nPlease improve your behavior!"
+        //report = report+"\nPlease improve your behavior!"
 
         return report;
     }
+
+    //async renderReviewNotification(bookingId: number){
+    //    let notificationContent = "Thank you for using our services, you can rate your pet sitter from link below\n";
+    //    notificationContent = notificationContent+;
+    //}
 
     async findPetSitterById(id: number): Promise<PetSitter>{
         let pet_sitter = await this.petSitterRepo.findOne(id)

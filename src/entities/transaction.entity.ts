@@ -16,6 +16,6 @@ export class Transaction {
     @CreateDateColumn()
     createDatetime: Date;
 
-    @Column({ length: 200 })
+    @Column({ length: 120 })
     description: string;
 }
