@@ -65,7 +65,7 @@ export class BookingService {
 
     // creating booking requests
     // po requests -> ps confirms -> paid by po
-    //  requesting      pending       completed  
+    //  requesting      pending       paid  
     async handleIncomingRequest(incomingBooking: any, poid: number): Promise<any> {
         if (!poid) throw new UnauthorizedException("Pet owner ID is required")
         if (!this.isValidPetOwnerId(poid)) throw new UnauthorizedException("Pet owner ID is invalid")
@@ -193,14 +193,14 @@ export class BookingService {
         console.dir(record)
         if (!record) throw new NotFoundException(`Booking ID ${bookingId} not found`)
         if (record.owner.id != poid) throw new UnauthorizedException(`This booking record does not belong to pet owner ${poid}`)
-        if (record.status == Status.Completed) throw new BadRequestException(`Booking record ID ${bookingId} has already been paid`)
+        if (record.status == Status.Paid) throw new BadRequestException(`Booking record ID ${bookingId} has already been paid`)
         if (record.status == Status.Requesting) throw new BadRequestException(`Booking record ID ${bookingId} is waiting for pet sitter comfirmation`)
         if (record.status == Status.Denied) throw new BadRequestException(`Booking record ID ${bookingId} has already been denied`)
 
         if (record.status == Status.Pending) {
             let petOwner = await this.accountService.findAccountById('owner',poid)
             let petSitter = await this.accountService.findAccountById('sitter',record.sitter.id)
-            record.status = Status.Completed
+            record.status = Status.Paid
             let result = await this.bookingRepo.save(record)
             if (result) {
                 petSitter.balance += record.price
