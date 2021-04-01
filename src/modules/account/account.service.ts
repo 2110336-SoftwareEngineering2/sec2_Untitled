@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Req } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, Req } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'bcryptjs';
 import { Employee,Pet,PetOwner,PetSitter } from 'src/entities';
@@ -36,11 +36,15 @@ export class AccountService {
     // READ
 
     async findAccountById(role: string, id: number): Promise<any> {
-        return await this.repositories[role].findOne(id);
+        const account = await this.repositories[role].findOne(id)
+        if (!account) throw new NotFoundException("Account Not Found!")
+        return account
     }
 
     async findAccountByUsername(role: string, username: string): Promise<any> {
-        return await this.repositories[role].findOne({username})
+        const account = await this.repositories[role].findOne({username})
+        if (!account) throw new NotFoundException("Account Not Found!")
+        return account
     }
 
     async findPetbyOwnerId(role: string, owner: number): Promise<any> {

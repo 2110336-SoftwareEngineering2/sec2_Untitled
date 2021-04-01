@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
-
 import { InjectRepository } from '@nestjs/typeorm';
-import { PetOwner, PetSitter } from 'src/entities';
 import { Message } from 'src/entities/message.entity';
-
-import { MoreThan, Repository , getManager } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import * as dayjs from "dayjs";
 import * as customParseFormat from 'dayjs/plugin/customParseFormat'
 import * as utc from 'dayjs/plugin/utc'
@@ -12,64 +9,77 @@ import { AccountService } from '../account/account.service';
 dayjs.extend(utc)
 dayjs.extend(customParseFormat)
 
-
 @Injectable()
 export class ChatService {
     constructor(
         @InjectRepository(Message)
         private readonly messageRepo: Repository<Message>,
-        @InjectRepository(PetOwner)
-        private readonly petOwnerRepo: Repository<PetOwner>,
-        @InjectRepository(PetSitter)
-        private readonly petSitterRepo: Repository<PetSitter>,
         private readonly accountService: AccountService
     ) { }
 
     // save message into DB
-    async handleIncomingMessage(senderId, receiverId, message) {
+    async handleSaveMessage(senderId, receiverId, message) {
         // validate receiverId (no need for senderId because it came from JwtAuthGuard not user's input)
+        if (message == '') return { success: false, message: "Message cannot be empty" }
         let result = await this.messageRepo.save({ senderId, receiverId, message })
         if (result) return { success: true }
         return { success: false, message: "Error occured when saving your message" }
     }
 
     // retrieve messages from DB corresponding to input receiver ID
-    async getMessagesFor(receiverId,senderId) {
-		let messages = Object(await this.messageRepo.find({
-			senderId: senderId,
-            receiverId: receiverId
+    async getMessagesFor(requestingUser, otherUser) {
+        let messages = Object(await this.messageRepo.find({
+            where: [
+                { senderId: requestingUser, receiverId: otherUser },
+                { senderId: otherUser, receiverId: requestingUser }
+            ]
         }))
-		
-		await this.getSenderInfo(receiverId)
-		
-		for (let i = 0; i < messages.length; i++) {
-            messages[i].sender = await this.getSenderInfo(messages[i].senderId)
+
+        let latestUpdate = dayjs.utc().format("DD/MM/YYYY HH:mm:ss") // default is current time
+        for (let i = 0; i < messages.length; i++) {
+            if (messages[i].senderId == requestingUser) messages[i].isMe = true
+            else {
+                messages[i].isMe = false
+                messages[i].sender = await this.getSenderInfo(messages[i].senderId)
+            }
+            if (i == messages.length - 1) latestUpdate = dayjs(messages[i].createDatetime).add(1, 'second').format("DD/MM/YYYY HH:mm:ss")
         }
-		
-		return messages
+
+        return { success: true, latestUpdate, messages }
     }
 
     // retrieve messages from DB corresponding to input receiver ID since input time
-    async getMessageSince(receiverId, senderId, since) {
+    async getMessagesSince(requestingUser, otherUser, since) {
         // validate "since" format to be in "DD/MM/YYYY HH:mm:ss" utc
         if (!dayjs(since, "DD/MM/YYYY HH:mm:ss", true).isValid()) return {
             success: false,
             message: "Expected since format is \"DD/MM/YYYY HH:mm:ss\" in UTC time"
         }
 
-        let sinceUtcFormat = dayjs(since, "DD/MM/YYYY HH:mm:ss").utc().format()
+        // set utcOffSet to 0 because the incoming "since" is already in utc
+        let sinceInUtcFormat = dayjs(since, "DD/MM/YYYY HH:mm:ss").utcOffset(0, true).format()
         let messages = Object(await this.messageRepo.find({
-            createDatetime: MoreThan(sinceUtcFormat),
-            receiverId: receiverId,
-            senderId: senderId
+            where: [
+                { senderId: requestingUser, receiverId: otherUser, createDatetime: MoreThan(sinceInUtcFormat) },
+                { senderId: otherUser, receiverId: requestingUser, createDatetime: MoreThan(sinceInUtcFormat) }
+            ]
         }))
 
+        // let latestUpdate = dayjs.utc().format("DD/MM/YYYY HH:mm:ss") // default is current time
+        let latestUpdate = since
         // retrieve sender info for each message
         for (let i = 0; i < messages.length; i++) {
-            messages[i].sender = await this.getSenderInfo(messages[i].senderId)
-        }
+            if (messages[i].senderId == requestingUser) messages[i].isMe = true
+            else {
+                messages[i].isMe = false
+                messages[i].sender = await this.getSenderInfo(messages[i].senderId)
+            }
+            // add one second to prevent querying the messages that are already been sent to the client
+            // Problem is because createDatetime stored in datacase has 6 digits millisecond
+            // with dayjs you can only use 3 ex. 12:00.123456 > 12:00.123
+            if (i == messages.length - 1) latestUpdate = dayjs(messages[i].createDatetime).add(1, 'second').format("DD/MM/YYYY HH:mm:ss")
 
-        let latestUpdate = dayjs.utc().format("DD/MM/YYYY HH:mm:ss")
+        }
 
         return { success: true, latestUpdate, messages }
     }
