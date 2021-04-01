@@ -22,19 +22,18 @@ export class BookingController {
     @UseGuards(RolesGuard)
     @Roles('sitter', 'owner')
     async myBookings(@Req() { user }, @Res() res) {
-        let notifications = await this.notificationService.getNotificationsFor(user.id)
         let bookingList = undefined
         let user_info = undefined
         switch (user.role) {
             case "owner": // If the user is a pet owner
                 user_info = await this.bookingService.findPetOwnerById(user.id)
                 bookingList = await this.bookingService.handleShowOwnerBookings(user.id)
-                res.render(viewNames.myBookingsForOwner, { bookingList, petOwner: user_info, notifications })
+                res.render(viewNames.myBookingsForOwner, { bookingList, petOwner: user_info })
                 break
             case "sitter": // If the user is a pet sitter
                 user_info = await this.bookingService.findPetSitterById(user.id)
                 bookingList = await this.bookingService.handleShowSitterBookings(user.id)
-                res.render(viewNames.myBookingsForSitter, { bookingList, petSitter: user_info, notifications })
+                res.render(viewNames.myBookingsForSitter, { bookingList, petSitter: user_info })
                 break
         }
     }
@@ -62,8 +61,7 @@ export class BookingController {
     async index(@Param('petSitterId') psid: number, @Req() { user }) {
         const psInfo = await this.bookingService.handlePetSitterInfo(psid)
         const po = await this.bookingService.findPetOwnerById(user.id)
-        let notifications = await this.notificationService.getNotificationsFor(user.id)
-        return { petSitter: psInfo, petOwner: po, notifications }
+        return { petSitter: psInfo, petOwner: po }
     }
 
     @UseGuards(RolesGuard)
@@ -81,9 +79,7 @@ export class BookingController {
         outOitter.services = servicesList
         outOitter.exp = exp
 
-        // retrieve notifications
-        const notifications = await this.notificationService.getNotificationsFor(req.user.id)
-        return { petOwner, pets, petSitter: outOitter, notifications }
+        return { petOwner, pets, petSitter: outOitter }
     }
 
     // create requesting booking
