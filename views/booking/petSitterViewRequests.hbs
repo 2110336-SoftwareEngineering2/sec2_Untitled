@@ -42,7 +42,8 @@
         });
         calendar.render();
 
-        document.getElementById("test").addEventListener("click", function() {
+
+        /*document.getElementById("test").addEventListener("click", function() {
             let ownerID = document.getElementById("test").getAttribute("ownerID")
             let parent = $(this).parent()
             let startDate = parent.find("meta[name='startDate'").attr('content')
@@ -54,7 +55,7 @@
                 end: new_endDate,
                 allDay: true
             })
-        });
+        });*/
     });
 
 
@@ -90,18 +91,33 @@
                                                     <p>From: {{formatDate startDate "DD MMMM YYYY"}}</p>
                                                     <p>To: {{formatDate endDate "DD MMMM YYYY"}}</p>
                                                 </div>
+                                                <div class="card-text">
+                                                    <p>Status: {{status}}</p>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-4 d-flex align-self-center">
                                             <div class="d-flex flex-column">
-                                                <div>
-                                                    <meta name='startDate' content={{formatDate startDate "YYYY-MM-DD"}}>
-                                                    <meta name='endDate' content={{formatDate endDate "YYYY-MM-DD"}}>
-                                                    <button class='btn btn-primary mb-3' id='test' ownerID='{{owner.fullName}}' name="accept_booking">ACCEPT</button>
-                                                </div>
-                                                <div>
-                                                    <button class='btn btn-danger  mb-3' name="deny_booking">DENY</button>
-                                                </div>
+                                                {{#if (eq status "Requesting")}}
+                                                    <div>
+                                                        <meta name='startDate' content={{formatDate startDate "YYYY-MM-DD"}}>
+                                                        <meta name='endDate' content={{formatDate endDate "YYYY-MM-DD"}}>
+                                                        <button class='btn btn-primary mb-3' id='test' ownerID='{{owner.fullName}}' name="accept_booking">ACCEPT</button>
+                                                    </div>
+                                                    <div>
+                                                        <button class='btn btn-danger mb-3' name="deny_booking">DENY</button>
+                                                    </div>
+                                                {{/if}}
+                                                {{#if (isFinished status endDate)}}
+                                                    <div>
+                                                        <button class='btn btn-danger mb-3 finish-btn' ownerId = '{{owner.id}}'>Finish</button>
+                                                    </div>
+                                                {{/if}}
+                                                {{#if (eq status "Finished")}}
+                                                    <div>
+                                                        <a class='btn btn-danger mb-3' href="/sitterReviewForm/{{id}}/{{owner.id}}">Review</a>
+                                                    </div>
+                                                {{/if}}
                                             </div>
                                         </div>
                                     </div>
@@ -122,13 +138,29 @@
             ACCEPT: "ACCEPT",
             DENY: "DENY"
         }
-
-        $("button[name='accept_booking'").on('click', function(){ takeAction(ACTION.ACCEPT, this) })
-        $("button[name='deny_booking'").on('click', function(){ takeAction(ACTION.DENY, this) })
-
+        if ($('.finish-btn').length){
+            $('.finish-btn').on('click', function() {
+            const div_parent = $(this).closest("div[name='booking_request']")
+            const bid = div_parent.attr("booking_id")
+            $.ajax({
+            url: "/book/finish",
+            method: "POST",
+            data: {
+                booking_id: bid,
+            }
+            }).done(function(data){
+                if(data.status) window.location = '/'
+                
+            }).fail(function(data){
+                alert(data.responseJSON.message)
+            })
+        })
+        }
+        if($("button[name='accept_booking']").length) $("button[name='accept_booking']").on('click', function(){ takeAction(ACTION.ACCEPT, this) })
+        if ($("button[name='deny_booking']").length) $("button[name='deny_booking']").on('click', function(){ takeAction(ACTION.DENY, this) })
         function takeAction(action, btn){
-            let div_parent = $(btn).closest("div[name='booking_request'")
-            let bid = div_parent.attr("booking_id")
+            const div_parent = $(btn).closest("div[name='booking_request']")
+            const bid = div_parent.attr("booking_id")
             $.ajax({
                 url: "/book",
                 method: "PATCH",
