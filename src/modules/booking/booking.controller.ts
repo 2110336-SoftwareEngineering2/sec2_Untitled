@@ -119,4 +119,12 @@ export class BookingController {
             status: false
         }
     }
+
+    @Roles('sitter')
+    @Post('/finish')
+    async finishJob(@Req() { user: { id } }, @Body() { booking_id }){
+        const success = await this.bookingService.finishJob(booking_id,id)
+        if (success) return {code: HttpStatus.OK, status: true}
+        else return {code: HttpStatus.OK, status: false}
+    }
 }
