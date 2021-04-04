@@ -1,7 +1,7 @@
 body {
 	background-image: url("/image/0home.png");
 	background-repeat: no-repeat;
-	background-position: 0px -92vh;
+	background-position: 0px -91vh;
 	background-size: 100% 100%;
 }
 
@@ -69,7 +69,7 @@ body {
   .bg-gray-info {
 	background-color:rgb(242, 242, 242);
 	width:100%;
-	height:8%;
+	height: 60px;
   }
 
   .vl-middle-page {
@@ -97,7 +97,7 @@ body {
   }
 
   .warapper-scrollable {
-	  max-height: 800px;
+	  height: 100%;
 	  /* border: 1px solid #ddd; */
 	  overflow-y: auto;
   }

@@ -3,7 +3,7 @@ const NOT_CHECKED = "<span class='fa fa-star-o checked mr-1'></span>"
 const CHECKED_HALF = `<span class='fa fa-star-half-alt checked mr-1'></span>`
 const CHECKED_FULL = `<span class='fa fa-star checked mr-1'></span>`
 
-const RATING_TAG_OPEN = `<span class='font-weight-bolder ml-1' style='color: ${RATING_COLOR};'>`
+const RATING_TAG_OPEN = `<span class='font-star font-weight-bolder ml-1' style='color: ${RATING_COLOR};'>`
 const RATING_TAG_END = "</span>"
 
 const TOTAL_STARS = 5
@@ -39,7 +39,7 @@ function getContent(result){
 				<a class="image-link" href="/book/${result.id}">
 					<img class="image rounded-circle" src="${result.picUrl}">
 				</a>
-				<div class="star" style="font-size: 1.35rem;" rating=${result.rating}>
+				<div class="star" style="font-size: 1.15rem;" rating=${result.rating}>
 				</div>
 				<h4 class="search-result-item-heading text-truncate m-0"><a href="/book/${result.id}" class="username">${result.fname}</a></h4>
 				<p class="info text-truncate">${result.location}</p>

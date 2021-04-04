@@ -15,6 +15,12 @@ body {
     background-position:10px 2px, center bottom, 0px; */
 } 
 
+.bg-experince {
+	background-color:rgb(242, 242, 242);
+	border-radius: 25px;
+  }
+
+
 .bg-glassy {
     background: rgba( 255, 255, 255, 0.25 );
     box-shadow: 0 4px 16px 0 rgba( 31, 38, 135, 0.17 );
@@ -81,9 +87,9 @@ body {
 }
 
 .wrapper-icon {
-	width: 75px;
+	width: 70px;
 	height: 110px;
-	margin: 10px 5px 0px 5px;
+	margin: 10px 2px 0px 2px;
 	display: flex;
 	justify-content: start;
 	flex-direction: column;

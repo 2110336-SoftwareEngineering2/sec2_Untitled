@@ -37,7 +37,7 @@
 {{!-- line in the middle page --}}
 <div class="vl-middle-page"></div>
 
-<div class="container mt-3" style='width:100%'>
+<div class="container mt-4" style='width:100%'>
     <div class="row">
         {{!-- column left --}}
         
@@ -66,10 +66,10 @@
                     {{!-- pet sitter description --}}
                     <div class="col col-xl-7 text-align-center">
                         {{#if petSitter.fname}}
-                            <h1 class='text-lg-center'>{{petSitter.fullName}}</h1>
-                            <p class='text-lg-center'>Dedicated pet sitter in the {{petSitter.location}}</h1>
+                            <h2 class='text-lg-center'>{{petSitter.fullName}}</h2>
+                            <p class='text-lg-center'>Dedicated pet sitter in the {{petSitter.location}}</p>
                         {{else}}
-                            <h1 class='text-lg-center'>Not found</h1>
+                            <h2 class='text-lg-center'>Not found</h2>
                         {{/if}}
                     </div>
                 </div>
@@ -91,12 +91,11 @@
             </div>
             <h3>Pet care experince</h3>
             <div class="d-flex flex-wrap my-4">
-                <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fa fa-star checked mr-2"></span>Dog</div>
-                <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fa fa-star checked mr-2"></span>Cat</div>
-                <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fa fa-star checked mr-2"></span>Cow</div>
-                <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fa fa-star checked mr-2"></span>Human baby</div>
-                <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fa fa-star checked mr-2"></span>Bird</div>
-                <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fa fa-star checked mr-2"></span>Fish</div>
+                <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-dog text-muted mr-2"></span>Dog</div>
+                <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-horse text-muted mr-2"></span>Horse</div>
+                <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-cat text-muted mr-2"></span>cat</div>
+                <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-paw text-muted mr-2"></span>Livestock</div>
+                <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-dragon text-muted mr-2"></span>Reptile</div>
             </div>
             <div class='mb-2'>
                 <button type="button" class="btn btn-light btn-outline-dark py-2" style="width:100%">
@@ -110,25 +109,43 @@
             </div>
         </div>
         {{!-- column right --}}
-        <div class="col-12 col-lg-6 book-info-padding mt-5">
+        <div class="col-12 col-lg-6 book-info-padding" style='margin-top:55px'>
             <div class="warapper-scrollable">
                 <h3 class='mb-4'>About Me</h3>
-                <p>{{petSitter.description}}</p>
+                {{#if petSitter.description.length}}
+                    <p>{{petSitter.description}}</p>
+                {{else}}
+                    <div class="d-flex justify-content-center mb-2 mt-4">
+                        <i class="fas fa-file" style='font-size: 20px'></i>
+                    </div>
+                    <div class="text-muted mb-3 text-noFound">
+                        Please contact for more informations
+                    </div>
+                {{/if}}
                 <div class="hl my-4"></div>
                 <h3>Services</h3>
-                <div class='d-flex flex-wrap justify-content-between my-4'>
+                {{#if petSitter.services.length}}
+                    <div class='d-flex flex-wrap justify-content-between my-4'>
                     {{#each petSitter.services}}
-                    <div class='mr-3 mb-3'>
-                        <span class="fa fa-star checked mr-2"></span>{{capFirstChar this}}
-                    </div>
+                        <div class='mr-3 mb-3'>
+                            <span class="fa fa-star checked text-muted mr-2"></span>{{capFirstChar this}}
+                        </div>
                     {{/each}}
-                </div>
-                <h6 class='font-weight-bolder'>Responsibility include:</h6>
-                <div class='d-flex my-4'>
-                    <div class='flex-fill'>
-                        <span class="fa fa-moon-o mr-2"></span>Overnight care
                     </div>
-                </div>
+                    <h6 class='font-weight-bolder'>Responsibility include:</h6>
+                    <div class='d-flex my-4'>
+                        <div class='flex-fill'>
+                            <span class="fa fa-moon-o mr-2"></span>Overnight care
+                        </div>
+                    </div>
+                {{else}}
+                    <div class="d-flex justify-content-center mb-2 mt-4">
+                        <i class="fas fa-file" style='font-size: 20px'></i>
+                    </div>
+                    <div class="text-muted mb-3 text-noFound">
+                        Please contact for more informations
+                    </div>
+                {{/if}}
                 <div class='mt-5'>
                     <div class='d-flex flex-row font-weight-bolder justify-content-between'>
                         <div>Reviews({{petSitter.reviews.length}})</div>
@@ -136,31 +153,41 @@
                         <div><a name="more_reviews" href="/sitterReviews/{{petSitter.id}}">More Reviews</a> ></div>
                         {{/if}}
                     </div>
-                    <div class="hl my-4"></div>
+                    <div class="hl my-3"></div>
     {{!-- add reviews --}}
-                    {{#each petSitter.reviews}}
-                    <div>
-                        <div class=" d-flex flex-row">
-                            <div class='flex'>
-                                <div class="circular--landscape--review align-self-center">
-                                    {{#ifNotEquals owner.picUrl null}}
-                                        <img src='{{owner.picUrl}}' style='width:75px;height:110px'>
-                                    {{else}}
-                                        <img src='/image/default_img_profile.png' style='width:75px;height:110px'>
-                                    {{/ifNotEquals}}
+                    {{#if petSitter.reviews.length}}
+                        {{#each petSitter.reviews}}
+                                <div class=" d-flex flex-row">
+                                    <div class='flex'>
+                                        <div class="circular--landscape--review align-self-center">
+                                            {{#ifNotEquals owner.picUrl null}}
+                                                <img src='{{owner.picUrl}}' style='width:75px;height:110px'>
+                                            {{else}}
+                                                <img src='/image/default_img_profile.png' style='width:75px;height:110px'>
+                                            {{/ifNotEquals}}
+                                        </div>
+                                    </div>
+                                    <div class='flex-fill ml-3'>
+                                        <div class='my-1'>
+                                            <p class='mb-0'>{{owner.fullName}}</p>
+                                            <div class='my-1 mb-4' rating={{rating}}></div>
+                                        </div>
+                                        <div>
+                                            <p>{{description}}</p>
+                                            <p class='mt-2 mb-1 text-muted'><small>27 sep - 30 sep 2019</small></p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class='flex-fill ml-3'>
-                                <p class='mb-0'>{{owner.fullName}}</p>
-                                <div class='my-1 mb-4' rating={{rating}}>
-                                </div>
-                                <p>{{description}}</p>
-                            </div>
+                                <div class="hl my-3"></div>
+                        {{/each}}
+                    {{else}}
+                        <div class="d-flex justify-content-center mb-2 mt-5">
+                            <i class="fas fa-file" style='font-size: 20px'></i>
                         </div>
-                        
-                        <div class="hl my-3"></div>
-                    </div>
-                    {{/each}}
+                        <div class="text-muted mb-5 text-noFound">
+                            Don't have any review yet
+                        </div>
+                    {{/if}}
                     
                 </div>
             </div>

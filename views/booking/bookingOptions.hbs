@@ -1,18 +1,3 @@
-
-    {{!-- <meta name="petSitterId" content={{petSitter.id}}>
-    <meta name="petSitterPriceRate" content={{petSitter.priceRate}}>
-
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-
-    {{!-- Date Range Picker --}}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
-
-
-<div class='vh-100'>
- --}}
 {{#> default title="Booking"}} 
 {{!-- dayjs --}}
 <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
@@ -21,9 +6,8 @@
 <link rel="stylesheet" href="/stylesheets/booking/booking_option.css">
 <link rel='stylesheet' href='/stylesheets/booking/dragAndDrop.css'>
 
-<div class="container mt-3" style='max-width:100%'>
-
-{{!-- navbar --}}
+<div class="container mt-3"  style='width:100%'>
+{{!-- 
 <nav class="navbar navbar-expand-lg navbar-light" style='margin-top:5px;background-color= rgba(255, 165, 0, 0);'>
     <a class="navbar-brand" href="#"></a>
     <button class="navbar-toggler bg-secondary" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,29 +81,25 @@
                 </li>
             </ul>
     </div>
-</nav>
-{{!-- /navbar --}}
+</nav> --}}
     <div class="row">
         {{!-- show path --}}
         <div class="col-12 col-lg-6 book-info-padding">
             <div class='mb-2'>
-                <p><a href="/search">SEARCH RESLUTS</a> / <a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a> / <span class='font-weight-bolder'>BOOKING</span></p>
+                <p><a href="/search">SEARCH RESULTS</a> / <a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a> / <span class='font-weight-bolder'>BOOKING</span></p>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8">
+        <div class="col-12 col-lg-8 book-info-padding" style='padding-right: 0'>
             <div class="bd-callout bd-callout-successs shadow-sm" role="alert">
                 <i class="fa  fa-check mr-2" aria-hidden="true" style='color:#28a745'></i>
                 <span class='font-weight-bolder text-success'> Great choice of property</span> - with an average guest rating of 9.3 from 75 reviews
             </div>
         </div>
-        <div class="col-2"></div>
     </div>
     <div class="row">
-        <div class="col-2"></div>
-        <div class="col-6">
+        <div class="col-12 col-lg-8 book-info-padding" style='padding-right: 0'>
             <div class="card shadow-sm">
                 <div class="card-body" >
                     <h2 class="card-head mb-3 font-weight-bolder">
@@ -179,7 +159,7 @@
                 <span class='triangleArrow'></span>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-12 col-lg-4 book-profile-padding">
             {{!-- <div class="card shadow-sm">
                 <div class="card-body">
                     <h2>Pet list</h2>
@@ -193,7 +173,7 @@
                     </ul>
                 </div>
             </div> --}}
-            <div class="card shadow-sm">
+            <div class="card card-profile shadow-sm">
                 <div class="card-body pr-1">
                     <h5 class="card-title">{{petSitter.fullName}}</h5>
                 </div>
@@ -223,7 +203,7 @@
         </div>
         <div class="col-2"></div>
     </div>
-</div>
+{{!-- </div> --}}
     <script src="/javascripts/booking/bookingOptionsHandler.js"></script>
     <script src='/javascripts/booking/dragAndDrop.js'></script>
 </div>

@@ -1,7 +1,7 @@
 body {
 	background-image: url("/image/0home.png");
 	background-repeat: no-repeat;
-	background-position: 0px -92vh;
+	background-position: 0px -91vh;
 	background-size: 100% 100%;
 }
 
@@ -40,6 +40,10 @@ body {
 
 .bd-callout-successs {
     border-left-color: #28a745;
+}
+
+.card-profile {
+	max-width:250px;
 }
 
 .circular--landscape {
@@ -106,10 +110,11 @@ body {
 	font-size: 170%;
   }
 
+  
   .book-info-padding {
-	  padding-right: 80px;
-	  padding-left: 80px;
-  }
+	padding-right: 5%;
+	padding-left: 5%;
+}
   
   .hl {
 	  border-top: 1px solid rgb(202, 202, 202);
@@ -166,9 +171,10 @@ body {
   }
 
   @media (max-width: 992px) {
-	.vl-middle-page {
-		display: none;
+	.book-profile-padding {
+		padding-left: 5%;
 	}
+
 	.text-nav-selfmade {
 		color: black!important;
 	}
