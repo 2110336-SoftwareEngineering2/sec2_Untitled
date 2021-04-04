@@ -28,6 +28,9 @@
                                                     {{#if (eq status "Pending")}}
                                                         <span><a class="btn btn-primary pay-button" booking-id={{id}}>Pay</a></span>
                                                     {{/if}}
+                                                    {{#if (eq status "Finished")}}
+                                                        <span><a class="btn btn-primary pay-button" href='/ownerReviewForm/{{id}}/{{sitter.id}}' booking-id={{id}}>Review</a></span>
+                                                    {{/if}}
                                                     <span class="ratings"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span></div>
                                                 </div>
                                             </div>

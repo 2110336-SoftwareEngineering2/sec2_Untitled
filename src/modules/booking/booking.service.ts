@@ -95,7 +95,7 @@ export class BookingService {
             relations: ['pet', 'owner'],
             where: {
                 sitter: psid,
-                status: Status.Requesting
+                // status: Status.Requesting
             }
         })
 
@@ -133,6 +133,26 @@ export class BookingService {
             if (await this.bookingRepo.save(record)) return true
             return false
         }
+    }
+
+    async finishJob(bookingId: number, psid: number) {
+        let record = await this.bookingRepo.findOne({
+            relations: ['sitter', 'owner', 'pet'],
+            where: { id: bookingId }
+        })
+
+        // Error checking
+        if (!record) throw new NotFoundException(`Booking ID ${bookingId} not found`)
+        if (record.sitter.id != psid) throw new UnauthorizedException(`This booking record does not belong to sitter ${psid}`)
+        if (record.status != Status.Paid) throw new BadRequestException(`Please ask the customer to pay the money first`) // ! uncomment after implement frontEnd
+        if (!(dayjs().isAfter(dayjs(record.endDate)))) throw new BadRequestException(`The job can not be finished yet!`)
+
+        
+        // action taking
+        record.status = Status.Finished // ! uncomment after implement frontEnd
+        this.notificationService.createTransaction(psid, record.owner.id, `Your service for ${record.pet.name} is done`) // ! uncomment after implement frontEnd
+        if (await this.bookingRepo.save(record)) return true
+        return false
     }
 
     async handleShowOwnerBookings(poid: number) {
