@@ -33,7 +33,7 @@
                     <div class="d-flex flex-row">
                         <div class='d-flex flex-column mr-2'>
                             <div class='align-self-end' style='font-size: 10px'>pet {{currentUser.role}}</div>
-                            <div style='font-size: 15px'>{{currentUser.username}}</div>
+                            <div class='text-right' style='font-size: 15px'>{{currentUser.username}}</div>
                         </div>
                         <div>
                             <a class="nav-link dropdown-toggle p-0"
@@ -81,10 +81,10 @@
 \{{#if notifications.length}}
     \{{#each notifications}}
         <div class="dropdown-item d-flex flex-row">
-            <div class='mr-3'>
-                <img class='mt-2' src=\{{performerPicUrl}} alt="Picture" width="50px">
+            <div class='mr-3 circular--noti--nav'>
+                <img src=\{{performerPicUrl}} alt="Picture">
             </div>
-            <div class='d-flex flex-column'>    
+            <div class='d-flex flex-column mt-1'>    
                 <p class='mb-1 ' style='width:220px; white-space: initial;'> \{{description}} </p>
                 <p class='font-weight-bold text-info' style='font-size: 10px'>\{{fromNow}}</p>
             </div>
@@ -100,11 +100,11 @@
         clear: both;
         font-weight:400;
         color: gray;
-        text-align: inherit; 
+        text-align: center; 
         white-space: nowrap; 
         background-color: transparent; 
         border: 0; '>
-        Dont have any notification yet
+        Don't have any notification yet
     </div>
 \{{/if}}
 </script>
