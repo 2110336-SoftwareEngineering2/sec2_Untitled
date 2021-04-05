@@ -6,6 +6,7 @@ import * as dayjs from "dayjs";
 import * as customParseFormat from 'dayjs/plugin/customParseFormat'
 import * as utc from 'dayjs/plugin/utc'
 import { AccountService } from '../account/account.service';
+import { NotificationService } from '../notification/notification.service';
 dayjs.extend(utc)
 dayjs.extend(customParseFormat)
 
@@ -14,7 +15,8 @@ export class ChatService {
     constructor(
         @InjectRepository(Message)
         private readonly messageRepo: Repository<Message>,
-        private readonly accountService: AccountService
+        private readonly accountService: AccountService,
+        private readonly notificationService: NotificationService
     ) { }
 
     // save message into DB
@@ -22,7 +24,15 @@ export class ChatService {
         // validate receiverId (no need for senderId because it came from JwtAuthGuard not user's input)
         if (message == '') return { success: false, message: "Message cannot be empty" }
         let result = await this.messageRepo.save({ senderId, receiverId, message })
-        if (result) return { success: true }
+        if (result) {
+            let senderFname = undefined
+            // pet sitter
+            if(senderId >= 2000000) senderFname = (await this.accountService.findAccountById("sitter", senderId)).fname
+            else if (senderId >= 1000000) senderFname = (await this.accountService.findAccountById('owner', senderId)).fname
+            // console.log(senderFname)
+            this.notificationService.createTransaction(senderId, receiverId, `${senderFname} sent you a message`)
+            return { success: true }
+        }
         return { success: false, message: "Error occured when saving your message" }
     }
 
