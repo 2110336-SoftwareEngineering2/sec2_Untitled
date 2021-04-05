@@ -129,11 +129,30 @@ export class ReviewController {
 
 		await this.reviewService.saveOwnerReport(req.user.id, book.Booking.sitter.id, dto.PoorOnService, dto.NotOnTime, dto.Impoliteness, dto.Other, dto.reportDescription);
 		
-		let reportContent =  await this.reviewService.renderReportNotification(dto.PoorOnService, dto.NotOnTime, dto.Impoliteness);
+		let reportContent =  "You have been reported, please improve your behavior";
 		console.log(reportContent)
-		await this.notificationService.createTransaction(999,book.Booking.sitter.id,reportContent);
+		await this.notificationService.createTransaction(1000038,book.Booking.sitter.id,reportContent);
 		
         return res.redirect('/ownerReviewForm/'+booking_id);
+    }
+
+	@UseGuards(JwtAuthGuard,RolesGuard)
+	@Roles('sitter')
+    @Post('/sitterReviewForm/Report/:booking_id')
+    async sitterReport(@Response() res, @Body() dto, @Req() req, @Param("booking_id") booking_id ){
+		let book = await this.reviewService.findBooking(booking_id);
+		//console.log('This is parameter',dto)
+		//let object = book.Booking.sitter;
+		//let endDate = book.Booking.endDate.toLocaleDateString() +' ' +book.Booking.endDate.toLocaleTimeString();
+		//let startDate = book.Booking.startDate.toLocaleDateString() +' ' +book.Booking.startDate.toLocaleTimeString();
+
+		await this.reviewService.saveOwnerReport(req.user.id, book.Booking.owner.id, dto.PoorOnService, dto.NotOnTime, dto.Impoliteness, dto.Other, dto.reportDescription);
+		
+		let reportContent =  "You have been reported, please improve your behavior";
+		console.log(reportContent)
+		await this.notificationService.createTransaction(1000038,book.Booking.owner.id,reportContent);
+		
+        return res.redirect('/sitterReviewForm/'+booking_id);
     }
 
 }
