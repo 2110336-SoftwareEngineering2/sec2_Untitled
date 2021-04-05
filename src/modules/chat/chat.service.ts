@@ -91,8 +91,8 @@ export class ChatService {
     }
 
     // Helper function
-    async getSenderInfo(id) {
-        let strId = String(id)
+    async getSenderInfo(id: number) {
+        let strId = id.toString()
         // pet owner
         if (strId[0] == '1') return await this.accountService.findAccountById("owner", id)
         // pet sitter
