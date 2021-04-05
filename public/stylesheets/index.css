@@ -16,6 +16,7 @@ body {
     top: 6rem;
     right: 14.5rem;
     width: 150%;
+    z-index:-1
 }
 
 .info-text {
@@ -57,4 +58,28 @@ body {
 .actived {
     color: black;
     border-bottom: 2px solid #0275d8;
+}
+
+@media (max-width: 992px) {
+    body {
+        background-image: url("/image/0home2.png"), url("/image/0home.png");
+        /* Center and scale the image nicely */
+        /* background-position: center; */
+        background-repeat: no-repeat;
+        background-size:contain, 100% 100%;
+        /* background-size: cover; */
+        background-attachment: fixed;
+        background-position:left bottom, 0px;
+    }
+    .info-text {
+        display:none;
+    }
+
+    .text {
+        position: relative;
+        top: 20vh;
+        right: 35vw;
+        width: 150%;
+    }
+
 }
