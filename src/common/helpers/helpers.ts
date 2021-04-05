@@ -68,6 +68,11 @@ var register = function (Handlebars) {
                 .join('\n')
         },
 
+        isFinished: function (status, endDate) {
+            if (status === "Paid" && dayjs().isAfter(dayjs(endDate))) return true
+            else return false
+        }
+
     };
 
 

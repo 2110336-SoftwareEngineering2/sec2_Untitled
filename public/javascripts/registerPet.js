@@ -1,10 +1,10 @@
-$(".function-icon").hover(function(){
+$(".frame-icon").hover(function(){
     $(this).addClass("hover-icon");
     }, function(){
     $(this).removeClass("hover-icon");
   });
   
-  $(".function-icon").click(function(){
+  $(".frame-icon").click(function(){
       if( $(this).hasClass('selected-icon') ) {
             $(this).removeClass("selected-icon");
             $(this).find(".activity-icon").css("color", "#0d6efd");

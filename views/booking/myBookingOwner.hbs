@@ -1,7 +1,6 @@
 {{#> default title="Bookings"}}
 <link rel="stylesheet" href="/stylesheets/booking/bookingList.css">
-<body class='vh-100'>
-    <div class="container mt-3" style='max-width:94%'>
+    <div class="container mt-4" style='width: 100%'>
         <div class="row">
             <div class="col-12">
                 <div class="card bg-transparent border-none">
@@ -28,6 +27,9 @@
                                                     <span class="text-black-50 status">Price: {{price}}</span>
                                                     {{#if (eq status "Pending")}}
                                                         <span><a class="btn btn-primary pay-button" booking-id={{id}}>Pay</a></span>
+                                                    {{/if}}
+                                                    {{#if (eq status "Finished")}}
+                                                        <span><a class="btn btn-primary pay-button" href='/ownerReviewForm/{{id}}/{{sitter.id}}' booking-id={{id}}>Review</a></span>
                                                     {{/if}}
                                                     <span class="ratings"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span></div>
                                                 </div>
