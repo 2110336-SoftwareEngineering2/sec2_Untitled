@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {Transaction} from 'src/entities'
+import { Transaction } from 'src/entities'
 import { Repository } from 'typeorm';
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc'
@@ -15,28 +15,28 @@ export class NotificationService {
         @InjectRepository(Transaction)
         private readonly transactionRepo: Repository<Transaction>,
         private readonly accountService: AccountService
-    ){}
+    ) { }
 
-    async createTransaction(performerId: number, receiverId: number, description: string){
-        return await this.transactionRepo.save({performerId,receiverId,description})
+    async createTransaction(performerId: number, receiverId: number, description: string) {
+        return await this.transactionRepo.save({ performerId, receiverId, description })
     }
 
     // get all transaction for receiverId
-    async getNotificationsFor(receiverId: number){
-        const results:any = await this.transactionRepo.find({where: {receiverId}})
-        for (const result of results){
+    async getNotificationsFor(receiverId: number) {
+        const results: any = await this.transactionRepo.find({ where: { receiverId } })
+        for (const result of results) {
             result.performerPicUrl = await this.getPicUrlOf(result.performerId)
             result.fromNow = this.fromNow(result.createDatetime)
         }
         return results
     }
 
-    async getPicUrlOf(userId: number){
+    async getPicUrlOf(userId: number) {
         const role = userId.toString()[0] == '1' ? "owner" : "sitter"
-        return (await this.accountService.findAccountById(role,userId)).picUrl
+        return (await this.accountService.findAccountById(role, userId)).picUrl
     }
 
-    private fromNow(inDate){
+    private fromNow(inDate) {
         let offSet = - inDate.getTimezoneOffset() / 60
         let now = dayjs.utc()
         let date = dayjs(inDate).add(offSet, 'hour').utc()
@@ -47,7 +47,7 @@ export class NotificationService {
     }
 
     // get all tracsantion for receiverId since "date"
-    getNotificationsSince(){
+    getNotificationsSince() {
 
     }
 }
