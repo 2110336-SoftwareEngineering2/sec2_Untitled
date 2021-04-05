@@ -90,7 +90,12 @@ export class ChatService {
         return { success: true, latestUpdate, messages }
     }
 
-    // Helper function
+
+    /**
+     * Retrieve information of ID
+     * @param id ID of either pet sitter or pet owner
+     * @returns PetOwner or PetSitter Object according to id input
+     */
     async getSenderInfo(id: number) {
         let strId = id.toString()
         // pet owner
