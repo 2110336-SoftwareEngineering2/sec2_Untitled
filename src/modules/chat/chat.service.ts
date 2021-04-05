@@ -25,11 +25,7 @@ export class ChatService {
         if (message == '') return { success: false, message: "Message cannot be empty" }
         let result = await this.messageRepo.save({ senderId, receiverId, message })
         if (result) {
-            let senderFname = undefined
-            // pet sitter
-            if(senderId >= 2000000) senderFname = (await this.accountService.findAccountById("sitter", senderId)).fname
-            else if (senderId >= 1000000) senderFname = (await this.accountService.findAccountById('owner', senderId)).fname
-            // console.log(senderFname)
+            let senderFname = (await this.getSenderInfo(senderId)).fname
             this.notificationService.createTransaction(senderId, receiverId, `${senderFname} sent you a message`)
             return { success: true }
         }
@@ -94,6 +90,7 @@ export class ChatService {
         return { success: true, latestUpdate, messages }
     }
 
+    // Helper function
     async getSenderInfo(id) {
         let strId = String(id)
         // pet owner
