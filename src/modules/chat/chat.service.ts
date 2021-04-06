@@ -43,6 +43,8 @@ export class ChatService {
 
         let latestUpdate = dayjs.utc().format("DD/MM/YYYY HH:mm:ss") // default is current time
         for (let i = 0; i < messages.length; i++) {
+            // set offset to 0 because time is already in utc but the offset is wrong (GMT +7)
+            messages[i].createDatetime = new Date(dayjs(messages[i].createDatetime).utcOffset(0, true).format())
             if (messages[i].senderId == requestingUser) messages[i].isMe = true
             else {
                 messages[i].isMe = false
@@ -76,6 +78,8 @@ export class ChatService {
         let latestUpdate = since
         // retrieve sender info for each message
         for (let i = 0; i < messages.length; i++) {
+            // set offset to 0 because time is already in utc but the offset is wrong (GMT +7)
+            messages[i].createDatetime = new Date(dayjs(messages[i].createDatetime).utcOffset(0, true).format())
             if (messages[i].senderId == requestingUser) messages[i].isMe = true
             else {
                 messages[i].isMe = false
