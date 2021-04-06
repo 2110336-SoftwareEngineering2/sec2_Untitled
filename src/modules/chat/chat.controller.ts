@@ -27,13 +27,6 @@ export class ChatController {
         else res.send("Error occured when retrieving messages")
     }
 
-    @Get("/api/chat/history")
-    @Roles('sitter', 'owner')
-    getChatHistory(@Req() req){
-        let userId = req.user.id
-        return this.chatService.handleGetChatHistory(userId)
-    }
-
     // body {
     //     receiverId: number,
     //     message: string
