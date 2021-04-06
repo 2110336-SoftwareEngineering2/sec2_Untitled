@@ -66,15 +66,14 @@ export class ChatService {
         }
 
         // set utcOffSet to 0 because the incoming "since" is already in utc
-        let sinceInUtcFormat = dayjs(since, "DD/MM/YYYY HH:mm:ss").utcOffset(0, true).format()
+        let sineInISOFormat = dayjs(since, "DD/MM/YYYY HH:mm:ss").format()
         let messages = Object(await this.messageRepo.find({
             where: [
-                { senderId: requestingUser, receiverId: otherUser, createDatetime: MoreThan(sinceInUtcFormat) },
-                { senderId: otherUser, receiverId: requestingUser, createDatetime: MoreThan(sinceInUtcFormat) }
+                { senderId: requestingUser, receiverId: otherUser, createDatetime: MoreThan(sineInISOFormat) },
+                { senderId: otherUser, receiverId: requestingUser, createDatetime: MoreThan(sineInISOFormat) }
             ]
         }))
 
-        // let latestUpdate = dayjs.utc().format("DD/MM/YYYY HH:mm:ss") // default is current time
         let latestUpdate = since
         // retrieve sender info for each message
         for (let i = 0; i < messages.length; i++) {
@@ -147,11 +146,12 @@ export class ChatService {
                 if (m.senderId == otherUserId || m.receiverId == otherUserId) {
                     if (latestMessage == undefined) latestMessage = m
                     else {
-                        let latestCreateDatetime = dayjs(latestMessage.createDatetime)
-                        let incomingCreateDatetime = dayjs(m.createDatetime)
+                        let latestCreateDatetime = dayjs(latestMessage.createDatetime).utc()
+                        // set offset to 0 because time is already in utc but the offset is wrong (GMT +7)
+                        let incomingCreateDatetime = dayjs(m.createDatetime).utcOffset(0, true).utc()
                         if (incomingCreateDatetime.isAfter(latestCreateDatetime)) {
                             // set offset to 0 because time is already in utc but the offset is wrong (GMT +7)
-                            m.createDatetime = new Date(incomingCreateDatetime.utcOffset(0, true).format())
+                            m.createDatetime = new Date(incomingCreateDatetime.format())
                             latestMessage = m
                         }
                     }
