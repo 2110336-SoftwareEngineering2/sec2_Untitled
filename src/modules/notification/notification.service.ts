@@ -25,6 +25,7 @@ export class NotificationService {
     async getNotificationsFor(receiverId: number) {
         const results: any = await this.transactionRepo.find({ where: { receiverId } })
         for (const result of results) {
+            result.createDatetime = new Date(dayjs(result.createDatetime).utcOffset(0, true).format())
             result.performerPicUrl = await this.getPicUrlOf(result.performerId)
             result.fromNow = this.fromNow(result.createDatetime)
         }
@@ -37,9 +38,8 @@ export class NotificationService {
     }
 
     private fromNow(inDate) {
-        let offSet = - inDate.getTimezoneOffset() / 60
         let now = dayjs.utc()
-        let date = dayjs(inDate).add(offSet, 'hour').utc()
+        let date = dayjs(inDate).utc()
         if (now.diff(date, 'second') < 60) return `${now.diff(date, 'second')} seconds ago`
         if (now.diff(date, 'minute') < 60) return `${now.diff(date, 'minute')} minutes ago`
         if (now.diff(date, 'hour') < 24) return `${now.diff(date, 'hour')} hours ago`
