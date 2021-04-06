@@ -35,6 +35,7 @@
 </head>
 <body class='vh-100'> --}}
 {{#> default title='Booking'}}
+<meta name="petSitterId" content={{petSitter.id}}>
 <link rel="stylesheet" href="/stylesheets/booking/booking_info.css">
 {{!-- line in the middle page --}}
 <div class="vl-middle-page"></div>
@@ -88,7 +89,7 @@
                 </div>
                 <div>
                     <i class="fa fa-usd" aria-hidden="true" style='font-size:20px'></i>  
-                    <span>{{petSitter.priceRate}}/day</span>
+                    <span>{{petSitter.priceRate}} / day / pet</span>
                 </div>
             </div>
             <h3>Pet care experince</h3>
@@ -100,7 +101,7 @@
                 <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-dragon text-muted mr-2"></span>Reptile</div>
             </div>
             <div class='mb-2'>
-                <button type="button" class="btn btn-light btn-outline-dark py-2" style="width:100%">
+                <button id="sendAMessageDiv" type="button" class="btn btn-light btn-outline-dark py-2" style="width:100%">
                     <span class='font-weight-bolder'>SEND A MESSAGE</span>
                 </button>
             </div>
@@ -197,8 +198,16 @@
     </div>
 </div>
 <script>
-    $("#bookAServiceDiv").on('click', function(){
-        window.location += "/options"
+    $(document).ready(() => {
+        // event listenings
+        $("#bookAServiceDiv").on('click', function(){
+            window.location += "/options"
+        })
+
+        $("#sendAMessageDiv").on('click', function(){
+            let petSitterId = $("meta[name='petSitterId']").attr('content')
+            window.location = `/chat/${petSitterId}`
+        })
     })
 </script>
 <script src="/javascripts/booking/starsHandler.js"></script>
