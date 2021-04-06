@@ -17,7 +17,7 @@ export class ReviewService {
 		@InjectRepository(Booking) private readonly bookingRepo: Repository<Booking>, 
         @InjectRepository(SitterReview) private readonly sitterReviewRepo: Repository<SitterReview>,
 		@InjectRepository(OwnerReview) private readonly ownerReviewRepo: Repository<OwnerReview>,
-        @InjectRepository(Report) private readonly ownerReportRepo: Repository<Report>
+        @InjectRepository(Report) private readonly reportRepo: Repository<Report>
 		){}
 
     async handlePetSitterReview(petSitterId: number, petOwnerId: number){
@@ -97,7 +97,7 @@ export class ReviewService {
 
         const report = {reporter:petowner_id, suspect:petsitter_id, status:reportStatus.Requesting,  createDatetime:reportTime, poorOnService: ser, notOnTime:tim, impoliteness:imp, other:ot, description:description}
         console.log('This is report info',report)
-        return await this.ownerReportRepo.save(report);
+        return await this.reportRepo.save(report);
     }
 
     async renderReportNotification(service:boolean, time:boolean, impolite:boolean){
