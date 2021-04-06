@@ -1,21 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
 body {
-	font-family: 'Montserrat', sans-serif;
 	background-image: url("/image/0home.png");
 	background-repeat: no-repeat;
-	background-position: 0px -1000px;
-}
-
-.breadcrump {
-    background-color: white;
+	background-position: 0px -91vh;
+	background-size: 100% 100%;
 }
 
 .circular--landscape {
 	display: inline-block;
 	position: relative;
-	width: 150px;
-	height: 150px;
+	width: 170px;
+	height: 170px;
 	overflow: hidden;
 	border-radius: 50%;
   }
@@ -23,6 +17,7 @@ body {
   .circular--landscape img {
 	width: auto;
 	height: 100%;
+	max-height: 170px;
 	margin-left: 0px;
 	margin-top: 0px;
   }
@@ -38,25 +33,10 @@ body {
 
   .circular--landscape--review img {
 	width: auto;
-	height: 100%;
+	height: auto;
+	max-height: 75px;
 	margin-left: 0px;
-  }
-
-  .circular--landscape--nav {
-	display: inline-block;
-	position: relative;
-	width: 40px;
-	height: 40px;
-	overflow: hidden;
-	border-radius: 50%;
-
-  }
-
-  .circular--landscape--nav img {
-	width: auto;
-	height: 100%;
-	margin-left: 0px;
-	margin-top: 0px;
+	/* margin-top: -7.5px; */
   }
 
   .checked {
@@ -64,17 +44,40 @@ body {
   }
 
 
-  .info-padding {
-	  padding-right: 80px;
-	  padding-left: 80px;
-  }
+  .book-info-padding {
+	padding-right: 5%;
+	padding-left: 5%;
+}
   
+.percent-rating .col-2 {
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.percent-rating .col-2 p{
+	font-weight: 600;
+}
+
+.percent-rating .col-2 p.text-primary{
+	text-align: right;
+}
+
+.progress-petsitter-info {
+	border-radius:10px; 
+	overflow: visible;
+}
+
+.progress-bar {
+	width: 0; 
+	border-radius: 50px; 
+	box-shadow: 0 4px 8px 0 rgba(253, 204, 71, 0.2), 0 6px 20px 0 rgba(253, 204, 71, 0.19);
+	background-color:rgb(253, 204, 71);
+}
+
   .hl {
 	  border-top: 1px solid rgb(202, 202, 202);
 	  width: 100%;
   }
-
-
 
   .bg-gray-info {
 	background-color:rgb(242, 242, 242);
@@ -86,13 +89,40 @@ body {
   .vl-middle-page {
 	border-right: 2px solid rgb(202, 202, 202);
 		position: fixed;
-		top: 120px;
+		top: 100px;
 		right: 50%;
-		height: 800px;
+		height: 600px;
   }
+
+  .warapper-scrollable {
+	height: 100%;
+	/* border: 1px solid #ddd; */
+	overflow-y: auto;
+}
+
+.frame-all-star {
+	width: auto; 
+	font-weight: 400; 
+	font-size: 16px;
+	padding: 20px 40px;
+}
+
+.frame-all-star .fa {
+	font-size: 25px;
+	margin: 0 7px;	
+}
+
+.warapper-scrollable::-webkit-scrollbar{
+	width: 0;
+}
 
   @media (max-width: 992px) {
 	.vl-middle-page {
 		display: none;
+	}
+
+	.warapper-scrollable {
+		/* border: 1px solid #ddd; */
+		overflow-y: visible;
 	}
   }
