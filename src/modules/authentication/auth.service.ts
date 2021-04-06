@@ -33,7 +33,7 @@ export class AuthService {
         const payload = { username, sub: id, role};
         const token = this.jwtService.sign(payload)
         res.cookie('token', token);
-        const paths = {owner: '/search', sitter: '/book/my', admin: '/admin'}
+        const paths = {owner: '/search', sitter: '/book/my', admin: '/support'}
         return res.redirect(paths[role])
     }
 
