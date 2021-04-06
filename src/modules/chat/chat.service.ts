@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Message } from 'src/entities/message.entity';
-import { MoreThan, Repository } from 'typeorm';
+import { LessThan, MoreThan, Repository } from 'typeorm';
 import * as dayjs from "dayjs";
 import * as customParseFormat from 'dayjs/plugin/customParseFormat'
 import * as utc from 'dayjs/plugin/utc'
@@ -46,6 +46,7 @@ export class ChatService {
             if (messages[i].senderId == requestingUser) messages[i].isMe = true
             else {
                 messages[i].isMe = false
+                // IDEA : sender will always be the same person. fetch sender info just once is enough
                 messages[i].sender = await this.getSenderInfo(messages[i].senderId)
             }
             if (i == messages.length - 1) latestUpdate = dayjs(messages[i].createDatetime).add(1, 'second').format("DD/MM/YYYY HH:mm:ss")
@@ -90,18 +91,73 @@ export class ChatService {
         return { success: true, latestUpdate, messages }
     }
 
-
     /**
-     * Retrieve information of ID
+     * Helper function, Retrieve information of ID
      * @param id ID of either pet sitter or pet owner
      * @returns PetOwner or PetSitter Object according to id input
      */
-    async getSenderInfo(id: number) {
+    private async getSenderInfo(id: number) {
         let strId = id.toString()
         // pet owner
         if (strId[0] == '1') return await this.accountService.findAccountById("owner", id)
         // pet sitter
         else if (strId[0] == '2') return await this.accountService.findAccountById("sitter", id)
+    }
+
+    async handleGetChatHistory(userId: number) {
+        // Ideally, this should be done in a single SQL query.
+        // but I find that hard to come up with such query.
+        // so I went with get all messages and apply logic on them instead.
+        let messages = await this.messageRepo.find({
+            where: [
+                { senderId: userId },
+                { receiverId: userId }
+            ]
+        })
+        let chatMateList = await this.getChatMateList(userId, messages)
+        return await this.getLatestMessageOfEachChatPair(chatMateList, messages)
+    }
+
+    // list of IDs of those who chat with 'userId'
+    private async getChatMateList(userId: number, messages: Message[]): Promise<number[]> {
+        let chatMateList = []
+        for (let i = 0; i < messages.length; i++) {
+            let m = messages[i]
+            let otherUserId = m.senderId != userId ? m.senderId : m.receiverId
+            if (chatMateList.includes(otherUserId)) continue
+            chatMateList.push(otherUserId)
+        }
+        return chatMateList
+    }
+
+    private async getLatestMessageOfEachChatPair(chatMateList: number[], messages: Message[]) {
+        let latestMessageInEachChatPair = [];
+        // for each person I chat with
+        for (let i = 0; i < chatMateList.length; i++) {
+            // Message like object but with otherUser info
+            let latestMessage = undefined;
+            let otherUserId = chatMateList[i]
+            // find the latest message with person
+            for (let j = 0; j < messages.length; j++) {
+                let m = messages[j]
+                if (m.senderId == otherUserId || m.receiverId == otherUserId) {
+                    if (latestMessage == undefined) latestMessage = m
+                    else {
+                        let latestCreateDatetime = dayjs(latestMessage.createDatetime)
+                        let incomingCreateDatetime = dayjs(m.createDatetime)
+                        if (incomingCreateDatetime.isAfter(latestCreateDatetime)) {
+                            // set offset to 0 because time is already in utc but the offset is wrong (GMT +7)
+                            m.createDatetime = new Date(incomingCreateDatetime.utcOffset(0, true).format())
+                            latestMessage = m
+                        }
+                    }
+                }
+            }
+            latestMessage.otherUser = await this.getSenderInfo(otherUserId)
+            latestMessageInEachChatPair.push(latestMessage)
+            latestMessage = undefined
+        }
+        return latestMessageInEachChatPair
     }
 }
 
