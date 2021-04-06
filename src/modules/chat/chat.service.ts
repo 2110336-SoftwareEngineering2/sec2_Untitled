@@ -25,7 +25,7 @@ export class ChatService {
         if (message == '') return { success: false, message: "Message cannot be empty" }
         let result = await this.messageRepo.save({ senderId, receiverId, message })
         if (result) {
-            let senderFname = (await this.getSenderInfo(senderId)).fname
+            let senderFname = (await this.getUserInfo(senderId)).fname
             this.notificationService.createTransaction(senderId, receiverId, `${senderFname} sent you a message`)
             return { success: true }
         }
@@ -47,7 +47,7 @@ export class ChatService {
             else {
                 messages[i].isMe = false
                 // IDEA : sender will always be the same person. fetch sender info just once is enough
-                messages[i].sender = await this.getSenderInfo(messages[i].senderId)
+                messages[i].sender = await this.getUserInfo(messages[i].senderId)
             }
             if (i == messages.length - 1) latestUpdate = dayjs(messages[i].createDatetime).add(1, 'second').format("DD/MM/YYYY HH:mm:ss")
         }
@@ -79,7 +79,7 @@ export class ChatService {
             if (messages[i].senderId == requestingUser) messages[i].isMe = true
             else {
                 messages[i].isMe = false
-                messages[i].sender = await this.getSenderInfo(messages[i].senderId)
+                messages[i].sender = await this.getUserInfo(messages[i].senderId)
             }
             // add one second to prevent querying the messages that are already been sent to the client
             // Problem is because createDatetime stored in datacase has 6 digits millisecond
@@ -96,7 +96,7 @@ export class ChatService {
      * @param id ID of either pet sitter or pet owner
      * @returns PetOwner or PetSitter Object according to id input
      */
-    private async getSenderInfo(id: number) {
+    private async getUserInfo(id: number) {
         let strId = id.toString()
         // pet owner
         if (strId[0] == '1') return await this.accountService.findAccountById("owner", id)
@@ -153,7 +153,7 @@ export class ChatService {
                     }
                 }
             }
-            latestMessage.otherUser = await this.getSenderInfo(otherUserId)
+            latestMessage.otherUser = await this.getUserInfo(otherUserId)
             latestMessageInEachChatPair.push(latestMessage)
             latestMessage = undefined
         }
