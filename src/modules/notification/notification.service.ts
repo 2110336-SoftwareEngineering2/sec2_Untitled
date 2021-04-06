@@ -25,6 +25,8 @@ export class NotificationService {
     async getNotificationsFor(receiverId: number) {
         const results: any = await this.transactionRepo.find({ where: { receiverId } })
         for (const result of results) {
+            // datetime queried from database is already in utc but offset is local offset which is wrong
+            // therefore I set its offset to 0 and keeping its local time
             result.createDatetime = new Date(dayjs(result.createDatetime).utcOffset(0, true).format())
             result.performerPicUrl = await this.getPicUrlOf(result.performerId)
             result.fromNow = this.fromNow(result.createDatetime)
