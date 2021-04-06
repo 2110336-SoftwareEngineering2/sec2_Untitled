@@ -7,14 +7,13 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
 import { ChatService } from './chat.service';
 
 @Controller()
-@UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard)
 export class ChatController {
     constructor(
         private readonly chatService: ChatService
     ) { }
 
     @Get('/chat/:otherUser')
-    @Roles('owner', 'sitter')
     async index(@Res() res, @Req() { user: { id } }, @Param('otherUser') otherUser) {
         // chat with yourself
         if(otherUser == id) throw new BadRequestException("You can not chat with yourself")
@@ -32,7 +31,6 @@ export class ChatController {
     //     message: string
     // }
     @Post('/api/chat')
-    @Roles('sitter', 'owner')
     saveMessage(@Req() { user: { id } }, @Body() { receiverId, message }) {
         // id is the id of sender
         return this.chatService.handleSaveMessage(id, receiverId, message)
@@ -40,7 +38,6 @@ export class ChatController {
 
     // (Optional parameter) onlyNewMessages : 'true' | 'false'
     @Get('/api/chat/:otherUser')
-    @Roles('sitter', 'owner')
     async getMessages(@Param('otherUser') otherUser, @Query('onlyNewMessages') onlyNewMessages: Boolean, @Req() req, @Res() res) {
         let latestUpdate = req.cookies['latestUpdate']
         if (!latestUpdate) return { success: false, message: "latestUpdate is required in cookie" }
