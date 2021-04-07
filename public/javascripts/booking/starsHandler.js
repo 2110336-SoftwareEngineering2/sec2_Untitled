@@ -10,7 +10,7 @@ const NOT_CHECKED = "<span class='fa fa-star-o checked' style='margin-left: 1px'
 const CHECKED_HALF = `<span class='fa fa-star-half-alt checked' style='margin-left: 1px'></span>`
 const CHECKED_FULL = `<span class='fa fa-star checked' style='margin-left: 1px'></span>`
 
-const RATING_TAG_OPEN = `<span class=' ml-2' style='color: ${RATING_COLOR};font-weight: 600 !important; font-size: 16px'>`
+const RATING_TAG_OPEN = `<span class='text-star ml-2' style='color: ${RATING_COLOR};font-weight: 600 !important; font-size: 16px'>`
 const RATING_TAG_END = "</span>"
 
 const TOTAL_STARS = 5
