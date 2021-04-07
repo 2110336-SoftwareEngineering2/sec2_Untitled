@@ -8,7 +8,7 @@
 	<div class="rounded-left" id="sidepanel">
 		<div id="profile">
 			<div class="wrap">
-				<img id="profile-img" src="/image/profile.png" class="online" alt="" />
+				<img id="profile-img" src="/image/profile.png" class="online">
 				<p>{{capFirstChar currentUser.username}}</p>
 
 				<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
@@ -47,11 +47,14 @@
 				{{#each chatHistories}}
 				<li class="contact" other-user-id={{otherUser.id}}>
 					<div class="wrap">
-						<img src={{otherUser.picUrl}} alt="" />
+						{{#if (neq otherUser.picUrl null)}}
+						<img src={{otherUser.picUrl}}>
+						{{else}}
+						<img id="profile-img" src="/image/profile.png">
+						{{/if}}
 						<div class="meta">
 							<p class="name">{{capFirstChar otherUser.fullName}}</p>
 							<p class="preview">{{message}}</p>
-							{{!-- <p class="preview"><span>You:</span> {{message}}</p> --}}
 						</div>
 					</div>
 				</li>
@@ -66,7 +69,11 @@
 	</div>
 	<div class="content">
 		<div class="contact-profile">
+			{{#if (neq otherUserInfo.picUrl null)}}
 			<img src={{otherUserInfo.picUrl}} width="36" height="36" class="rounded-circle" />
+			{{else}}
+			<img id="profile-img" src="/image/profile.png">
+			{{/if}}
 			<p>{{capFirstChar otherUserInfo.fullName}}</p>
 
 		</div>
@@ -79,7 +86,11 @@
 				</li>
 				{{else}}
 				<li class="sent">
+					{{#if (neq ../otherUserInfo.picUrl null)}}
 					<img src={{../otherUserInfo.picUrl}} width="25" height="25" class="rounded-circle">
+					{{else}}
+					<img id="profile-img" src="/image/profile.png">
+					{{/if}}
 					<p>{{message}}</p>
 				</li>
 				{{/if}}
