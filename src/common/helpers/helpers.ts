@@ -39,9 +39,8 @@ var register = function (Handlebars) {
         },
 
         fromNow: function (inDate) {
-            let offSet = - inDate.getTimezoneOffset() / 60
             let now = dayjs.utc()
-            let date = dayjs(inDate).add(offSet, 'hour').utc()
+            let date = dayjs(inDate).utc()
             if (now.diff(date, 'second') < 60) return `${now.diff(date, 'second')} seconds ago`
             if (now.diff(date, 'minute') < 60) return `${now.diff(date, 'minute')} minutes ago`
             if (now.diff(date, 'hour') < 24) return `${now.diff(date, 'hour')} hours ago`
