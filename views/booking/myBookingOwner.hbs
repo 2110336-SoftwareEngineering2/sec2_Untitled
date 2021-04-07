@@ -1,23 +1,26 @@
 {{#> default title="Bookings"}}
 <link rel="stylesheet" href="/stylesheets/booking/bookingList.css">
 
-<div class="container mt-4" style='width: 100%'>
-    <div class="row">
-        <div class="col-12">
-            <div class="card bg-glassy border-none">
-                <div class="card-body d-flex flex-wrap">
-                        <h2 class="page-header">BOOKING HISTORY</h2>
-                        
-                        {{#if bookingList.length}}
-                        <div class='d-flex flex-wrap flex-row-8 flex-col-8 d-none'>
-                            {{#each bookingList}}
-                            
-                            <div class="card my-3 mr-3 rounded-pill shadow-lg" name="booking_parent" style='max-width:500px'>
-                                <div class="card-body">
-
-                                    <div class="wow d-flex">
-                                        <div>
-                                            <img class="rounded-circle" src="{{sitter.picUrl}}" width=".25rem" height=".25rem">
+                                                <div class="d-flex flex-row">
+                                                    <img class="rounded-circle" src="{{sitter.picUrl}}" width="80" height="80">
+                                                    <div class="d-flex flex-column ml-2">
+                                                        <span>{{sitter.fullName}}</span>
+                                                        <span class="text-black-50">Id: {{id}}</span>
+                                                        <span class="text-black-50">From: {{formatDate startDate "DD MMMM YYYY"}}</span>
+                                                        <span class="text-black-50">To: {{formatDate endDate "DD MMMM YYYY"}}</span>
+                                                        <span class="text-black-50">Pet Name: {{pet.name}}</span>
+                                                        <span class="text-black-50 status">Status: {{status}}</span>
+                                                        <span class="text-black-50 status">Price: {{price}}</span>
+                                                        {{#if (eq status "Pending")}}
+                                                            <span><a class="btn btn-primary pay-button" booking-id={{id}}>Pay</a></span>
+                                                        {{/if}}
+                                                        {{#if (eq status "Finished")}}
+                                                            <span><a class="" href='/ownerReviewForm/{{id}}/{{sitter.id}}' booking-id={{id}}>Review</a></span>
+                                                        {{/if}}
+                                                        {{!-- <span class="ratings"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> --}}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="d-flex flex-column mx-4">
                                             <span style='font-size:16px; font-weight:600'>{{sitter.fullName}}</span>

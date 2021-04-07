@@ -100,6 +100,9 @@
             <div class='d-flex flex-column mt-1'>    
                 <p class='mb-1 ' style='width:220px; white-space: initial;'> \{{description}} </p>
                 <p class='font-weight-bold text-info' style='font-size: 10px'>\{{fromNow}}</p>
+                \{{#if bookingId}}
+                    <a class='mb-1 ' style='width:220px; white-space: initial;' href='/ownerReviewForm/\{{bookingId}}/\{{performerId}}'>Review now</a>
+                \{{/if}}
             </div>
         </div>
     \{{/each}}
