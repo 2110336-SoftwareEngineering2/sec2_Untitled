@@ -29,16 +29,23 @@ export class NotificationService {
             // therefore I set its offset to 0 and keeping its local time
             result.createDatetime = new Date(dayjs(result.createDatetime).utcOffset(0, true).format())
             result.performerPicUrl = await this.getPicUrlOf(result.performerId)
+            if(! result.performerPicUrl) result.performerPicUrl = '/image/profile.png'
             result.fromNow = this.fromNow(result.createDatetime)
             const index  = result.description.split(' ').indexOf('booking')
-            console.log(index)
             if (index !== -1) result.bookingId = +result.description.split(' ')[index+1]
         }
         return results.reverse()
     }
 
     async getPicUrlOf(userId: number) {
-        const role = userId.toString()[0] == '1' ? "owner" : "sitter"
+        let strId = userId.toString()
+        let idLength = strId.length
+        let role = undefined
+        if (idLength == 7) {
+            if (strId[0] == '1') role = "owner"
+            else if (strId[0] == '2') role = "sitter"
+        } else if (idLength < 7) role = "admin"
+
         return (await this.accountService.findAccountById(role, userId)).picUrl
     }
 

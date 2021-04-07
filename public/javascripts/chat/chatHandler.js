@@ -37,6 +37,7 @@ function getMessageBlockForMe(message) {
 
 // Helper
 function getMessageBlockForOtherUser(message, picUrl, name) {
+    if(picUrl == null) picUrl = "/image/profile.png"
     let block = `<li class="sent">
                     <img src=${picUrl} width="25" height="25" class="rounded-circle">
                     <p>${message}</p>

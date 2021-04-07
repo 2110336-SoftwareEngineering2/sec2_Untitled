@@ -5,7 +5,7 @@ $.ajax({
     url: '/notifications',
     method: 'GET'
 }).done(data => {
-    data = data.reverse()
+    // data = data.reverse()
     const html = template({notifications: data});
     $('#output').html(html)
 })

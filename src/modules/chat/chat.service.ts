@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Message } from 'src/entities/message.entity';
-import { LessThan, MoreThan, Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
 import * as dayjs from "dayjs";
 import * as customParseFormat from 'dayjs/plugin/customParseFormat'
 import * as utc from 'dayjs/plugin/utc'
@@ -26,7 +26,7 @@ export class ChatService {
         let result = await this.messageRepo.save({ senderId, receiverId, message })
         if (result) {
             let senderFname = (await this.getUserInfo(senderId)).fname
-            this.notificationService.createTransaction(senderId, receiverId, `${senderFname} sent you a message`)
+            await this.notificationService.createTransaction(senderId, receiverId, `${senderFname} sent you a message`)
             return { success: true }
         }
         return { success: false, message: "Error occured when saving your message" }
@@ -87,10 +87,16 @@ export class ChatService {
      */
     private async getUserInfo(id: number) {
         let strId = id.toString()
-        // pet owner
-        if (strId[0] == '1') return await this.accountService.findAccountById("owner", id)
-        // pet sitter
-        else if (strId[0] == '2') return await this.accountService.findAccountById("sitter", id)
+        let idLength = strId.length
+        let role = undefined
+        if (idLength == 7) {
+            // pet owner
+            if (strId[0] == '1') role = "owner"
+            // pet sitter
+            else if (strId[0] == '2') role = "sitter"
+        } else if (idLength < 7) role = "admin"
+
+        return await this.accountService.findAccountById(role, id)
     }
 
     async handleGetChatHistory(userId: number) {
@@ -108,7 +114,7 @@ export class ChatService {
     }
 
     // list of IDs of those who chat with 'userId'
-    private async getChatMateList(userId: number, messages: Message[]): Promise<number[]> {
+    async getChatMateList(userId: number, messages: Message[]): Promise<number[]> {
         let chatMateList = []
         for (let i = 0; i < messages.length; i++) {
             let m = messages[i]
@@ -148,6 +154,22 @@ export class ChatService {
             latestMessage = undefined
         }
         return latestMessageInEachChatPair
+    }
+
+    // return an id of someone that userId had chat with
+    // if userId never chat before this function will return 1000038
+    async handleChatIndex(userId: number): Promise<number> {
+        let messages = await this.messageRepo.find({
+            where: [
+                { senderId: userId },
+                { receiverId: userId }
+            ]
+        })
+        if (!messages.length) return 10000038
+        else {
+            let chatMateList = await this.getChatMateList(userId, messages)
+            return chatMateList[chatMateList.length - 1] // latest person userId had chat with
+        }
     }
 }
 
