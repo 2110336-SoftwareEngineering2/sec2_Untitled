@@ -18,9 +18,10 @@ export class ChatController {
         // chat with yourself
         if(otherUser == id) throw new BadRequestException("You can not chat with yourself")
         let { success, latestUpdate, messages } = await this.chatService.getMessagesFor(id, otherUser)
+        let chatHistories = await this.chatService.handleGetChatHistory(id)
         if (success) {
             res.cookie('latestUpdate', latestUpdate)
-                .render("testChat", { latestUpdate, messages, receiverId: otherUser })
+                .render("testChat", { latestUpdate, messages, receiverId: otherUser, chatHistories })
         }
         else res.send("Error occured when retrieving messages")
     }
