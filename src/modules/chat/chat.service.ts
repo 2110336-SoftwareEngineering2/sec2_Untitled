@@ -94,7 +94,7 @@ export class ChatService {
             if (strId[0] == '1') role = "owner"
             // pet sitter
             else if (strId[0] == '2') role = "sitter"
-        } else if (idLength < 6) role = "admin"
+        } else if (idLength < 7) role = "admin"
 
         return await this.accountService.findAccountById(role, id)
     }
