@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {Transaction} from 'src/entities'
+import { Transaction } from 'src/entities'
 import { Repository } from 'typeorm';
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc'
@@ -15,16 +15,19 @@ export class NotificationService {
         @InjectRepository(Transaction)
         private readonly transactionRepo: Repository<Transaction>,
         private readonly accountService: AccountService
-    ){}
+    ) { }
 
-    async createTransaction(performerId: number, receiverId: number, description: string){
-        return await this.transactionRepo.save({performerId,receiverId,description})
+    async createTransaction(performerId: number, receiverId: number, description: string) {
+        return await this.transactionRepo.save({ performerId, receiverId, description })
     }
 
     // get all transaction for receiverId
-    async getNotificationsFor(receiverId: number){
-        const results:any = await this.transactionRepo.find({where: {receiverId}})
-        for (const result of results){
+    async getNotificationsFor(receiverId: number) {
+        const results: any = await this.transactionRepo.find({ where: { receiverId } })
+        for (const result of results) {
+            // datetime queried from database is already in utc but offset is local offset which is wrong
+            // therefore I set its offset to 0 and keeping its local time
+            result.createDatetime = new Date(dayjs(result.createDatetime).utcOffset(0, true).format())
             result.performerPicUrl = await this.getPicUrlOf(result.performerId)
             result.fromNow = this.fromNow(result.createDatetime)
             const index  = result.description.split(' ').indexOf('booking')
@@ -34,15 +37,14 @@ export class NotificationService {
         return results.reverse()
     }
 
-    async getPicUrlOf(userId: number){
+    async getPicUrlOf(userId: number) {
         const role = userId.toString()[0] == '1' ? "owner" : "sitter"
-        return (await this.accountService.findAccountById(role,userId)).picUrl
+        return (await this.accountService.findAccountById(role, userId)).picUrl
     }
 
-    private fromNow(inDate){
-        let offSet = - inDate.getTimezoneOffset() / 60
+    private fromNow(inDate) {
         let now = dayjs.utc()
-        let date = dayjs(inDate).add(offSet, 'hour').utc()
+        let date = dayjs(inDate).utc()
         if (now.diff(date, 'second') < 60) return `${now.diff(date, 'second')} seconds ago`
         if (now.diff(date, 'minute') < 60) return `${now.diff(date, 'minute')} minutes ago`
         if (now.diff(date, 'hour') < 24) return `${now.diff(date, 'hour')} hours ago`
@@ -50,7 +52,7 @@ export class NotificationService {
     }
 
     // get all tracsantion for receiverId since "date"
-    getNotificationsSince(){
+    getNotificationsSince() {
 
     }
 }

@@ -1,13 +1,18 @@
-import { Controller, Get, Post, Body, Response, Request, Param, UseGuards, Req, Header } from '@nestjs/common';
+import { Controller, Get, Post, Body, Response, Request, Param, UseGuards, Req } from '@nestjs/common';
+import { PATH_METADATA } from '@nestjs/common/constants';
 import { ReviewService } from './review.service';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { NotificationService } from 'src/modules/notification/notification.service';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 
 @UseGuards(JwtAuthGuard,RolesGuard)
 @Controller()
 export class ReviewController {
-    constructor(private readonly reviewService: ReviewService) { }
+    constructor(
+		private readonly reviewService: ReviewService,
+		private readonly notificationService : NotificationService	
+	) { }
 	
 	@UseGuards(JwtAuthGuard,RolesGuard)
 	@Roles('owner')
@@ -42,21 +47,24 @@ export class ReviewController {
         res.render('review/showOwnerReviews', {reviews: object.reviews, petOwner: object.petOwner, user: user.petSitter, stat: starStat})
     }
 
+	@UseGuards(JwtAuthGuard,RolesGuard)
 	@Roles('owner')
-    @Get('/ownerReviewForm/:bookingId/:petsitterId')
-    async renderOwnerForm(@Response() res, @Req() req, @Param("bookingId") bookingId, @Param("petsitterId") petsitterId ){
-		let {Booking} = await this.reviewService.findBooking(bookingId);
-		// console.log('This is booking',book)
+    @Get('/ownerReviewForm/:bookingId')
+    async renderOwnerForm(@Response() res, @Req() req, @Param("bookingId") bookingId ){
+		//let routePath = Reflect.getMetadata(PATH_METADATA, this.appController);
+		//console.log(routePath)
+		//console.log(req.url)
 		
-		//await this.reviewService.setCurrentSitter(petsitterId)
-		let {petSitter} = await this.reviewService.findSitter(petsitterId);
-		// console.log('This is petsitter',object)
-		//console.log(this.reviewService.getCurrentSitter())
+		let {Booking} = await this.reviewService.findBooking(bookingId);
+		//console.log('This is booking',Booking)
+		
+		let petSitter = Booking.sitter;
+		//console.log('This is sitter id',petSitter.id)
 		
 		let {petOwner} = await this.reviewService.findOwner(req.user.id);
 		// console.log('This is petowner',reviewer)
 		
-		let starStat  = await this.reviewService.calculateStarStat(petsitterId);
+		let starStat  = await this.reviewService.calculateStarStat(petSitter.id);
 		
 		let endDate = Booking.endDate.toLocaleDateString() +' ' +Booking.endDate.toLocaleTimeString();
 		let startDate = Booking.startDate.toLocaleDateString() +' ' +Booking.startDate.toLocaleTimeString();
@@ -64,16 +72,15 @@ export class ReviewController {
         res.render('review/reviewForm1', {Booking ,petSitter, petOwner, SD:startDate, ED:endDate})
     }
 
+	@UseGuards(JwtAuthGuard,RolesGuard)
 	@Roles('sitter')
-    @Get('/sitterReviewForm/:bookingId/:petOwnerId')
-    async renderSitterForm(@Response() res, @Req() req, @Param("bookingId") bookingId, @Param("petOwnerId") petOwnerId ){
+    @Get('/sitterReviewForm/:bookingId')
+    async renderSitterForm(@Response() res, @Req() req, @Param("bookingId") bookingId){
 		let {Booking} = await this.reviewService.findBooking(bookingId);
-		// console.log('This is booking',book)
+		//console.log('This is booking',Booking)
 		
-		//await this.reviewService.setCurrentSitter(petsitterId)
-		let {petOwner} = await this.reviewService.findOwner(petOwnerId);
-		// console.log('This is petowner',object)
-		//console.log(this.reviewService.getCurrentSitter())
+		let petOwner = Booking.owner;
+		//console.log('This is owner id',petOwner.id)
 		
 		let {petSitter} = await this.reviewService.findSitter(req.user.id);
 		// console.log('This is petsitter',reviewer)
@@ -84,24 +91,26 @@ export class ReviewController {
         res.render('review/reviewFormS1', {Booking , petOwner, petSitter, SD:startDate, ED:endDate})
     }
 	
+	@UseGuards(JwtAuthGuard,RolesGuard)
 	@Roles('owner')
 	@Post('/ownerReviewForm/:petsitterId')
 	async ownerForm(@Response() res, @Body() dto, @Req() req, @Param("petsitterId") petsitterId){ 
 		let {petOwner} = await this.reviewService.findOwner(req.user.id);
 		//console.log('This is user who do request',req.user)
-		//console.log('This is parameter',dto)
+		console.log('This is parameter',dto)
 		//console.log('petsitter id',petsitterId)
 
 		res.render('review/reviewForm2',{petOwner})
 		return await this.reviewService.saveOwnerReview(dto.stars, dto.feedback, req.user.id, petsitterId);
 	}
 
+	@UseGuards(JwtAuthGuard,RolesGuard)
 	@Roles('sitter')
 	@Post('/sitterReviewForm/:petOwnerId')
 	async sitterForm(@Response() res, @Body() dto, @Req() req, @Param("petOwnerId") petOwnerId){ 
 		let {petSitter} = await this.reviewService.findSitter(req.user.id);
 		//console.log('This is user who do request',req.user)
-		//console.log('This is parameter',dto)
+		console.log('This is parameter',dto)
 		//console.log('petowner id',petOwnerId)
 		
 		res.render('review/reviewFormS2',{petSitter})
@@ -119,7 +128,31 @@ export class ReviewController {
 		//let startDate = book.Booking.startDate.toLocaleDateString() +' ' +book.Booking.startDate.toLocaleTimeString();
 
 		await this.reviewService.saveOwnerReport(req.user.id, book.Booking.sitter.id, dto.PoorOnService, dto.NotOnTime, dto.Impoliteness, dto.Other, dto.reportDescription);
-        return res.redirect('/ownerReviewForm/'+booking_id+'/'+book.Booking.sitter.id);
+		
+		let reportContent =  "You have been reported, please improve your behavior";
+		console.log(reportContent)
+		await this.notificationService.createTransaction(1000038,book.Booking.sitter.id,reportContent);
+		
+        return res.redirect('/ownerReviewForm/'+booking_id);
+    }
+
+	@UseGuards(JwtAuthGuard,RolesGuard)
+	@Roles('sitter')
+    @Post('/sitterReviewForm/Report/:booking_id')
+    async sitterReport(@Response() res, @Body() dto, @Req() req, @Param("booking_id") booking_id ){
+		let book = await this.reviewService.findBooking(booking_id);
+		//console.log('This is parameter',dto)
+		//let object = book.Booking.sitter;
+		//let endDate = book.Booking.endDate.toLocaleDateString() +' ' +book.Booking.endDate.toLocaleTimeString();
+		//let startDate = book.Booking.startDate.toLocaleDateString() +' ' +book.Booking.startDate.toLocaleTimeString();
+
+		await this.reviewService.saveOwnerReport(req.user.id, book.Booking.owner.id, dto.PoorOnService, dto.NotOnTime, dto.Impoliteness, dto.Other, dto.reportDescription);
+		
+		let reportContent =  "You have been reported, please improve your behavior";
+		console.log(reportContent)
+		await this.notificationService.createTransaction(1000038,book.Booking.owner.id,reportContent);
+		
+        return res.redirect('/sitterReviewForm/'+booking_id);
     }
 
 }

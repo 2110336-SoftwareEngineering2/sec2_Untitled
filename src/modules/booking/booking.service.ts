@@ -84,7 +84,7 @@ export class BookingService {
             if (! await this.bookingRepo.save(temp)) return false
 
             // create transaction
-            this.notificationService.createTransaction(poid, incomingBooking.sitter, `${petOwner.fname} requests your service`)
+            this.notificationService.createTransaction(poid, incomingBooking.sitter, `${petOwner.fname} requested your service`)
         }
 
         return true
@@ -119,7 +119,7 @@ export class BookingService {
 
             // create transaction
             let petSitter = await this.accountService.findAccountById('sitter',psid)
-            this.notificationService.createTransaction(psid, record.owner.id, `${petSitter.fname} accepts your request for ${record.pet.name}`)
+            this.notificationService.createTransaction(psid, record.owner.id, `${petSitter.fname} accepted your request for ${record.pet.name}`)
 
             if (await this.bookingRepo.save(record)) return true
             return false
@@ -128,7 +128,7 @@ export class BookingService {
 
             // create transaction
             let petSitter = await this.accountService.findAccountById('sitter',psid)
-            this.notificationService.createTransaction(psid, record.owner.id, `${petSitter.fname} denies your request for ${record.pet.name}`)
+            this.notificationService.createTransaction(psid, record.owner.id, `${petSitter.fname} denied your request for ${record.pet.name}`)
 
             if (await this.bookingRepo.save(record)) return true
             return false
@@ -184,7 +184,7 @@ export class BookingService {
         // if conditions are fulfilled then delete the booking
         if (booking.status == Status.Requesting && hoursSinceLastModified <= 24) {
             // create transaction
-            this.notificationService.createTransaction(poid, booking.sitter.id, `${booking.owner.fname} cancels request for ${booking.pet.name}`)
+            this.notificationService.createTransaction(poid, booking.sitter.id, `${booking.owner.fname} canceled request for ${booking.pet.name}`)
 
             if (await this.bookingRepo.remove(booking)) return { success: true }
             else return { success: false, message: "Error occured when removing request." }

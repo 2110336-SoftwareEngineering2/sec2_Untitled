@@ -1,47 +1,34 @@
-{{#>default title="Booking"}} 
-    <meta name="petSitterId" content={{petSitter.id}}>
-    <meta name="petSitterPriceRate" content={{petSitter.priceRate}}>
+{{#> default title="Booking"}} 
+<meta name="petSitterPriceRate" content={{petSitter.priceRate}}>
+<meta name="petSitterId" content={{petSitter.id}}>
 
-    {{!-- jQuery --}}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+{{!-- dayjs --}}
+<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+<script src="https://unpkg.com/dayjs@1.8.21/plugin/customParseFormat.js"></script>
+{{!-- css --}}
+<link rel="stylesheet" href="/stylesheets/booking/booking_option.css">
+<link rel='stylesheet' href='/stylesheets/booking/dragAndDrop.css'>
 
-    {{!-- Date Range Picker --}}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<div class="container mt-4"  style='width:100%'>
 
-    {{!-- dayjs --}}
-    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
-    <script src="https://unpkg.com/dayjs@1.8.21/plugin/customParseFormat.js"></script>
-
-    {{!-- css --}}
-    <link rel="stylesheet" href="/stylesheets/booking/booking_option.css">
-    <link rel='stylesheet' href='/stylesheets/booking/dragAndDrop.css'>
-
-<div class='vh-100'>
-
-<div class="container mt-3" style='max-width:90%'>
     <div class="row">
         {{!-- show path --}}
         <div class="col-12 col-lg-6 book-info-padding">
             <div class='mb-2'>
-                <p><a href="/search">SEARCH RESLUTS</a> / <a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a> / <span class='font-weight-bolder'>BOOKING</span></p>
+                <p><a href="/search">SEARCH RESULTS</a> / <a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a> / <span class='font-weight-bolder'>BOOKING</span></p>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8">
+        <div class="col-12 col-lg-8 book-info-padding" style='padding-right: 0'>
             <div class="bd-callout bd-callout-successs shadow-sm" role="alert">
                 <i class="fa  fa-check mr-2" aria-hidden="true" style='color:#28a745'></i>
                 <span class='font-weight-bolder text-success'> Great choice of property</span> - with an average guest rating of 9.3 from 75 reviews
             </div>
         </div>
-        <div class="col-2"></div>
     </div>
     <div class="row">
-        <div class="col-2"></div>
-        <div class="col-6">
+        <div class="col-12 col-lg-8 book-info-padding" style='padding-right: 0'>
             <div class="card shadow-sm">
                 <div class="card-body" >
                     <h2 class="card-head mb-3 font-weight-bolder">
@@ -53,11 +40,6 @@
                     <p style='font-size: 0.9em'>List of your pets</p>
                     <div class='dropzone'>
                         {{#each pets}}
-						{{!-- <div class='draggable p-0' style='border-radius:50%; width:100px;height:100px' draggable='true' pet-id={{id}}> --}}
-                            {{!-- <div class="circular--landscape--review d-flex justify-content-center" style='top:12.5px; left:12.5px'> --}}
-                                {{!-- <img class='draggable p-0' src="{{picUrl}}" alt="{{name}}" draggable='true' style=' width:100px;height:100px'> --}}
-                            {{!-- </div> --}}
-                        {{!-- </div> --}}
                         <p class='draggable font-weight-bolder' draggable='true' pet-id={{id}}>{{name}} ({{capFirstChar type}})</p>
                         {{/each}}
 					</div>
@@ -69,7 +51,6 @@
                     </h5>
                     <p style='font-size: 0.9em'>This is the list of pets which will be serviced</p>
                     <div class='dropzone dropzonesSeleted' id="selectedPetZone">
-                        {{!-- <p class='draggable font-weight-bolder text-white' draggable='true'>bulldog : foke 5 years old</p> --}}
 					</div>
                      <h5 class="card-head  mt-4">
                         Select Date
@@ -86,7 +67,6 @@
                     <div class="ml-auto">
                         Total price
                         <span id="priceTag">0</span> 
-                        {{!-- รู้จัก span ไหมครับ --}}
                         $
                     </div>
                 </div>
@@ -101,21 +81,8 @@
                 <span class='triangleArrow'></span>
             </div>
         </div>
-        <div class="col-2">
-            {{!-- <div class="card shadow-sm">
-                <div class="card-body">
-                    <h2>Pet list</h2>
-                    <ul>
-                        {{#each pets}}
-                            <li pet-id={{id}}>{{type}} : {{name}} {{age}} years old</li>
-                            <div class="circular--landscape--review align-self-center">
-                                <img src="{{picUrl}}" alt="{{name}}">
-                            </div>
-                        {{/each}}
-                    </ul>
-                </div>
-            </div> --}}
-            <div class="card shadow-sm">
+        <div class="col-12 col-lg-4 book-profile-padding">
+            <div class="card card-profile shadow-sm">
                 <div class="card-body pr-1">
                     <h5 class="card-title">{{petSitter.fullName}}</h5>
                 </div>
@@ -145,7 +112,6 @@
         </div>
         <div class="col-2"></div>
     </div>
-</div>
     <script src="/javascripts/booking/bookingOptionsHandler.js"></script>
     <script src='/javascripts/booking/dragAndDrop.js'></script>
 </div>

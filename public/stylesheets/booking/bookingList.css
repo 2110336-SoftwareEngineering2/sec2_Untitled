@@ -1,13 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
 body {
-	font-family: 'Montserrat', sans-serif;
-	background-image: url("/image/bg-profile.png");
-	background-repeat: no-repeat;
-    background-size: 100% auto;
-    background-position: center top;
-    background-attachment: fixed;
+	background-image:url('/image/logo1.png'), url("/image/bg-profile.png");
+    /* Full height
+    height: 100%;
+    Center and scale the image nicely */
+    background-position:10px 2px, center;
+    background-repeat:no-repeat ,repeat;
+    background-size:190px, 100% 100%;  
+	background-attachment:scroll ,fixed;
 }
+
+.bg-glassy {
+    background: rgba( 255, 255, 255, 0.25 );
+    box-shadow: 0 4px 16px 0 rgba( 31, 38, 135, 0.17 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+  }
+
 .page-header {
     font-weight: 700;
     font-size: 2rem;
@@ -48,19 +58,19 @@ body {
 .col-md-4 {
     margin-top: 27px
 }
-.circular--landscape {
+.circular--landscape-v2 {
 	display: inline-block;
 	position: relative;
-	width: 170px;
-	height: 170px;
+	width: 260px;
+	height: 260px;
 	overflow: hidden;
 	border-radius: 50%;
   }
   
-  .circular--landscape img {
+  .circular--landscape-v2 img {
 	width: auto;
 	height: 100%;
-	max-height: 170px;
+	max-height: 260px;
 	margin-left: 0px;
 	margin-top: 0px;
   }
@@ -166,6 +176,29 @@ body {
   .warapper-scrollable::-webkit-scrollbar{
 	  width: 0;
   }
+
+  .text-star {
+	  display:none;
+  }
+
+  .wow {
+	flex-direction: row ;
+	justify-content: space-between ;
+  }
+
+  @media (max-width: 500px) {
+	.wow {
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.wow > div {
+		margin: 0.5rem 0;
+		align-self: center !important;
+		text-align: center;
+	}
+	
+}
 
   @media (max-width: 992px) {
 	.vl-middle-page {

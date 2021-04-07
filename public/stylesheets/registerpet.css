@@ -1,12 +1,25 @@
 body {
-    background-image: url("/image/bg1.png");
+    background-image:url('/image/logo1.png'), url("/image/bg-profile.png");
     /* Full height
     height: 100%;
     Center and scale the image nicely */
-      background-position: center;
+    background-position:10px 2px, center;
+    background-repeat:no-repeat ,repeat;
+    background-size:190px, 100% 100%;  
+	background-attachment:scroll ,fixed;
+
+	/* background-image:url('/image/logo1.png'), url("/image/0home2.png"), url("/image/0home.png");
     background-repeat: no-repeat;
-    background-size: cover;  
+    background-size: 190px ,600px, 100% 100%;
+    background-attachment: fixed;
+    background-position:10px 2px, center bottom, 0px; */
 } 
+
+.bg-experince {
+	background-color:rgb(242, 242, 242);
+	border-radius: 25px;
+  }
+
 
 .bg-glassy {
     background: rgba( 255, 255, 255, 0.25 );
@@ -20,8 +33,8 @@ body {
 .circular--landscape-v2 {
 	display: inline-block;
 	position: relative;
-	width: 260px;
-	height: 260px;
+	width: 20px;
+	height: 20px;
 	overflow: hidden;
 	border-radius: 50%;
   }
@@ -29,7 +42,7 @@ body {
   .circular--landscape-v2 img {
 	width: auto;
 	height: 100%;
-	max-height: 260px;
+	max-height: 20px;
 	margin-left: 0px;
 	margin-top: 0px;
   }
@@ -38,7 +51,7 @@ body {
     padding: 20px 0px 100px 0px;
     background-color: white;
     border-radius: 150px;
-    margin: 20px 0px 20px 0px;
+    margin: 20px auto;
     width: 300px;
 }
 
@@ -48,11 +61,16 @@ body {
 	width: 60px;
 	height: 60px;
 	margin-bottom: 5px;
+	display: flex;
+	justify-content: center!important;
+	align-self: center!important;
 }
+
 
 .activity-icon {
 	font-size: 25px;
 	color: #0d6efd;
+	align-self: center!important;
 }
 
 .selected-icon {
@@ -69,9 +87,18 @@ body {
 }
 
 .wrapper-icon {
-	width: 75px;
+	width: 70px;
 	height: 110px;
-	margin: 10px 5px 0px 5px;
+	margin: 10px 2px 0px 2px;
+	display: flex;
+	justify-content: start;
+	flex-direction: column;
+}
+
+.wrapper-icon p {
+	margin-bottom: 0;
+	text-align: center!important;
+	align-self: center!important;
 }
 
 .wrapper-all-icon {
@@ -80,3 +107,15 @@ body {
     padding: 10px 0px 10px 0px; 
     margin-bottom: 20px;
 }
+
+.cancel_button {
+	width:49%; 
+	background-color: rgba(256,256,256,0); 
+	border-radius:15px;
+}
+
+.save_button {
+	width:49%; 
+	border-radius:15px;
+}
+
