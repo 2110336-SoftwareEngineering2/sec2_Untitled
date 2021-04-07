@@ -23,13 +23,15 @@
                 </li>
             {{/if}}
             {{#if token}}
-                <li class="nav-item">
-                    <a class="nav-link" href="/search">SEARCH</a>
-                </li>
+                {{#if (eq currentUser.role 'owner')}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/search">SEARCH</a>
+                    </li>
+                {{/if}}
                 <li class="nav-item">
                     <a class="nav-link" href="/book/my">MY BOOKINGS</a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" style='z-index:2'>
                     <div class="d-flex flex-row">
                         <div class='d-flex flex-column mr-2'>
                             <div class='align-self-end' style='font-size: 10px'>pet {{currentUser.role}}</div>
@@ -55,11 +57,11 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <div class="p-0" data-toggle="dropdown">
+                <li class="nav-item dropdown " style='z-index:2'>
+                    <div class="p-0 bell " data-toggle="dropdown">
                     <i class="fa fa-bell" style='font-size:25px' aria-hidden="true"></i>
                     </div>
-                    <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-menu dropdown-menu-right"> 
                         <h4 class='mb-3 mt-2' style='padding: .25rem 1.5rem;'>notifications</h4>
                         <div id="output">
                         </div>

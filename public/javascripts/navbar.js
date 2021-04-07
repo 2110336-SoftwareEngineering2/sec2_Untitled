@@ -22,7 +22,7 @@ $( document ).ready(function() {
     //     $('.navbar').addClass('bg-transparent')
     //     $('.navbar').addClass('navbar-light')
     // }
-    $('.fa-bell').mouseup(function(){
+    $('.bell').mouseup(function(){
         $('.fa-bell').addClass('animate-wobble')
         $('.fa-bell').delay(1000).queue(function(){
             $('.fa-bell').removeClass('animate-wobble').dequeue(); 

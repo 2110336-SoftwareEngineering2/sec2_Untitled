@@ -37,11 +37,6 @@
                     <p style='font-size: 0.9em'>List of your pets</p>
                     <div class='dropzone'>
                         {{#each pets}}
-						{{!-- <div class='draggable p-0' style='border-radius:50%; width:100px;height:100px' draggable='true' pet-id={{id}}> --}}
-                            {{!-- <div class="circular--landscape--review d-flex justify-content-center" style='top:12.5px; left:12.5px'> --}}
-                                {{!-- <img class='draggable p-0' src="{{picUrl}}" alt="{{name}}" draggable='true' style=' width:100px;height:100px'> --}}
-                            {{!-- </div> --}}
-                        {{!-- </div> --}}
                         <p class='draggable font-weight-bolder' draggable='true' pet-id={{id}}>{{name}} ({{capFirstChar type}})</p>
                         {{/each}}
 					</div>
@@ -53,7 +48,6 @@
                     </h5>
                     <p style='font-size: 0.9em'>This is the list of pets which will be serviced</p>
                     <div class='dropzone dropzonesSeleted' id="selectedPetZone">
-                        {{!-- <p class='draggable font-weight-bolder text-white' draggable='true'>bulldog : foke 5 years old</p> --}}
 					</div>
                      <h5 class="card-head  mt-4">
                         Select Date
@@ -70,7 +64,6 @@
                     <div class="ml-auto">
                         Total price
                         <span id="priceTag">0</span> 
-                        {{!-- รู้จัก span ไหมครับ --}}
                         $
                     </div>
                 </div>
@@ -86,19 +79,6 @@
             </div>
         </div>
         <div class="col-12 col-lg-4 book-profile-padding">
-            {{!-- <div class="card shadow-sm">
-                <div class="card-body">
-                    <h2>Pet list</h2>
-                    <ul>
-                        {{#each pets}}
-                            <li pet-id={{id}}>{{type}} : {{name}} {{age}} years old</li>
-                            <div class="circular--landscape--review align-self-center">
-                                <img src="{{picUrl}}" alt="{{name}}">
-                            </div>
-                        {{/each}}
-                    </ul>
-                </div>
-            </div> --}}
             <div class="card card-profile shadow-sm">
                 <div class="card-body pr-1">
                     <h5 class="card-title">{{petSitter.fullName}}</h5>
@@ -129,7 +109,6 @@
         </div>
         <div class="col-2"></div>
     </div>
-{{!-- </div> --}}
     <script src="/javascripts/booking/bookingOptionsHandler.js"></script>
     <script src='/javascripts/booking/dragAndDrop.js'></script>
 </div>
