@@ -1,59 +1,63 @@
 {{#> default title="Bookings"}}
 <link rel="stylesheet" href="/stylesheets/booking/bookingList.css">
-
-<div class="container mt-4" style='width: 100%'>
+<div class="container mt-3" style='width: 100%'>
     <div class="row">
-        <div class="col-12">
-            <div class="card bg-glassy border-none">
-                <div class="card-body d-flex flex-wrap">
-                        <h2 class="page-header">BOOKING HISTORY</h2>
-                        
-                        {{#if bookingList.length}}
-                        <div class='d-flex flex-wrap flex-row-8 flex-col-8 d-none'>
-                            {{#each bookingList}}
-                            
-                            <div class="card my-3 mr-3 rounded-pill shadow-lg" name="booking_parent" style='max-width:500px'>
-                                <div class="card-body">
-
-                                    <div class="wow d-flex">
-                                        <div>
-                                            <img class="rounded-circle" src="{{sitter.picUrl}}" width=".25rem" height=".25rem">
-                                        </div>
-                                        <div class="d-flex flex-column mx-4">
-                                            <span style='font-size:16px; font-weight:600'>{{sitter.fullName}}</span>
-                                            <div rating={{sitter.rating}} style='font-size: 10px; margin-bottom:0.5rem'>
-                                            </div>
-                                            <span class="text-black-50">From: {{formatDate startDate "DD MMMM YYYY"}}</span>
-                                            <span class="text-black-50">To: {{formatDate endDate "DD MMMM YYYY"}}</span>
-                                            <span class="text-black-50">Pet Name: {{pet.name}}</span>
-                                            <span class="text-black-50 status">Status: {{status}}</span>
-                                            <span class="text-black-50 status">Price: {{price}} $</span>
-                                            {{#if (eq status "Pending")}}
-                                                <span><a class="btn btn-primary pay-button" booking-id={{id}}>Pay</a></span>
-                                            {{/if}}
-                                            {{#if (eq status "Finished")}}
-                                                <span><a class="btn btn-primary pay-button" href='/ownerReviewForm/{{id}}/{{sitter.id}}' booking-id={{id}}>Review</a></span>
-                                            {{/if}}
-                                        {{!-- <span class="ratings"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span>--}}
-                                        </div> 
-                                        <div class='align-self-center'>
-                                            {{#if (eq status "Requesting")}}
-                                                <button class='btn btn-danger btn-lg rounded-pill' booking-id={{id}} name="cancelBooking">X</button>
-                                            {{/if}}
-                                        </div>
-                                    </div>
-                                        
-        
-                                    
-                                </div>
+        <div class="col-12 bg-glassy border-none my-5 p-5" style='border: 1px solid white'>
+            <h2 class="page-header">BOOKING HISTORY</h2>
+            {{#if bookingList.length}}
+            <div class='d-flex flex-wrap flex-row-8 flex-col-8 d-none'>
+                {{#each bookingList}}
+                <div class="card my-3 mr-3 rounded-pill shadow-lg" name="booking_parent">
+                    <div class="card-body">
+                        <div class="wow d-flex">
+                            <div>
+                                <img class="rounded-circle" src="{{sitter.picUrl}}" width=".25rem" height=".25rem">
                             </div>
-                            {{/each}}
-                        </div>
-                        {{else}}
-                        <h1>You don't have any booking</h1>
-                        {{/if}}
+                            <div class="d-flex flex-column mx-4" style='max-width:150px'>
+                                <span style='font-size:16px; font-weight:600'>{{sitter.fullName}}</span>
+                                <div rating={{sitter.rating}} style='font-size: 10px; margin-bottom:0.5rem'>
+                                </div>
+                                <span class="text-black-50">From: {{formatDate startDate "DD MMMM YYYY"}}</span>
+                                <span class="text-black-50">To: {{formatDate endDate "DD MMMM YYYY"}}</span>
+                                <span class="text-black-50">Pet Name: {{pet.name}}</span>
+                                <span class="text-black-50 status">Status: {{status}}</span>
+                                <span class="text-black-50 status">Price: {{price}} $</span>
+                            {{!-- <span class="ratings"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span>--}}
+                            </div> 
+                            <div class='align-self-center px-3'>
+                                {{#if (eq status "Pending")}}
+                                    <span><a class="btn btn-primary pay-button" booking-id={{id}}>Pay</a></span>
+                                {{/if}}
+                                {{#if (eq status "Finished")}}
+                                    <span><a class="btn btn-primary pay-button" href='/ownerReviewForm/{{id}}/{{sitter.id}}' booking-id={{id}}>Review</a></span>
+                                {{/if}}
+                                {{#if (eq status "Requesting")}}
+                                    <button class='btn btn-danger btn-lg rounded-pill' booking-id={{id}} name="cancelBooking">X</button>
+                                {{/if}}
+                            </div>
+                        </div>       
+                    </div>
                 </div>
+                {{/each}}
             </div>
+            {{else}}
+            <div class="d-flex justify-content-center mb-2 mt-5">
+                <i class="fas fa-file" style='font-size: 20px'></i>
+            </div>
+            <div class="text-muted mb-3" style=' display: block;
+                width: 100%; 
+                padding: .25rem 1.5rem;
+                clear: both;
+                font-weight:400;
+                font-size:18px;
+                color: gray;
+                text-align: center; 
+                white-space: nowrap; 
+                background-color: transparent; 
+                border: 0; '>
+                You don't have any booking
+            </div>
+            {{/if}}
         </div>
     </div>
 </div>
@@ -62,4 +66,3 @@
 <script src="/javascripts/booking/starsHandler.js"></script>
 <script src="/javascripts/booking/myBookingOwnerHandler.js"></script>
 {{/default}}
-
