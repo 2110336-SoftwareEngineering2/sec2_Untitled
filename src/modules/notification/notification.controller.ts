@@ -10,7 +10,7 @@ export class NotificationController {
     ) { }
 
     @Get('/notifications')
-    getNotifications(@Req() { user: { id } }) {
-        return this.notificationService.getNotificationsFor(id)
+    async getNotifications(@Req() { user: { id } }) {
+        return await this.notificationService.getNotificationsFor(id)
     }
 }
