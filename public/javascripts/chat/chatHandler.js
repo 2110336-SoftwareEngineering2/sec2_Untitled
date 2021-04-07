@@ -51,7 +51,6 @@ function appendMessage(data) {
         let messageBlock = undefined
         if (m.isMe) messageBlock = getMessageBlockForMe(m.message)
         else messageBlock = getMessageBlockForOtherUser(m.message, data.otherUserInfo.picUrl, `${data.otherUserInfo.fname} ${data.otherUserInfo.lname}`)
-        console.log(messageBlock)
         $("#messageList").append(messageBlock)
     }
 }
@@ -70,18 +69,18 @@ $(document).ready(() => {
     })
 
     // click on chat history
-    $("li.contact").on('click', function() {
+    $("li.contact").on('click', function () {
         let otherUserId = $(this).attr('other-user-id')
         window.location = `/chat/${otherUserId}`
     })
 
     // click book now
-    $("#bookNowBtn").on('click', function() {
+    $("#bookNowBtn").on('click', function () {
         window.location = `/book/${RECEIVER_ID}/options`
     })
 
     // click view profile
-    $("#viewProfileBtn").on('click', function() {
+    $("#viewProfileBtn").on('click', function () {
         window.location = `/book/${RECEIVER_ID}`
     })
 
