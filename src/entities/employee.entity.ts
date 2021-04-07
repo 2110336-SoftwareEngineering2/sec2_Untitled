@@ -22,4 +22,8 @@ export class Employee {
 
     @Column({ length: 1 })
     gender: string;
+
+    public get fullName(): string {
+        return this.fname + ' ' + this.lname
+    }
 }

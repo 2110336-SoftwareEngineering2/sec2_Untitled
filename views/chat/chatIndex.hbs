@@ -4,11 +4,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
 	integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
 	crossorigin="anonymous"></script>
-<div class="chatBody" id="frame">
+
+<div class="chatBody mt-2" id="frame">
 	<div class="rounded-left" id="sidepanel">
 		<div id="profile">
 			<div class="wrap">
-				<img id="profile-img" src="/image/profile.png" class="online" alt="" />
+				<img id="profile-img" src="/image/profile.png" class="online">
 				<p>{{capFirstChar currentUser.username}}</p>
 
 				<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
@@ -47,26 +48,34 @@
 				{{#each chatHistories}}
 				<li class="contact" other-user-id={{otherUser.id}}>
 					<div class="wrap">
-						<img src={{otherUser.picUrl}} alt="" />
+						{{#if (neq otherUser.picUrl null)}}
+						<img src={{otherUser.picUrl}}>
+						{{else}}
+						<img id="profile-img" src="/image/profile.png">
+						{{/if}}
 						<div class="meta">
 							<p class="name">{{capFirstChar otherUser.fullName}}</p>
 							<p class="preview">{{message}}</p>
-							{{!-- <p class="preview"><span>You:</span> {{message}}</p> --}}
 						</div>
 					</div>
 				</li>
 				{{/each}}
 			</ul>
 		</div>
+		{{#if (roleOfThisIdIs otherUserInfo.id 'sitter')}}
 		<div id="bottom-bar">
-			<button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add
-					contact</span></button>
-			<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+			<button id="viewProfileBtn"><span>View profile</span></button>
+			<button id="bookNowBtn"><span>Book now</span></button>
 		</div>
+		{{/if}}
 	</div>
 	<div class="content">
 		<div class="contact-profile">
-			<img src={{otherUserInfo.picUrl}} width="36" height="36" class="rounded-circle" />
+			{{#if (neq otherUserInfo.picUrl null)}}
+			<img src={{otherUserInfo.picUrl}} class="rounded-circle" />
+			{{else}}
+			<img id="profile-img" src="/image/profile.png">
+			{{/if}}
 			<p>{{capFirstChar otherUserInfo.fullName}}</p>
 
 		</div>
@@ -79,7 +88,11 @@
 				</li>
 				{{else}}
 				<li class="sent">
-					<img src={{../otherUserInfo.picUrl}} width="25" height="25" class="rounded-circle">
+					{{#if (neq ../otherUserInfo.picUrl null)}}
+					<img src={{../otherUserInfo.picUrl}} class="rounded-circle">
+					{{else}}
+					<img id="profile-img" src="/image/profile.png">
+					{{/if}}
 					<p>{{message}}</p>
 				</li>
 				{{/if}}
@@ -96,16 +109,8 @@
 		</div>
 	</div>
 
-	<div class="rounded-right" id="sidepanel">
-
-		<div id="bottom-bar">
-			<button id="viewProfileBtn"><span>View profile</span></button>
-			<button id="bookNowBtn"><span>Book now</span></button>
-
-		</div>
-	</div>
-
 </div>
+<div class="container pb-4"></div>
 <script src="/javascripts/chat/chatHandler.js"></script>
 
 {{/default}}

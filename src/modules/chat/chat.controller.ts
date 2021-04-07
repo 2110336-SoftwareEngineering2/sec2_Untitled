@@ -9,6 +9,12 @@ export class ChatController {
         private readonly chatService: ChatService
     ) { }
 
+    @Get('/chat/index')
+    async chatIndex(@Req() { user: { id } }, @Res() res) {
+        let latestChatPairId = await this.chatService.handleChatIndex(id)
+        res.redirect(`/chat/${latestChatPairId}`)
+    }
+
     @Get('/chat/:otherUser')
     async index(@Res() res, @Req() { user: { id } }, @Param('otherUser') otherUser) {
         // chat with yourself
@@ -27,9 +33,9 @@ export class ChatController {
     //     message: string
     // }
     @Post('/api/chat')
-    saveMessage(@Req() { user: { id } }, @Body() { receiverId, message }) {
+    async saveMessage(@Req() { user: { id } }, @Body() { receiverId, message }) {
         // id is the id of sender
-        return this.chatService.handleSaveMessage(id, receiverId, message)
+        return await this.chatService.handleSaveMessage(id, receiverId, message)
     }
 
     // (Optional query string) onlyNewMessages : 'true' | 'false'
