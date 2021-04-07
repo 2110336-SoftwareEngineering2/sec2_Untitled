@@ -4,7 +4,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
 	integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
 	crossorigin="anonymous"></script>
-<div class="chatBody" id="frame">
+
+<div class="chatBody mt-2" id="frame">
 	<div class="rounded-left" id="sidepanel">
 		<div id="profile">
 			<div class="wrap">
@@ -71,7 +72,7 @@
 	<div class="content">
 		<div class="contact-profile">
 			{{#if (neq otherUserInfo.picUrl null)}}
-			<img src={{otherUserInfo.picUrl}} width="36" height="36" class="rounded-circle" />
+			<img src={{otherUserInfo.picUrl}} class="rounded-circle" />
 			{{else}}
 			<img id="profile-img" src="/image/profile.png">
 			{{/if}}
@@ -88,7 +89,7 @@
 				{{else}}
 				<li class="sent">
 					{{#if (neq ../otherUserInfo.picUrl null)}}
-					<img src={{../otherUserInfo.picUrl}} width="25" height="25" class="rounded-circle">
+					<img src={{../otherUserInfo.picUrl}} class="rounded-circle">
 					{{else}}
 					<img id="profile-img" src="/image/profile.png">
 					{{/if}}
@@ -109,6 +110,7 @@
 	</div>
 
 </div>
+<div class="container pb-4"></div>
 <script src="/javascripts/chat/chatHandler.js"></script>
 
 {{/default}}
