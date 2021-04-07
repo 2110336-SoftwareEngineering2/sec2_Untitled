@@ -186,7 +186,13 @@ body {
 	justify-content: space-between ;
   }
 
-  @media (max-width: 500px) {
+  @media (min-width: 540px) {
+	.rounded-pill.shadow-lg {
+		min-width:420px;
+	}
+  }
+
+  @media (max-width: 540px) {
 	.wow {
 		flex-direction: column;
 		justify-content: center;
