@@ -157,7 +157,7 @@ export class ChatService {
     }
 
     // return an id of someone that userId had chat with
-    // if userId never chat before this function will return 1000038
+    // if userId never chat before this function will return 1000039
     async handleChatIndex(userId: number): Promise<number> {
         let messages = await this.messageRepo.find({
             where: [
@@ -165,7 +165,7 @@ export class ChatService {
                 { receiverId: userId }
             ]
         })
-        if (!messages.length) return 10000038
+        if (!messages.length) return 1000039
         else {
             let chatMateList = await this.getChatMateList(userId, messages)
             return chatMateList[chatMateList.length - 1] // latest person userId had chat with
