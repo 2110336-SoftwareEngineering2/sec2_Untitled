@@ -27,8 +27,11 @@ export class NotificationService {
         for (const result of results){
             result.performerPicUrl = await this.getPicUrlOf(result.performerId)
             result.fromNow = this.fromNow(result.createDatetime)
+            const index  = result.description.split(' ').indexOf('booking')
+            console.log(index)
+            if (index !== -1) result.bookingId = +result.description.split(' ')[index+1]
         }
-        return results
+        return results.reverse()
     }
 
     async getPicUrlOf(userId: number){

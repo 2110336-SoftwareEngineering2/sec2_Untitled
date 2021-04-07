@@ -20,19 +20,22 @@
 
                                                 <div class="d-flex flex-row">
                                                     <img class="rounded-circle" src="{{sitter.picUrl}}" width="80" height="80">
-                                                    <div class="d-flex flex-column ml-2"><span>{{sitter.fullName}}</span>
-                                                    <span class="text-black-50">From: {{formatDate startDate "DD MMMM YYYY"}}</span>
-                                                    <span class="text-black-50">To: {{formatDate endDate "DD MMMM YYYY"}}</span>
-                                                    <span class="text-black-50">Pet Name: {{pet.name}}</span>
-                                                    <span class="text-black-50 status">Status: {{status}}</span>
-                                                    <span class="text-black-50 status">Price: {{price}}</span>
-                                                    {{#if (eq status "Pending")}}
-                                                        <span><a class="btn btn-primary pay-button" booking-id={{id}}>Pay</a></span>
-                                                    {{/if}}
-                                                    {{#if (eq status "Finished")}}
-                                                        <span><a class="btn btn-primary pay-button" href='/ownerReviewForm/{{id}}/{{sitter.id}}' booking-id={{id}}>Review</a></span>
-                                                    {{/if}}
-                                                    <span class="ratings"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span></div>
+                                                    <div class="d-flex flex-column ml-2">
+                                                        <span>{{sitter.fullName}}</span>
+                                                        <span class="text-black-50">Id: {{id}}</span>
+                                                        <span class="text-black-50">From: {{formatDate startDate "DD MMMM YYYY"}}</span>
+                                                        <span class="text-black-50">To: {{formatDate endDate "DD MMMM YYYY"}}</span>
+                                                        <span class="text-black-50">Pet Name: {{pet.name}}</span>
+                                                        <span class="text-black-50 status">Status: {{status}}</span>
+                                                        <span class="text-black-50 status">Price: {{price}}</span>
+                                                        {{#if (eq status "Pending")}}
+                                                            <span><a class="btn btn-primary pay-button" booking-id={{id}}>Pay</a></span>
+                                                        {{/if}}
+                                                        {{#if (eq status "Finished")}}
+                                                            <span><a class="" href='/ownerReviewForm/{{id}}/{{sitter.id}}' booking-id={{id}}>Review</a></span>
+                                                        {{/if}}
+                                                        {{!-- <span class="ratings"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span> --}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

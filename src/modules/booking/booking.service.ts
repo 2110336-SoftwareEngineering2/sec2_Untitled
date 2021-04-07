@@ -150,7 +150,7 @@ export class BookingService {
         
         // action taking
         record.status = Status.Finished // ! uncomment after implement frontEnd
-        this.notificationService.createTransaction(psid, record.owner.id, `Your service for ${record.pet.name} is done`) // ! uncomment after implement frontEnd
+        this.notificationService.createTransaction(psid, record.owner.id, `Your service of booking ${record.id} for ${record.pet.name} is done`) // ! uncomment after implement frontEnd
         if (await this.bookingRepo.save(record)) return true
         return false
     }
