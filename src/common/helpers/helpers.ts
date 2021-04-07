@@ -26,6 +26,17 @@ var register = function (Handlebars) {
             return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
         },
 
+        roleOfThisIdIs: function (id: number, role: "owner" | "sitter" | "admin") {
+            let strId = id.toString()
+            let idLength = strId.length
+            let _role = undefined
+            if(idLength == 7){
+                if(strId[0] == "1") _role = "owner"
+                if(strId[0] == "2") _role = "sitter"
+            }else if(idLength < 7) _role = "admin"
+            return _role == role
+        },
+
         capFirstChar: function (string: string) {
             if (!string) return ''
             let splitted = string.split(' ')
