@@ -20,8 +20,8 @@ function retrieveNewMessages() {
     }).done((data) => {
         if (!data.success) alert(data.message)
         else {
-            if (data.messages.length){
-                appendMessage(data.messages)
+            if (data.messages.length) {
+                appendMessage(data)
             }
         }
     })
@@ -29,33 +29,36 @@ function retrieveNewMessages() {
 
 // Helper
 function getMessageBlockForMe(message) {
-    let block = `<div>
-                <span>(ME) ${message}</span>
-                </div>`
+    let block = `<li class="replies">
+                    <p>${message}</p>
+                </li>`
     return block
 }
 
 // Helper
 function getMessageBlockForOtherUser(message, picUrl, name) {
-    let block = `<div>
-                <img src=${picUrl}>\
-                <span>${name}</span>\
-                <span>${message}</span>
-                </div>`
+    let block = `<li class="sent">
+                    <img src=${picUrl} width="25" height="25" class="rounded-circle">
+                    <p>${message}</p>
+                </li>`
     return block
 }
 
-function appendMessage(messages) {
+function appendMessage(data) {
+    messages = data.messages
     for (let i = 0; i < messages.length; i++) {
         let m = messages[i]
-        if (m.isMe) $("div[name='chatContainer'").append(getMessageBlockForMe(m.message))
-        else $("div[name='chatContainer'").append(getMessageBlockForOtherUser(m.message, m.sender.picUrl, `${m.sender.fname} ${m.sender.lname}`))
+        let messageBlock = undefined
+        if (m.isMe) messageBlock = getMessageBlockForMe(m.message)
+        else messageBlock = getMessageBlockForOtherUser(m.message, data.otherUserInfo.picUrl, `${data.otherUserInfo.fname} ${data.otherUserInfo.lname}`)
+        $("#messageList").append(messageBlock)
     }
 }
 
 $(document).ready(() => {
     // event listenings
     $("input[name='messageInput']").on('keypress', function (e) {
+        // enter
         if (e.which == 13) {
             let message = $(this).val()
             // send message
@@ -63,6 +66,22 @@ $(document).ready(() => {
             // clear input
             $(this).val('')
         }
+    })
+
+    // click on chat history
+    $("li.contact").on('click', function () {
+        let otherUserId = $(this).attr('other-user-id')
+        window.location = `/chat/${otherUserId}`
+    })
+
+    // click book now
+    $("#bookNowBtn").on('click', function () {
+        window.location = `/book/${RECEIVER_ID}/options`
+    })
+
+    // click view profile
+    $("#viewProfileBtn").on('click', function () {
+        window.location = `/book/${RECEIVER_ID}`
     })
 
     // retrieve new messages every time interval

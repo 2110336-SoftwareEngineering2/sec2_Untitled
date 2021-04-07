@@ -1,0 +1,111 @@
+{{#> default title='Chat Room'}}
+<link href="/stylesheets/chatRoom.css" rel="stylesheet">
+<meta name="receiverId" content={{receiverId}}>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
+	integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
+	crossorigin="anonymous"></script>
+<div class="chatBody" id="frame">
+	<div class="rounded-left" id="sidepanel">
+		<div id="profile">
+			<div class="wrap">
+				<img id="profile-img" src="/image/profile.png" class="online" alt="" />
+				<p>{{capFirstChar currentUser.username}}</p>
+
+				<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+				<div id="status-options">
+					<ul>
+						<li id="status-online" class="active"><span class="status-circle"></span>
+							<p>Online</p>
+						</li>
+						<li id="status-away"><span class="status-circle"></span>
+							<p>Away</p>
+						</li>
+						<li id="status-busy"><span class="status-circle"></span>
+							<p>Busy</p>
+						</li>
+						<li id="status-offline"><span class="status-circle"></span>
+							<p>Offline</p>
+						</li>
+					</ul>
+				</div>
+				<div id="expanded">
+					<label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
+					<input name="twitter" type="text" value="mikeross" />
+					<label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
+					<input name="twitter" type="text" value="ross81" />
+					<label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
+					<input name="twitter" type="text" value="mike.ross" />
+				</div>
+			</div>
+		</div>
+		<div id="search">
+			<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+			<input type="text" placeholder="Search contacts..." />
+		</div>
+		<div id="contacts">
+			<ul>
+				{{#each chatHistories}}
+				<li class="contact" other-user-id={{otherUser.id}}>
+					<div class="wrap">
+						<img src={{otherUser.picUrl}} alt="" />
+						<div class="meta">
+							<p class="name">{{capFirstChar otherUser.fullName}}</p>
+							<p class="preview">{{message}}</p>
+							{{!-- <p class="preview"><span>You:</span> {{message}}</p> --}}
+						</div>
+					</div>
+				</li>
+				{{/each}}
+			</ul>
+		</div>
+		<div id="bottom-bar">
+			<button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add
+					contact</span></button>
+			<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+		</div>
+	</div>
+	<div class="content">
+		<div class="contact-profile">
+			<img src={{otherUserInfo.picUrl}} width="36" height="36" class="rounded-circle" />
+			<p>{{capFirstChar otherUserInfo.fullName}}</p>
+
+		</div>
+		<div class="messages">
+			<ul id="messageList">
+			{{#each messages}}
+				{{#if isMe}}
+				<li class="replies">
+					<p>{{message}}</p>
+				</li>
+				{{else}}
+				<li class="sent">
+					<img src={{../otherUserInfo.picUrl}} width="25" height="25" class="rounded-circle">
+					<p>{{message}}</p>
+				</li>
+				{{/if}}
+			{{/each}}
+			</ul>
+		</div>
+
+		<div class="message-input">
+			<div class="wrap">
+				<input type="text" name="messageInput" placeholder="Write your message..." />
+				<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+				<button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+			</div>
+		</div>
+	</div>
+
+	<div class="rounded-right" id="sidepanel">
+
+		<div id="bottom-bar">
+			<button id="viewProfileBtn"><span>View profile</span></button>
+			<button id="bookNowBtn"><span>Book now</span></button>
+
+		</div>
+	</div>
+
+</div>
+<script src="/javascripts/chat/chatHandler.js"></script>
+
+{{/default}}

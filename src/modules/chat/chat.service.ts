@@ -40,58 +40,44 @@ export class ChatService {
                 { senderId: otherUser, receiverId: requestingUser }
             ]
         }))
+        let otherUserInfo = await this.getUserInfo(otherUser)
 
         let latestUpdate = dayjs.utc().format("DD/MM/YYYY HH:mm:ss") // default is current time
         for (let i = 0; i < messages.length; i++) {
-            // set offset to 0 because time is already in utc but the offset is wrong (GMT +7)
-            messages[i].createDatetime = new Date(dayjs(messages[i].createDatetime).utcOffset(0, true).format())
-            if (messages[i].senderId == requestingUser) messages[i].isMe = true
-            else {
-                messages[i].isMe = false
-                // IDEA : sender will always be the same person. fetch sender info just once is enough
-                messages[i].sender = await this.getUserInfo(messages[i].senderId)
-            }
+            messages[i].isMe = messages[i].senderId == requestingUser
             if (i == messages.length - 1) latestUpdate = dayjs(messages[i].createDatetime).add(1, 'second').format("DD/MM/YYYY HH:mm:ss")
         }
-
-        return { success: true, latestUpdate, messages }
+        return { success: true, latestUpdate, messages, otherUserInfo }
     }
 
     // retrieve messages from DB corresponding to input receiver ID since input time
     async getMessagesSince(requestingUser, otherUser, since) {
-        // validate "since" format to be in "DD/MM/YYYY HH:mm:ss" utc
         if (!dayjs(since, "DD/MM/YYYY HH:mm:ss", true).isValid()) return {
             success: false,
             message: "Expected since format is \"DD/MM/YYYY HH:mm:ss\" in UTC time"
         }
 
         // set utcOffSet to 0 because the incoming "since" is already in utc
-        let sineInISOFormat = dayjs(since, "DD/MM/YYYY HH:mm:ss").format()
+        let sineInISOFormat = dayjs(since, "DD/MM/YYYY HH:mm:ss").utcOffset(0, true).format()
         let messages = Object(await this.messageRepo.find({
             where: [
                 { senderId: requestingUser, receiverId: otherUser, createDatetime: MoreThan(sineInISOFormat) },
                 { senderId: otherUser, receiverId: requestingUser, createDatetime: MoreThan(sineInISOFormat) }
             ]
         }))
+        let otherUserInfo = await this.getUserInfo(otherUser)
 
         let latestUpdate = since
         // retrieve sender info for each message
         for (let i = 0; i < messages.length; i++) {
-            // set offset to 0 because time is already in utc but the offset is wrong (GMT +7)
-            messages[i].createDatetime = new Date(dayjs(messages[i].createDatetime).utcOffset(0, true).format())
-            if (messages[i].senderId == requestingUser) messages[i].isMe = true
-            else {
-                messages[i].isMe = false
-                messages[i].sender = await this.getUserInfo(messages[i].senderId)
+            messages[i].isMe = messages[i].senderId == requestingUser
+            if (i == messages.length - 1) {
+                latestUpdate = dayjs(messages[i].createDatetime).add(1, 'second').format("DD/MM/YYYY HH:mm:ss")
             }
-            // add one second to prevent querying the messages that are already been sent to the client
-            // Problem is because createDatetime stored in datacase has 6 digits millisecond
-            // with dayjs you can only use 3 ex. 12:00.123456 > 12:00.123
-            if (i == messages.length - 1) latestUpdate = dayjs(messages[i].createDatetime).add(1, 'second').format("DD/MM/YYYY HH:mm:ss")
 
         }
 
-        return { success: true, latestUpdate, messages }
+        return { success: true, latestUpdate, messages, otherUserInfo }
     }
 
     /**
