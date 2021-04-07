@@ -27,6 +27,7 @@ var register = function (Handlebars) {
         },
 
         capFirstChar: function (string: string) {
+            if (!string) return ''
             let splitted = string.split(' ')
             for (let i = 0; i < splitted.length; i++) {
                 splitted[i] = splitted[i].charAt(0).toUpperCase() + splitted[i].slice(1)
