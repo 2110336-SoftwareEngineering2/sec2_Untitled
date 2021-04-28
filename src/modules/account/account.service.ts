@@ -19,7 +19,7 @@ export class AccountService {
     private readonly repositories;
     private readonly entities;
     // CREATE
-    async saveToRepo(role: string, user: PetOwner | PetSitter | Employee) : Promise<PetOwner | PetSitter | Employee> {
+    async saveToRepo(role: string, user: Omit<PetOwner | PetSitter | Employee, 'id'>) : Promise<PetOwner | PetSitter | Employee> {
         return await this.repositories[role].save(user)
     }
 

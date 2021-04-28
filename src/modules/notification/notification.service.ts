@@ -23,16 +23,16 @@ export class NotificationService {
 
     // get all transaction for receiverId
     async getNotificationsFor(receiverId: number) {
-        const results: any = await this.transactionRepo.find({ where: { receiverId } })
+        const results: any = await this.transactionRepo.find({ receiverId })
         for (const result of results) {
             // datetime queried from database is already in utc but offset is local offset which is wrong
             // therefore I set its offset to 0 and keeping its local time
             result.createDatetime = new Date(dayjs(result.createDatetime).utcOffset(0, true).format())
             result.performerPicUrl = await this.getPicUrlOf(result.performerId)
-            if(! result.performerPicUrl) result.performerPicUrl = '/image/profile.png'
+            if (!result.performerPicUrl) result.performerPicUrl = '/image/profile.png'
             result.fromNow = this.fromNow(result.createDatetime)
-            const index  = result.description.split(' ').indexOf('booking')
-            if (index !== -1) result.bookingId = +result.description.split(' ')[index+1]
+            const index = result.description.split(' ').indexOf('booking')
+            if (index !== -1) result.bookingId = +result.description.split(' ')[index + 1]
         }
         return results.reverse()
     }
@@ -56,10 +56,7 @@ export class NotificationService {
         if (now.diff(date, 'minute') < 60) return `${now.diff(date, 'minute')} minutes ago`
         if (now.diff(date, 'hour') < 24) return `${now.diff(date, 'hour')} hours ago`
         if (now.diff(date, 'day') < 31) return `${now.diff(date, 'day')} days ago`
-    }
-
-    // get all tracsantion for receiverId since "date"
-    getNotificationsSince() {
-
+        if (now.diff(date, 'month') < 12) return `${now.diff(date, 'month')} months ago`
+        return "at least a year ago"
     }
 }

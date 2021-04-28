@@ -6,7 +6,7 @@ import {PetOwner,PetSitter,Booking,SitterAnimal} from 'src/entities'
 import { NotificationModule } from '../notification/notification.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PetOwner, PetSitter,Booking,SitterAnimal]), NotificationModule],
+  imports: [TypeOrmModule.forFeature([PetOwner, PetSitter,Booking,SitterAnimal])],
   controllers: [SearchController],
   providers: [SearchService]
 })
