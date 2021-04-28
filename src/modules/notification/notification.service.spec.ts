@@ -50,10 +50,8 @@ describe('NotificationService', () => {
   it('Get notifications for', async () => {
     let notifications1 = await service.getNotificationsFor(1000001)
     let notifications2 = await service.getNotificationsFor(2000001)
-    expect(notifications1.length).toStrictEqual(1)
+    expect(notifications1.length).toStrictEqual(3)
     expect(notifications2.length).toStrictEqual(3)
-    console.log(notifications1)
-    console.log(notifications2)
   })
 
   it("Get picture URL", async () => {
@@ -65,5 +63,7 @@ describe('NotificationService', () => {
     expect(pic2).toStrictEqual("ong-art_pic")
     expect(pic3).toStrictEqual("suchada_pic")
     expect(pic4).toStrictEqual("amnard_pic")
+
+    expect(async () => await service.getPicUrlOf(9999999)).rejects.toThrow("User ID can only be an ID of PetOwner PetSitter or Admin")
   })
 })

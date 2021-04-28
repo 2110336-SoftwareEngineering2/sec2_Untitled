@@ -47,55 +47,83 @@ describe('AccountService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-  //*
-  // it('find owner account by id',async () => {
-  //   const owner = await service.findAccountById('owner',1000001)
-  //   expect(owner.fname).toStrictEqual("Pabhanuwat")
-  //   expect(owner.lname).toStrictEqual("Pongsawad")
-  //   expect(async () => await service.findAccountById('owner',100000)).rejects.toThrow("Account Not Found!")
-  // })
 
-  //*
-  // it('find sitter account by id',async () => {
-  //   const sitter = await service.findAccountById('sitter',2000001)
-  //   expect(sitter.fname).toStrictEqual("Suchada")
-  //   expect(sitter.lname).toStrictEqual("Hnoonpakdee")
-  //   expect(async () => await service.findAccountById('sitter',200000)).rejects.toThrow("Account Not Found!")
-  // })
+  it('find owner account by id',async () => {
+    const owner = await service.findAccountById('owner',1000001)
+    expect(owner.fname).toStrictEqual("Pabhanuwat")
+    expect(owner.lname).toStrictEqual("Pongsawad")
+  })
 
-  // it('find owner account by username',async () => {
-  //   const owner = await service.findAccountByUsername('owner',"gark")
-  //   expect(owner.fname).toStrictEqual("Pabhanuwat")
-  //   expect(owner.lname).toStrictEqual("Pongsawad")
-  //   expect(async () => await service.findAccountByUsername('owner',"gook")).rejects.toThrow("Account Not Found!")
-  // })
+  it('find owner account by id (Account Not Found)',async () => {
+    expect(async () => await service.findAccountById('owner',100000)).rejects.toThrow("Account Not Found!")
+  })
+
+  it('find sitter account by id',async () => {
+    const sitter = await service.findAccountById('sitter',2000001)
+    expect(sitter.fname).toStrictEqual("Suchada")
+    expect(sitter.lname).toStrictEqual("Hnoonpakdee")
+  })
+
+  it('find sitter account by id (Account Not Found)',async () => {
+    expect(async () => await service.findAccountById('sitter',200000)).rejects.toThrow("Account Not Found!")
+  })
+
+  it('find owner account by username',async () => {
+    const owner = await service.findAccountByUsername('owner',"gark")
+    expect(owner.fname).toStrictEqual("Pabhanuwat")
+    expect(owner.lname).toStrictEqual("Pongsawad")
+  })
+
+  it('find owner account by username (Account Not Found)',async () => {
+    expect(async () => await service.findAccountByUsername('owner',"gook")).rejects.toThrow("Account Not Found!")
+  })
   
-  // it('find sitter account by username',async () => {
-  //   const sitter = await service.findAccountByUsername('sitter',"suchi")
-  //   expect(sitter.fname).toStrictEqual("Suchada")
-  //   expect(sitter.lname).toStrictEqual("Hnoonpakdee")
-  //   expect(async () => await service.findAccountByUsername('sitter',"sumo")).rejects.toThrow("Account Not Found!")
-  // })
+  it('find sitter account by username',async () => {
+    const sitter = await service.findAccountByUsername('sitter',"suchi")
+    expect(sitter.fname).toStrictEqual("Suchada")
+    expect(sitter.lname).toStrictEqual("Hnoonpakdee")
+  })
 
-  // it('find pet by owner id',async () => {
-  //   const pets = await service.findPetbyOwnerId('owner',1000001)
-  //   expect(pets.length).toStrictEqual(3)
-  //   expect(pets[0].name).toStrictEqual("far-dog")
-  //   expect(pets[1].name).toStrictEqual("far-cat")
-  //   expect(await service.findPetbyOwnerId('sitter',123456)).toBeNull()  // ! wrong role
-  //   expect(await service.findPetbyOwnerId('owner',123456)).toStrictEqual([])   // ! invalid id
-  // })
+  it('find sitter account by username (Account Not Found)',async () => {
+    expect(async () => await service.findAccountByUsername('sitter',"sumo")).rejects.toThrow("Account Not Found!")
+  })
 
+  it('find pet by owner id',async () => {
+    const pets = await service.findPetbyOwnerId('owner',1000001)
+    expect(pets.length).toStrictEqual(3)
+    expect(pets[0].name).toStrictEqual("far-dog")
+    expect(pets[1].name).toStrictEqual("far-cat")
+    expect(await service.findPetbyOwnerId('sitter',123456)).toBeNull()  // ! wrong role
+    expect(await service.findPetbyOwnerId('owner',123456)).toStrictEqual([])   // ! invalid id
+  })
 
-  // it('save to repo',async () => {
-  //   expect((await service.saveToRepo('owner',
-  //     { username: 'Baibua',fname: 'Supatchara', lname: 'Taninzon',signUpDate: new Date('2021-02-27'),
-  //       gender: 'F', password: "pass", fullName: "Supatchara Taninzon"}
-  //       )).id).toStrictEqual(1000005)
-  // })
+  it('find pet by owner id (Wrong Role)',async () => {
+    expect(await service.findPetbyOwnerId('sitter',123456)).toBeNull()
+  })
+
+  it('find pet by owner id (Invalid Id)',async () => {
+    expect(await service.findPetbyOwnerId('owner',123456)).toStrictEqual([])
+  })
+
 
   it('save to repo',async () => {
-    expect((await service.updateAccount('owner', 100001, {fname: "Garkie"})).fname).toStrictEqual("Garkie")
+    expect((await service.saveToRepo('owner',
+      { username: 'Baibua',fname: 'Supatchara', lname: 'Taninzon',signUpDate: new Date('2021-02-27'),
+        gender: 'F', password: "pass", fullName: "Supatchara Taninzon"}
+        )).id).toStrictEqual(1000005)
+  })
+
+  it('update account',async () => {
+    expect((await service.updateAccount('owner', 1000001, {fname: "Garkie"})).fname).toStrictEqual("Garkie")
+  })
+
+  it('create pet',async () => {
+    const newPetInfo = {  type: "foke", name:"foke-foke", gender:"M", yearOfBirth:2000,
+                          appearance: "short", picUrl: "fokephoto.com", age: 21, fullGender: "Male"
+                        }
+    let newPet = new Pet()
+    newPet = {...newPet, ...newPetInfo}
+    expect((await service.createPet(newPet, {user: {id: 1000001}})).name).toStrictEqual("foke-foke")
   })
 
   // todo: it throws exception
@@ -105,10 +133,16 @@ describe('AccountService', () => {
   //   expect(async () => (await service.createAccount('owner',newUser))).rejects.toThrow()
   // })
 
-  // it('withdraw balance', async () => {
-  //   expect(await service.withdrawBalance(2000001, -5)).toStrictEqual('impossible')        // * can't withdraw negative amount
-  //   expect(await service.withdrawBalance(2000001, 10000)).toStrictEqual('poor')           // * can't withdraw amount more than balance
-  //   expect((await service.findAccountById('sitter',2000001)).balance).toStrictEqual(100)  // * check first that account has 100 unit
-  //   expect((await service.withdrawBalance(2000001, 50)).balance).toStrictEqual(50)        // * withdraw 50, balance should now has 50
-  // })
+  it('withdraw balance', async () => {
+    expect((await service.findAccountById('sitter',2000001)).balance).toStrictEqual(100)
+    expect((await service.withdrawBalance(2000001, 50)).balance).toStrictEqual(50)
+  })
+
+  it('withdraw balance (Negative Amount)', async () => {
+    expect(await service.withdrawBalance(2000001, -5)).toStrictEqual('impossible')
+  })
+
+  it('withdraw balance (Insufficient Balance)', async () => {
+    expect(await service.withdrawBalance(2000001, 10000)).toStrictEqual('poor')
+  })
 });

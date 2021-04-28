@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Transaction } from 'src/entities'
 import { Repository } from 'typeorm';
@@ -45,6 +45,8 @@ export class NotificationService {
             if (strId[0] == '1') role = "owner"
             else if (strId[0] == '2') role = "sitter"
         } else if (idLength < 7) role = "admin"
+
+        if(!role) throw new BadRequestException("User ID can only be an ID of PetOwner PetSitter or Admin")
 
         return (await this.accountService.findAccountById(role, userId)).picUrl
     }

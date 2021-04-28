@@ -35,10 +35,10 @@ export const mockPetSitter = {
 
 export const mockPet = {
     entityList: [
-        {id: 3000001, type: "dog", name:"far-dog", gender:"M", yearOfBirth:"2000", appearance: "black", picUrl: "farphoto.com", owner: 1000001},
-        {id: 3000002, type: "cat", name:"far-cat", gender:"M", yearOfBirth:"2001", appearance: "red", picUrl: "farphoto.com", owner: 1000001},
-        {id: 3000003, type: "lizard", name:"far-lizard", gender:"F", yearOfBirth:"2002", appearance: "white", picUrl: "farphoto.com", owner: 1000001},
-        {id: 3000004, type: "turtle", name:"far-turtle", gender:"F", yearOfBirth:"2003", appearance: "purple", picUrl: "farphoto.com", owner: 1000002},
+        {id: 3000001, type: "dog", name:"far-dog", gender:"M", yearOfBirth:2000, appearance: "black", picUrl: "farphoto.com", owner: 1000001},
+        {id: 3000002, type: "cat", name:"far-cat", gender:"M", yearOfBirth:2001, appearance: "red", picUrl: "farphoto.com", owner: 1000001},
+        {id: 3000003, type: "lizard", name:"far-lizard", gender:"F", yearOfBirth:2002, appearance: "white", picUrl: "farphoto.com", owner: 1000001},
+        {id: 3000004, type: "turtle", name:"far-turtle", gender:"F", yearOfBirth:2003, appearance: "purple", picUrl: "farphoto.com", owner: 1000002},
     ],
     save,
     findOne,
