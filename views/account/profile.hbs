@@ -1,5 +1,5 @@
 {{#> default title="Profile"}}
-<div class="card mx-5 my-5">
+<div class="card mx-5 my-5 shadow" style= "background: white; border-radius: 50px;">
         <article class="card-body p-5">
             <h4 class="card-title mb-4 mt-1">Profile</h4>
 
@@ -91,12 +91,12 @@
                 </div>
             </div>
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdraw">Withdraw Money</button>
+            <button type="button" class="btn btn-dark btn-block mt-4 rounded-pill" data-toggle="modal" data-target="#withdraw">Withdraw Money</button>
 
             <!-- Modal -->
             <div class="modal fade" id="withdraw" tabindex="-1" aria-labelledby="withdrawLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div class="modal-content" style= " border-radius: 30px;">
                         <div class="modal-header">
                             <h5 class="modal-title" id="withdrawLabel">Withdraw</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -106,12 +106,12 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="amount">Amount</label>
-                                <input type="number" class="form-control" id="amount" name="amount"placeholder={{account.balance}}>
-                                <button id="withdraw-btn" class="btn btn-primary">Confirm</button>
+                                <input type="number" class="form-control rounded-pill" id="amount" name="amount"placeholder={{account.balance}}>
+                                <button id="withdraw-btn" class="btn btn-dark  mt-3 rounded-pill">Confirm</button>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary rounded-pill" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -120,11 +120,20 @@
             {{else}}
             <div class="form-group row">
                 <label for="pet" class="col-sm-2 col-form-label">Pet</label>
-                <div class="col-sm-10">
+                <div class="d-flex flex-wrap" style="width:900px">
                     {{#if pet.length}}
                     {{#each pet}}
-                    <input name="pet" readonly class="form-control-plaintext" placeholder="Pet" type="text"
-                        id="pet" value="{{type}} : {{name}}">
+                        
+                        <div class=" mr-3 mb-3 py-2 px-3 bg-experince rounded-pill align-self-center shadow" style="background-color:lightgray">
+                            
+                            <div class="align-self-center text-center"><img style="width:30px; height:30px"src="/image/icons/{{type}}.png"> <strong>{{type}}</strong> {{name}} 
+                            </div>
+                            {{!-- <span class="fas fa-heart text-muted mr-2" ></span>
+                             --}}
+                           
+                        </div>
+                
+                    
                     {{/each}}
                     {{else}}
                     <input name="pet" readonly class="form-control-plaintext" placeholder="Pet" type="text"
@@ -132,11 +141,11 @@
                     {{/if}}
                 </div>
             </div>
-            <button type="button" class="btn btn-dark btn-block mt-4" onclick="addPet()">Add Pet</button>
+            <button type="button" class="btn btn-dark btn-block mt-4 rounded-pill" onclick="addPet()">Add Pet</button>
             {{/if}}
 
             </form>
-            <button class="btn btn-dark btn-block mt-4" onclick="editProfile()"> Edit Profile </button>
+            <button class="btn btn-dark btn-block mt-4 rounded-pill" onclick="editProfile()"> Edit Profile </button>
 
             
 
