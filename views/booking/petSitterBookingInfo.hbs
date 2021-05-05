@@ -64,7 +64,7 @@
                 <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-paw text-muted mr-2"></span>Livestock</div>
                 <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-dragon text-muted mr-2"></span>Reptile</div>
             </div>
-             <div class='mb-2'>
+             <div class='mb-2' id="sendAMessageDiv">
                 <button type="button" class="btn btn-light btn-outline-dark py-2 rounded-pill" style="width:100%">
                     <span class='font-weight-bolder'>SEND A MESSAGE</span>
                 </button>
@@ -164,6 +164,11 @@
 <script>
     $("#bookAServiceDiv").on('click', function(){
         window.location += "/options"
+    })
+
+    $("#sendAMessageDiv").on('click', function(){
+        let petSitterId = $("meta[name='petSitterId']").attr('content')
+        window.location = `/chat/${petSitterId}`
     })
 </script>
 <script src="/javascripts/booking/starsHandler.js"></script>
