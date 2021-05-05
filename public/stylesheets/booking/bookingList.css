@@ -134,3 +134,9 @@ body {
 		color: black!important;
 	}
   }
+
+  #calenderWrapper {
+	background-color: white;
+	padding: 10px;
+	border-radius: 20px;
+  }
