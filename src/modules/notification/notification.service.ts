@@ -51,7 +51,7 @@ export class NotificationService {
         return (await this.accountService.findAccountById(role, userId)).picUrl
     }
 
-    private fromNow(inDate) {
+    fromNow(inDate) {
         let now = dayjs.utc()
         let date = dayjs(inDate).utc()
         if (now.diff(date, 'second') < 60) return `${now.diff(date, 'second')} seconds ago`
@@ -59,6 +59,6 @@ export class NotificationService {
         if (now.diff(date, 'hour') < 24) return `${now.diff(date, 'hour')} hours ago`
         if (now.diff(date, 'day') < 31) return `${now.diff(date, 'day')} days ago`
         if (now.diff(date, 'month') < 12) return `${now.diff(date, 'month')} months ago`
-        return "at least a year ago"
+        return `${now.diff(date, 'year')} years ago`
     }
 }

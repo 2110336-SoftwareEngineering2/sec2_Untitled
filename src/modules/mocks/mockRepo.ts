@@ -56,8 +56,8 @@ async function findOne(query) {
                 }
             }
             return isValid
-        })[0]
-    } else return this.entityList.filter(entity => entity.id === query)[0]
+        })[0] || null
+    } else return this.entityList.filter(entity => entity.id === query)[0] || null
 }
 
 async function find(query) {
@@ -71,8 +71,8 @@ async function find(query) {
                 }
             }
             return isValid
-        })
-    } else return this.entityList.filter(entity => entity.id === query)
+        }) || null
+    } else return this.entityList.filter(entity => entity.id === query) || null
 }
 
 async function save(object) {

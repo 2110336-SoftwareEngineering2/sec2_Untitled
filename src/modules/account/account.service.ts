@@ -37,13 +37,11 @@ export class AccountService {
 
     async findAccountById(role: string, id: number): Promise<any> {
         const account = await this.repositories[role].findOne(id)
-        if (!account) throw new NotFoundException("Account Not Found!")
         return account
     }
 
     async findAccountByUsername(role: string, username: string): Promise<any> {
         const account = await this.repositories[role].findOne({username})
-        if (!account) throw new NotFoundException("Account Not Found!")
         return account
     }
 

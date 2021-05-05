@@ -83,6 +83,8 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "modulePathIgnorePatterns":[".*\\.module.ts$","<rootDir>/common", "<rootDir>/entities"],
+    "coveragePathIgnorePatterns":[".*\\.module.ts$","<rootDir>/common", "<rootDir>/entities", "<rootDir>/modules/(dummy|mocks)"],
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],

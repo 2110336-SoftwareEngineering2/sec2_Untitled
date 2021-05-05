@@ -25,12 +25,12 @@ export class AccountController {
   async renderEditProfile(@Req() {user: {role,id}}, @Res() res): Promise<any> {
     const profile = await this.accountService.findAccountById(role,id);
     if (role === 'owner') return res.render('account/editOwnerProfile', profile);
-    else if (role === 'sitter') return res.render('account/editSitterProfile', profile);
+    else return res.render('account/editSitterProfile', profile);
   }
 
   @Roles('owner','sitter')
   @Post('/edit')
-  async updateOwner(@Body() dto: Omit<PetOwner | PetSitter, 'id'>, @Req() {user: {role,id}}, @Res() res){
+  async updateAccount(@Body() dto: Omit<PetOwner | PetSitter, 'id'>, @Req() {user: {role,id}}, @Res() res){
     await this.accountService.updateAccount(role,id,dto);
     res.redirect('/account')
   }

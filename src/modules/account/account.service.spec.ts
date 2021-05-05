@@ -48,6 +48,26 @@ describe('AccountService', () => {
     expect(service).toBeDefined();
   });
 
+  it('save to repo',async () => {
+    expect((await service.saveToRepo('owner',
+      { username: 'Baibua',fname: 'Supatchara', lname: 'Taninzon',signUpDate: new Date('2021-02-27'),
+        gender: 'F', password: "pass", fullName: "Supatchara Taninzon"}
+        )).id).toStrictEqual(1000005)
+  })
+
+  // todo: it throws exception
+  it('create account', async () => {
+    const newUser = { username: 'Knomkeng',fname: 'Knom', lname: 'Keng',signUpDate: new Date('2021-02-01'),
+    gender: 'F', password: "pass", fullName: "Knom Ken"}
+    expect((await service.createAccount('owner',newUser)).id).toStrictEqual(1000006)
+  })
+
+  it('create account (Username Already Existed)', async () => {
+    const newUser = { username: 'gark',fname: 'Pabhanuwat', lname: 'Pongsawad',signUpDate: new Date('2021-02-22'),
+    gender: 'M', password: "pass", fullName: "Pabhanuwat Pongsawad"}
+    expect(async () => await service.createAccount('owner',newUser)).rejects.toThrow("This username is already exist")
+  })
+
   it('find owner account by id',async () => {
     const owner = await service.findAccountById('owner',1000001)
     expect(owner.fname).toStrictEqual("Pabhanuwat")
@@ -55,7 +75,7 @@ describe('AccountService', () => {
   })
 
   it('find owner account by id (Account Not Found)',async () => {
-    expect(async () => await service.findAccountById('owner',100000)).rejects.toThrow("Account Not Found!")
+    expect(await service.findAccountById('owner',100000)).toBeNull()
   })
 
   it('find sitter account by id',async () => {
@@ -65,7 +85,7 @@ describe('AccountService', () => {
   })
 
   it('find sitter account by id (Account Not Found)',async () => {
-    expect(async () => await service.findAccountById('sitter',200000)).rejects.toThrow("Account Not Found!")
+    expect(await service.findAccountById('sitter',200000)).toBeNull()
   })
 
   it('find owner account by username',async () => {
@@ -75,7 +95,7 @@ describe('AccountService', () => {
   })
 
   it('find owner account by username (Account Not Found)',async () => {
-    expect(async () => await service.findAccountByUsername('owner',"gook")).rejects.toThrow("Account Not Found!")
+    expect(await service.findAccountByUsername('owner',"gook")).toBeNull()
   })
   
   it('find sitter account by username',async () => {
@@ -85,7 +105,7 @@ describe('AccountService', () => {
   })
 
   it('find sitter account by username (Account Not Found)',async () => {
-    expect(async () => await service.findAccountByUsername('sitter',"sumo")).rejects.toThrow("Account Not Found!")
+    expect(await service.findAccountByUsername('sitter',"sumo")).toBeNull()
   })
 
   it('find pet by owner id',async () => {
@@ -105,14 +125,6 @@ describe('AccountService', () => {
     expect(await service.findPetbyOwnerId('owner',123456)).toStrictEqual([])
   })
 
-
-  it('save to repo',async () => {
-    expect((await service.saveToRepo('owner',
-      { username: 'Baibua',fname: 'Supatchara', lname: 'Taninzon',signUpDate: new Date('2021-02-27'),
-        gender: 'F', password: "pass", fullName: "Supatchara Taninzon"}
-        )).id).toStrictEqual(1000005)
-  })
-
   it('update account',async () => {
     expect((await service.updateAccount('owner', 1000001, {fname: "Garkie"})).fname).toStrictEqual("Garkie")
   })
@@ -125,13 +137,6 @@ describe('AccountService', () => {
     newPet = {...newPet, ...newPetInfo}
     expect((await service.createPet(newPet, {user: {id: 1000001}})).name).toStrictEqual("foke-foke")
   })
-
-  // todo: it throws exception
-  // it('create account', async () => {
-  //   const newUser = { username: 'Baibua',fname: 'Supatchara', lname: 'Taninzon',signUpDate: new Date('2021-02-27'),
-  //   gender: 'F', password: "pass", fullName: "Supatchara Taninzon"}
-  //   expect(async () => (await service.createAccount('owner',newUser))).rejects.toThrow()
-  // })
 
   it('withdraw balance', async () => {
     expect((await service.findAccountById('sitter',2000001)).balance).toStrictEqual(100)

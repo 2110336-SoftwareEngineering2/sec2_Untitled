@@ -6,6 +6,7 @@ import { Employee, Pet, PetOwner, PetSitter } from 'src/entities'
 import { AccountService } from 'src/modules/account/account.service';
 import { AccountController } from 'src/modules/account/account.controller';
 import { mockPetOwner, mockPetSitter, mockRepo } from 'src/modules/mocks/mockRepo';
+import { mockEmployee } from 'src/modules/mocks/mockEmployee';
 
 @Module({
     imports: [
@@ -31,7 +32,7 @@ import { mockPetOwner, mockPetSitter, mockRepo } from 'src/modules/mocks/mockRep
       },
       {
         provide: getRepositoryToken(Employee),
-        useValue: mockRepo
+        useValue: mockEmployee
       },
     ],
     exports: [
