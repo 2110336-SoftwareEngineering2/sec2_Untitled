@@ -11,19 +11,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+            {{!-- <li class="nav-item">
                 <a class="nav-link" href="/">HOME</a>
-            </li>
+            </li> --}}
             {{#if (eq navTitle 'home')}}
-                <li class="nav-item">
+                {{!-- <li class="nav-item">
                     <a class="nav-link" href="#">ABOUT US</a>
-                </li>
+                </li> --}}
                 {{!-- <li class="nav-item">
                     <a class="nav-link" href="#">PROMOTION</a>
                 </li> --}}
-                <li class="nav-item">
+                {{!-- <li class="nav-item">
                     <a class="nav-link" href="#">CONTACT US</a>
-                </li>
+                </li> --}}
             {{/if}}
             {{#if token}}
                 {{#if (eq currentUser.role 'owner')}}

@@ -19,7 +19,7 @@ export class AccountService {
     private readonly repositories;
     private readonly entities;
     // CREATE
-    async saveToRepo(role: string, user: PetOwner | PetSitter | Employee) : Promise<PetOwner | PetSitter | Employee> {
+    async saveToRepo(role: string, user: Omit<PetOwner | PetSitter | Employee, 'id'>) : Promise<PetOwner | PetSitter | Employee> {
         return await this.repositories[role].save(user)
     }
 
@@ -37,13 +37,11 @@ export class AccountService {
 
     async findAccountById(role: string, id: number): Promise<any> {
         const account = await this.repositories[role].findOne(id)
-        if (!account) throw new NotFoundException("Account Not Found!")
         return account
     }
 
     async findAccountByUsername(role: string, username: string): Promise<any> {
         const account = await this.repositories[role].findOne({username})
-        if (!account) throw new NotFoundException("Account Not Found!")
         return account
     }
 

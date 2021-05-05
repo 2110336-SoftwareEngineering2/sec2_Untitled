@@ -13,7 +13,8 @@ export class SearchService {
     	@InjectRepository(PetOwner) private readonly petOwnerRepo: Repository<PetOwner>
 	,@InjectRepository(PetSitter) private readonly PetSitterRepo: Repository<PetSitter>
 	,@InjectRepository(SitterAnimal) private readonly SitterAnimalRepo: Repository<SitterAnimal>
-	,@InjectRepository(Booking) private readonly BookingRepo: Repository<Booking>){}	
+	,@InjectRepository(Booking) private readonly BookingRepo: Repository<Booking>
+	){}	
   
 
 	

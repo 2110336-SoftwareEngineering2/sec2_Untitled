@@ -15,4 +15,9 @@ describe('SearchService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it("search pet sitter", async () => {
+    let searchResults = await service.searchPetSitter("", "All")
+    console.log(searchResults)
+  })
 });
