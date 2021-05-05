@@ -3,32 +3,35 @@
 
 <div class="vl-middle-page"></div>
 <div class="container mt-4" style='width:100%'>
+    <div class='mb-4'>
+                <p><a href="/search">SEARCH RESULTS</a> > <a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a> > <span class='font-weight-bolder'>REVIEWS AND RATINGS</span></p>
+            </div>
     <div class="row">
         <div class="col-12 col-lg-6 book-info-padding mb-5">
-            <div class='mb-4'>
-                <p><a href="/search">SEARCH RESULTS</a> / <a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a> / <span class='font-weight-bolder'>REVIEWS AND RATINGS</span></p>
-            </div>
+            
             {{!-- pet sitter infomation --}}
-            <div class='container'>
+            <div class='container m-3 p-3 rounded-pill px-5 py-4 bg-white'>
                 <div class='row'>
                     {{!-- pet sitter img && ratting --}}
                     <div class="col col-xl-5 d-flex flex-column">
                         <div class="circular--landscape align-self-center">
                             <img src='{{petSitter.picUrl}}'>
                         </div>
-                        <div class='align-self-center mt-3' rating={{petSitter.rating}}>
+                        <div class='align-self-center mt-1' rating={{petSitter.rating}}>
                             <span class="fa fa-star" style="color: white;"></span>
                             <span class="fa fa-star" style="color: white;"></span>
                             <span class="fa fa-star" style="color: white;"></span>
                             <span class="fa fa-star" style="color: white;"></span>
                             <span class="fa fa-star" style="color: white;"></span>
                             <span class='font-weight-bolder ml-1' style="color: rgb(255, 165, 0);">{{rating}}</span>
-                        </div>
+                            </div>
+                        
                     </div>
                     {{!-- pet sitter description --}}
                     <div class="col col-xl-7 text-align-center">
                         {{#if petSitter.fname}}
                             <h2 class='text-lg-center'>{{petSitter.fullName}}</h2>
+                            
                             <p class='text-lg-center'>Dedicated pet sitter in the {{petSitter.location}}</p>
                         {{else}}
                             <h2 class='text-lg-center'>Not found</h2>
@@ -123,9 +126,9 @@
         <div class="col-12 col-lg-6 book-info-padding" style='margin-top:55px'>
             <div class="warapper-scrollable">
                 <div class='d-flex flex-row font-weight-bolder justify-content-between'>
-                    <div>Reviews({{stat.counts}})</div>
+                    <div>Reviews ({{stat.counts}})</div>
                 </div>
-                <div class="hl my-3"></div>
+                <div class="hl my-3 bg-black"  style="background-color:white;"></div>
                 {{!-- {{#each reviews}}
                 <div class="review">
                     <div class=" d-flex flex-row ">
@@ -151,8 +154,9 @@
                 {{/each}} --}}
                 {{#if reviews.length}}
                     {{#each reviews}}
-                            <div class=" d-flex flex-row">
-                                <div class='flex'>
+                            <div class=" d-flex flex-row p-3 rounded-pill shadow-sm my-2" style="background-color:white;background-opacity:50%;border-radius: 50px;">
+                                    <div class='flex align-self-center'>
+                              
                                     <div class="circular--landscape--review align-self-center">
                                         {{#ifNotEquals owner.picUrl null}}
                                             <img src='{{owner.picUrl}}' style='width:75px;height:110px'>
@@ -172,7 +176,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="hl my-3"></div>
+                            
                     {{/each}}
                 {{else}}
                     <div class="d-flex justify-content-center mb-2 mt-5">
