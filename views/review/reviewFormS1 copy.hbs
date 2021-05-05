@@ -1,0 +1,419 @@
+{{#> default}}
+
+	<!--font-awesome star icon-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<!--Golf's stylesheet-->
+	<link rel="stylesheet" href="/stylesheets/review/reviewAndRating.css" />
+
+
+	<style>
+		.checked {
+			color: orange;
+		}
+
+		.rating {
+			display: inline-block;
+			position: relative;
+			height: 50px;
+			line-height: 50px;
+			font-size: 50px;
+		}
+
+		.rating label {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			cursor: pointer;
+		}
+
+		.rating label:last-child {
+			position: static;
+		}
+
+		.rating label:nth-child(1) {
+			z-index: 5;
+		}
+
+		.rating label:nth-child(2) {
+			z-index: 4;
+		}
+
+		.rating label:nth-child(3) {
+			z-index: 3;
+		}
+
+		.rating label:nth-child(4) {
+			z-index: 2;
+		}
+
+		.rating label:nth-child(5) {
+			z-index: 1;
+		}
+
+		.rating label input {
+			position: absolute;
+			top: 0;
+			left: 0;
+			opacity: 0;
+		}
+
+		.rating label .icon {
+			float: left;
+			color: transparent;
+		}
+
+		.rating label:last-child .icon {
+			color: #000;
+		}
+
+		.rating:not(:hover) label input:checked~.icon,
+		.rating:hover label:hover input~.icon {
+			color: #09f;
+		}
+
+		.rating label input:focus:not(:checked)~.icon:last-child {
+			color: #000;
+			text-shadow: 0 0 5px #09f;
+		}
+
+	</style>
+</head>
+
+<body>
+	<div class='mb-4 mx-3'>
+                <p><a href="/book/my">MY BOOKINGS</a> > <span class='font-weight-bolder'>{{petOwner.fullName}}</span></p>
+            </div>
+
+
+	<div class="container">
+		<div class="row">
+        <div class="col-12 col-lg-6 book-info-padding mb-5">
+            
+            {{!-- pet sitter infomation --}}
+            <div class='container m-3 p-3 rounded-pill px-5 py-4 bg-white'>
+                <div class='row'>
+                    {{!-- pet sitter img && ratting --}}
+                    <div class="col col-xl-5 d-flex flex-column">
+                        <div class="circular--landscape align-self-center">
+                            <img src='{{petSitter.picUrl}}'>
+                        </div>
+                        <div class='align-self-center mt-1' rating={{petSitter.rating}}>
+                            <span class="fa fa-star" style="color: white;"></span>
+                            <span class="fa fa-star" style="color: white;"></span>
+                            <span class="fa fa-star" style="color: white;"></span>
+                            <span class="fa fa-star" style="color: white;"></span>
+                            <span class="fa fa-star" style="color: white;"></span>
+                            <span class='font-weight-bolder ml-1' style="color: rgb(255, 165, 0);">{{rating}}</span>
+                            </div>
+                        
+                    </div>
+                    {{!-- pet sitter description --}}
+                    <div class="col col-xl-7 text-align-center">
+                        {{#if petSitter.fname}}
+                            <h2 class='text-lg-center'>{{petSitter.fullName}}</h2>
+                            
+                            <p class='text-lg-center'>Dedicated pet sitter in the {{petSitter.location}}</p>
+                        {{else}}
+                            <h2 class='text-lg-center'>Not found</h2>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column justify-content-center my-4">
+                <h4 class="align-self-center mb-3">Customer Reviews</h4>
+                <div class=" frame-all-star d-flex align-self-center justify-content-center bg-gray-info" style='border-radius: 50px'>
+                    <div class="d-flex justify-content-center align-self-center mr-2" rating={{petSitter.rating}}></div>
+                    <div class="align-self-center mb-0">out of 5</div>
+                </div>
+                <p class="align-self-center my-2">{{stat.counts}} customer ratings</p>
+            </div>
+            <div class='percent-rating container'>
+                <div class="row">
+                    <div class="col-2">
+                        <p class='text-primary'>5 star</p>
+                    </div>
+                    <div class="col-8 mt-1">
+                        <div class="progress progress-petsitter-info">
+                            {{!-- ปรับขนาดหลอดตรงนี้ --}}
+                            <div id="5_star_bar" class="progress-bar bg-petsitter-info" role="progressbar"
+                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <p class="star5_percent" class='font-weight-bolder'>{{stat.star5}}%</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <p class='text-primary'>4 star</p>
+                    </div>
+                    <div class="col-8 mt-1">
+                        <div class="progress progress-petsitter-info">
+                            {{!-- ปรับขนาดหลอดตรงนี้ --}}
+                            <div id="4_star_bar" class="progress-bar bg-petsitter-info" role="progressbar"
+                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <p class="star4_percent" class='font-weight-bolder'>{{stat.star4}}%</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <p class='text-primary'>3 star</p>
+                    </div>
+                    <div class="col-8 mt-1">
+                        <div class="progress progress-petsitter-info">
+                            <div id="3_star_bar" class="progress-bar bg-petsitter-info" role="progressbar"
+                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <p class="star3_percent" class='font-weight-bolder'>{{stat.star3}}%</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <p class='text-primary'>2 star</p>
+                    </div>
+                    <div class="col-8 mt-1">
+                        <div class="progress progress-petsitter-info">
+                            <div id="2_star_bar" class="progress-bar bg-petsitter-info" role="progressbar"
+                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <p class="star2_percent" class='font-weight-bolder'>{{stat.star2}}%</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <p class='text-primary'>1 star</p>
+                    </div>
+                    <div class="col-8 mt-1">
+                        <div class="progress progress-petsitter-info">
+                            <div id="1_star_bar" class="progress-bar bg-petsitter-info" role="progressbar"
+                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <p class="star1_percent" class='font-weight-bolder'>{{stat.star1}}%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-lg-6 book-info-padding" style='margin-top:55px'>
+            <div class="warapper-scrollable">
+                <div class='d-flex flex-row font-weight-bolder justify-content-between'>
+                    <div>Reviews ({{stat.counts}})</div>
+                </div>
+                <div class="hl my-3 bg-black"  style="background-color:white;"></div>
+            
+                {{#if reviews.length}}
+                    {{#each reviews}}
+                            <div class=" d-flex flex-row p-3 rounded-pill shadow-sm my-2" style="background-color:white;background-opacity:50%;border-radius: 50px;">
+                                    <div class='flex align-self-center'>
+                              
+                                    <div class="circular--landscape--review align-self-center">
+                                        {{#ifNotEquals owner.picUrl null}}
+                                            <img src='{{owner.picUrl}}' style='width:75px;height:110px'>
+                                        {{else}}
+                                            <img src='/image/default_img_profile.png' style='width:75px;height:110px'>
+                                        {{/ifNotEquals}}
+                                    </div>
+                                </div>
+                                <div class='flex-fill ml-3'>
+                                    <div class='my-1'>
+                                        <p class='mb-0'>{{owner.fullName}}</p>
+                                        <div class='my-1 mb-4' rating={{rating}}></div>
+                                    </div>
+                                    <div>
+                                        <p>{{description}}</p>
+                                        <p class='mt-2 mb-1 text-muted'><small>27 sep - 30 sep 2019</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                    {{/each}}
+                {{else}}
+                    <div class="d-flex justify-content-center mb-2 mt-5">
+                        <i class="fas fa-file" style='font-size: 20px'></i>
+                    </div>
+                    <div class="text-muted mb-5 text-noFound">
+                        Don't have any review yet
+                    </div>
+                {{/if}}
+            </div>
+
+
+        </div>
+    </div>
+		<div class="row">
+			<div class="col-12">
+				<h2 style="text-align: center;">Review your pet owner</h2>
+			</div>
+			<div class="col-12">
+				<img class="circular--landscape" src="{{petOwner.picUrl}}" style="
+							display: block;
+							margin-left: auto;
+							margin-right: auto;
+							margin-bottom:2%;
+							width: 5cm;
+							height: 5cm;
+						" />
+			</div>
+			<div class="col-12">
+				<h2>Pet owner's name : {{petOwner.fullName}}</h2>
+			</div>
+			<div class="col-12">
+				<h2>Start Date : {{SD}}</h2>
+				<h2>End Date : {{ED}}</h2>
+			</div>
+		</div>
+		<hr />
+
+		<form action="/sitterReviewForm/{{petOwner.id}}" method="POST" class="validated-form" novalidate>
+			<div class="row" style="margin-top: 2%;">
+				<!-- fa-5x = size of star icon -->
+				<div class="col-3">
+					<h2>Your Rating :</h2>
+				</div>
+				<div class="col">
+					<div class="rating">
+						<label>
+							<input type="radio" name="stars" value="1" />
+							<span class="icon">★</span>
+						</label>
+						<label>
+							<input type="radio" name="stars" value="2" />
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+						</label>
+						<label>
+							<input type="radio" name="stars" value="3" />
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+						</label>
+						<label>
+							<input type="radio" name="stars" value="4" />
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+						</label>
+						<label>
+							<input type="radio" name="stars" value="5" />
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+						</label>
+					</div>
+				</div>
+			</div>
+			<hr />
+
+			<div class="row row-content" style="margin-top: 2%; margin-bottom: 1%;">
+				<div class="col-12">
+					<h2 style="padding-bottom:2%">Write Review</h2>
+				</div>
+				<div class="col-12">
+					<input class="form-control" type="text" id="feedback" name="feedback"
+						placeholder="write your review here.." required autofocus />
+				</div>
+
+				<!-- <div class="col-sm-auto" style="margin-top: 1%;" id="Report">
+						<ul class="navbar-nav ml-auto">
+							<li>
+								<a href="./index.html" style="color: red;">Report Pet Sitter</a>
+							</li>
+						</ul>
+					</div> -->
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<button type="submit" class="btn btn-primary">
+						SUBMIT
+					</button>
+				</div>
+			</div>
+		</form>
+		<div class="row mb-5">
+			<form action="/sitterReviewForm/Report/{{Booking.id}}" method="POST" class="validated-form" novalidate>
+				<div class="col-sm-auto" id="Report">
+					<ul class="navbar-nav ml-auto">
+						<li>
+							<a href="#">
+								<i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: red;"
+									data-toggle="modal" data-target="#reportModal">
+									REPORT PET OWNER</i>
+							</a>
+						</li>
+					</ul>
+					<!-- Modal -->
+					<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Reasons for Reporting</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- BEGIN FILTER BY CATEGORY -->
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="PoorOnService"
+												name="PoorOnService">
+											Poor on service
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="NotOnTime" name="NotOnTime">
+											Not on time
+										</label>
+									</div>
+
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="Impoliteness" name="Impoliteness">
+											Impoliteness
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="Other" name="Other">
+											Other
+											<input class="form-control" type="text" id="reportDescription"
+												name="reportDescription" placeholder="Inform us.." required autofocus />
+										</label>
+									</div>
+									<!-- END FILTER BY CATEGORY -->
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-primary">Report</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<footer class="footer bg-dark text-white py-2 mt-auto fixed-bottom">
+		<div class="container">
+			<span class="text-scg">&copy;Untitled 2020</span>
+		</div>
+	</footer>
+
+{{/default}}
