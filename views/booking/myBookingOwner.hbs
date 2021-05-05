@@ -2,10 +2,10 @@
 <link rel="stylesheet" href="/stylesheets/booking/bookingList.css">
 <div class="container mt-3" style='width: 100%'>
     <div class="row">
-        <div class="col-12 bg-glassy border-none my-5 p-5" style='border: 1px solid white'>
+        <div class="col-12 bg-glassy border-none my-5 p-5" style='border-radius:50px'>
             <h2 class="page-header">BOOKING HISTORY</h2>
             {{#if bookingList.length}}
-            <div class='d-flex flex-wrap flex-row-8 flex-col-8 d-none'>
+            <div class='d-flex flex-wrap justify-content-center flex-row-8 flex-col-8 d-none'>
                 {{#each bookingList}}
                 <div class="card my-3 mr-3 rounded-pill shadow-lg" name="booking_parent">
                     <div class="card-body">
@@ -17,22 +17,24 @@
                                 <span style='font-size:14px; font-weight:600'>{{sitter.fullName}}</span>
                                 <div rating={{sitter.rating}} style='font-size: 10px; margin-bottom:0.5rem'>
                                 </div>
-                                <span class="text-black-50">From: {{formatDate startDate "DD MMMM YYYY"}}</span>
-                                <span class="text-black-50">To: {{formatDate endDate "DD MMMM YYYY"}}</span>
-                                <span class="text-black-50">Pet Name: {{pet.name}}</span>
-                                <span class="text-black-50 status">Status: {{status}}</span>
-                                <span class="text-black-50 status">Price: {{price}} $</span>
+                                <span class="detail">From: {{formatDate startDate "DD MMMM YYYY"}}</span>
+                                <span class="detail">To: {{formatDate endDate "DD MMMM YYYY"}}</span>
+                                <span class="detail">Pet Name: {{pet.name}}</span>
+                                
+                                <span class="detail">Price: {{price}} $</span>
+
+                                <div class="align-self-center"><img src="/image/{{status}}.png"></div>
                             {{!-- <span class="ratings"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span>--}}
                             </div> 
                             <div class='align-self-center px-3'>
                                 {{#if (eq status "Pending")}}
-                                    <span><a class="btn btn-primary pay-button" booking-id={{id}}>Pay</a></span>
+                                    <span><a class="btn btn-primary pay-button rounded-pill" booking-id={{id}}>Pay</a></span>
                                 {{/if}}
                                 {{#if (eq status "Finished")}}
-                                    <span><a class="btn btn-primary pay-button" href='/ownerReviewForm/{{id}}/{{sitter.id}}' booking-id={{id}}>Review</a></span>
+                                    <span><a class="btn btn-warning rounded-pill" href='/ownerReviewForm/{{id}}' booking-id={{id}}>Review</a></span>
                                 {{/if}}
                                 {{#if (eq status "Requesting")}}
-                                    <button class='btn btn-danger btn-lg rounded-pill' booking-id={{id}} name="cancelBooking">X</button>
+                                    <button class='btn btn-danger btn-lg rounded-pill rounded-pill' booking-id={{id}} name="cancelBooking">X</button>
                                 {{/if}}
                             </div>
                         </div>       

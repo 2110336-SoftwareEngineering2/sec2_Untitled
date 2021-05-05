@@ -2,9 +2,11 @@
 
 	<!--font-awesome star icon-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<!--Golf's stylesheet-->
+	<link rel="stylesheet" href="/stylesheets/review/reviewAndRating.css" />
+
 
 	<style>
-		/*STAR RATING BEGIN*/
 		.checked {
 			color: orange;
 		}
@@ -67,34 +69,31 @@
 
 		.rating:not(:hover) label input:checked~.icon,
 		.rating:hover label:hover input~.icon {
-			color: #09f;
+			color: rgb(255, 165, 0);
 		}
 
 		.rating label input:focus:not(:checked)~.icon:last-child {
 			color: #000;
-			text-shadow: 0 0 5px #09f;
+			text-shadow: 0 0 5px rgb(255, 165, 0);
 		}
 
-		/*STAR RATING END*/
 	</style>
+</head>
 
-	<!--Golf's stylesheet-->
-	<link rel="stylesheet" type="text/css" href="/stylesheets/review/reviewAndRating.css" />
+<body>
+	<div class='mb-4 mx-3'>
+                <p><a href="/book/my">MY BOOKINGS</a> > <span class='font-weight-bolder'>{{petSitter.fullName}}</span></p>
+            </div>
 
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb my-2 bg-white">
-			<li class="breadcrumb-item"><a href="#">NOTIFICATION</a></li>
-			<li class="breadcrumb-item">REVIEW PETSITTER</li>
-			<li class="breadcrumb-item active"><a href='/book/{{petSitter.id}}'>{{petSitter.fullName}}</a></li>
-		</ol>
-	</nav>
 
-	<div class="container">
+	<div class="container p-4 px-5 shadow mb-3" style="border-radius: 50px;">
+		
 		<div class="row">
 			<div class="col-12">
-				<h2 style="text-align: center;">Review your pet sitter</h2>
+				<h2 class="mb-5 font-weight-bold text-center">REVIEW YOUR PET OWNER</h2>
 			</div>
-			<div class="col-12">
+			
+			<div class="col-6">
 				<img class="circular--landscape" src="{{petSitter.picUrl}}" style="
 							display: block;
 							margin-left: auto;
@@ -104,13 +103,12 @@
 							height: 5cm;
 						" />
 			</div>
-			<div class="col-12">
-				<h2>Pet sitter's name : {{petSitter.fullName}}</h2>
+			<div class="col-6">
+				<h3 class="font-weight-bold"5>{{petSitter.fullName}}</h3>
+				<h5>Start Date : {{SD}}</h5>
+				<h5>End Date : {{ED}}</h5>
 			</div>
-			<div class="col-12">
-				<h2>Start Date : {{SD}}</h2>
-				<h2>End Date : {{ED}}</h2>
-			</div>
+			
 		</div>
 		<hr />
 
@@ -118,39 +116,39 @@
 			<div class="row" style="margin-top: 2%;">
 				<!-- fa-5x = size of star icon -->
 				<div class="col-3">
-					<h2>Your Rating :</h2>
+					<h4 class="font-weight-bold">Your Rating :</h4>
 				</div>
-				<div class="col">
-					<div class="rating">
+				<div class=" bg-white shadow rounded-pill">
+					<div class="rating m-2">
 						<label>
 							<input type="radio" name="stars" value="1" />
-							<span class="icon">★</span>
+							<span class="icon">  ★  </span>
 						</label>
 						<label>
 							<input type="radio" name="stars" value="2" />
-							<span class="icon">★</span>
-							<span class="icon">★</span>
+							<span class="icon">  ★  </span>
+							<span class="icon">  ★  </span>
 						</label>
 						<label>
 							<input type="radio" name="stars" value="3" />
-							<span class="icon">★</span>
-							<span class="icon">★</span>
-							<span class="icon">★</span>
+							<span class="icon">  ★  </span>
+							<span class="icon">  ★  </span>
+							<span class="icon">  ★  </span>
 						</label>
 						<label>
 							<input type="radio" name="stars" value="4" />
-							<span class="icon">★</span>
-							<span class="icon">★</span>
-							<span class="icon">★</span>
-							<span class="icon">★</span>
+							<span class="icon">  ★  </span>
+							<span class="icon">  ★  </span>
+							<span class="icon">  ★  </span>
+							<span class="icon">  ★  </span>
 						</label>
 						<label>
 							<input type="radio" name="stars" value="5" />
-							<span class="icon">★</span>
-							<span class="icon">★</span>
-							<span class="icon">★</span>
-							<span class="icon">★</span>
-							<span class="icon">★</span>
+							<span class="icon">  ★  </span>
+							<span class="icon">  ★  </span>
+							<span class="icon">  ★  </span>
+							<span class="icon">  ★  </span>
+							<span class="icon">  ★  </span>
 						</label>
 					</div>
 				</div>
@@ -159,31 +157,39 @@
 
 			<div class="row row-content" style="margin-top: 2%; margin-bottom: 1%;">
 				<div class="col-12">
-					<h2 style="padding-bottom:2%">Write Review</h2>
+					<h4 class="font-weight-bold" style="padding-bottom:2%">Write Review</h4>
 				</div>
 				<div class="col-12">
-					<input class="form-control" type="text" id="feedback" name="feedback"
+					<input class="form-control rounded-pill" type="text" id="feedback" name="feedback"
 						placeholder="write your review here.." required autofocus />
 				</div>
+
+				<!-- <div class="col-sm-auto" style="margin-top: 1%;" id="Report">
+						<ul class="navbar-nav ml-auto">
+							<li>
+								<a href="./index.html" style="color: red;">Report Pet Sitter</a>
+							</li>
+						</ul>
+					</div> -->
 			</div>
 
-			<div class="row mb-1">
-				<div class="col">
-					<button type="submit" class="btn btn-primary">
+			<div class="row">
+				<div class="col-12">
+					<button type="submit" class="btn btn-dark rounded-pill">
 						SUBMIT
 					</button>
 				</div>
 			</div>
 		</form>
 		<div class="row mb-5">
-			<form action="/ownerReviewForm/Report/{{Booking.id}}" method="POST" class="validated-form" novalidate>
-				<div class="col-sm-auto" id="Report">
+			<form action="/sitterReviewForm/Report/{{Booking.id}}" method="POST" class="validated-form" novalidate>
+				<div class="col-sm-auto mt-3" id="Report">
 					<ul class="navbar-nav ml-auto">
 						<li>
 							<a href="#">
 								<i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: red;"
 									data-toggle="modal" data-target="#reportModal">
-									REPORT PET SITTER</i>
+									REPORT PET OWNER</i>
 							</a>
 						</li>
 					</ul>
@@ -191,7 +197,7 @@
 					<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
 						aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-							<div class="modal-content">
+							<div class="modal-content shadow"  style="border-radius: 30px;">
 								<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLabel">Reasons for Reporting</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -224,15 +230,15 @@
 										<label class="chb-label">
 											<input type="checkbox" class="icheck" id="Other" name="Other">
 											Other
-											<input class="form-control" type="text" id="reportDescription"
-												name="reportDescription" placeholder="Inform us.." required autofocus />
+											<input class="form-control rounded-pill" type="text" id="reportDescription"
+												name="reportDescription" placeholder="..." required autofocus />
 										</label>
 									</div>
 									<!-- END FILTER BY CATEGORY -->
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-									<button type="submit" class="btn btn-primary">Report</button>
+									<button type="button" class="btn btn-secondary rounded-pill" data-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-dark rounded-pill">Report</button>
 								</div>
 							</div>
 						</div>

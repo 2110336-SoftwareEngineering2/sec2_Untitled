@@ -1,26 +1,26 @@
-{{#> default}}
+{{#> default title="Edit Profile"}}
 <link href="/stylesheets/editownerprofile.css" rel="stylesheet">
 <div class="h-100">
-    <div class="card mx-5 my-5">
-        <article class="card-body p-5">
-            <h4 class="card-title mb-4 mt-1">Edit Profile</h4>
+    <div class="card mx-5 my-5 bg-glassy shadow" style= "border-radius: 50px;">
+        <article class="card-body p-5 bg-glassy " >
+            <h2 class="card-title mb-4 mt-1 font-weight-bold">EDIT PROFILE</h2>
 
             <form action="/account/edit" method="POST" class="validated-form" novalidate>
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input name="username" class="form-control" placeholder="Pet Owner Username" type="text" id="username" value={{username}}>
+                    <input name="username" class="form-control"style= "border-radius: 30px;" placeholder="Pet Owner Username" type="text" id="username" value={{username}}>
                 </div>
                 <div class="form-group">
                         <label for="fname">First Name</label>
-                        <input name="fname" class="form-control" placeholder="First Name" type="text" id="fname" value={{fname}}>
+                        <input name="fname" class="form-control"style= "border-radius: 30px;" placeholder="First Name" type="text" id="fname" value={{fname}}>
                 </div>
                 <div class="form-group">
                     <label for="lname">Last Name</label>
-                    <input name="lname" class="form-control" placeholder="Last Name" type="text" id="lname" value={{lname}}>
+                    <input name="lname" class="form-control" style= "border-radius: 30px;"placeholder="Last Name" type="text" id="lname" value={{lname}}>
                 </div>
                 <div class="form-group">
                     <label for="gender">Gender</label>
-                    <select name="gender" class="form-control" placeholder="Gender" id="gender">
+                    <select name="gender" class="form-control"style= "border-radius: 30px;" placeholder="Gender" id="gender">
                         {{#select gender}}
                             <option value="M">Male</option>
                             <option value="F">Female</option>
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-dark btn-block mt-4" > Submit </button>
+                    <button type="submit" class="btn btn-dark btn-block mt-4 rounded-pill"  > Submit </button>
                 </div>
 
             </form>

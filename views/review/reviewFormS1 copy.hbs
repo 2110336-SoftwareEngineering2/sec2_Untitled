@@ -1,12 +1,93 @@
 {{#> default}}
-<link rel="stylesheet" href="/stylesheets/review/reviewAndRating.css">
 
-<div class="vl-middle-page"></div>
-<div class="container mt-4" style='width:100%'>
-    <div class='mb-4'>
-                <p><a href="/search">SEARCH RESULTS</a> > <a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a> > <span class='font-weight-bolder'>REVIEWS AND RATINGS</span></p>
+	<!--font-awesome star icon-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<!--Golf's stylesheet-->
+	<link rel="stylesheet" href="/stylesheets/review/reviewAndRating.css" />
+
+
+	<style>
+		.checked {
+			color: orange;
+		}
+
+		.rating {
+			display: inline-block;
+			position: relative;
+			height: 50px;
+			line-height: 50px;
+			font-size: 50px;
+		}
+
+		.rating label {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			cursor: pointer;
+		}
+
+		.rating label:last-child {
+			position: static;
+		}
+
+		.rating label:nth-child(1) {
+			z-index: 5;
+		}
+
+		.rating label:nth-child(2) {
+			z-index: 4;
+		}
+
+		.rating label:nth-child(3) {
+			z-index: 3;
+		}
+
+		.rating label:nth-child(4) {
+			z-index: 2;
+		}
+
+		.rating label:nth-child(5) {
+			z-index: 1;
+		}
+
+		.rating label input {
+			position: absolute;
+			top: 0;
+			left: 0;
+			opacity: 0;
+		}
+
+		.rating label .icon {
+			float: left;
+			color: transparent;
+		}
+
+		.rating label:last-child .icon {
+			color: #000;
+		}
+
+		.rating:not(:hover) label input:checked~.icon,
+		.rating:hover label:hover input~.icon {
+			color: #09f;
+		}
+
+		.rating label input:focus:not(:checked)~.icon:last-child {
+			color: #000;
+			text-shadow: 0 0 5px #09f;
+		}
+
+	</style>
+</head>
+
+<body>
+	<div class='mb-4 mx-3'>
+                <p><a href="/book/my">MY BOOKINGS</a> > <span class='font-weight-bolder'>{{petOwner.fullName}}</span></p>
             </div>
-    <div class="row">
+
+
+	<div class="container">
+		<div class="row">
         <div class="col-12 col-lg-6 book-info-padding mb-5">
             
             {{!-- pet sitter infomation --}}
@@ -129,29 +210,7 @@
                     <div>Reviews ({{stat.counts}})</div>
                 </div>
                 <div class="hl my-3 bg-black"  style="background-color:white;"></div>
-                {{!-- {{#each reviews}}
-                <div class="review">
-                    <div class=" d-flex flex-row ">
-                        <div class=''>
-                            <div class="circular--landscape--review align-self-center">
-                                <img src={{owner.picUrl}}>
-                            </div>
-                        </div>
-                        <div class='flex-fill ml-3'>
-                            <div class='my-3'>
-                                <h5 class='mb-0'>{{owner.fullName}}</h5>
-                                <div rating={{rating}}></div>
-                            </div>
-                            <div>
-                                <p class="mt-4 mb-2">{{description}}</p>
-                                <p class='mt-2 mb-1 text-muted'><small>27 sep - 30 sep 2019</small></p>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="hl my-3"></div>
-                </div>
-                {{/each}} --}}
+            
                 {{#if reviews.length}}
                     {{#each reviews}}
                             <div class=" d-flex flex-row p-3 rounded-pill shadow-sm my-2" style="background-color:white;background-opacity:50%;border-radius: 50px;">
@@ -186,33 +245,175 @@
                         Don't have any review yet
                     </div>
                 {{/if}}
-
-
-                <!--</div>
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>-->
             </div>
 
 
         </div>
     </div>
-</div>
+		<div class="row">
+			<div class="col-12">
+				<h2 style="text-align: center;">Review your pet owner</h2>
+			</div>
+			<div class="col-12">
+				<img class="circular--landscape" src="{{petOwner.picUrl}}" style="
+							display: block;
+							margin-left: auto;
+							margin-right: auto;
+							margin-bottom:2%;
+							width: 5cm;
+							height: 5cm;
+						" />
+			</div>
+			<div class="col-12">
+				<h2>Pet owner's name : {{petOwner.fullName}}</h2>
+			</div>
+			<div class="col-12">
+				<h2>Start Date : {{SD}}</h2>
+				<h2>End Date : {{ED}}</h2>
+			</div>
+		</div>
+		<hr />
 
-<script src="/javascripts/review/reviewAndRating.js"></script>
-<script src="/javascripts/booking/starsHandler.js"></script>
+		<form action="/sitterReviewForm/{{petOwner.id}}" method="POST" class="validated-form" novalidate>
+			<div class="row" style="margin-top: 2%;">
+				<!-- fa-5x = size of star icon -->
+				<div class="col-3">
+					<h2>Your Rating :</h2>
+				</div>
+				<div class="col">
+					<div class="rating">
+						<label>
+							<input type="radio" name="stars" value="1" />
+							<span class="icon">★</span>
+						</label>
+						<label>
+							<input type="radio" name="stars" value="2" />
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+						</label>
+						<label>
+							<input type="radio" name="stars" value="3" />
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+						</label>
+						<label>
+							<input type="radio" name="stars" value="4" />
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+						</label>
+						<label>
+							<input type="radio" name="stars" value="5" />
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+							<span class="icon">★</span>
+						</label>
+					</div>
+				</div>
+			</div>
+			<hr />
+
+			<div class="row row-content" style="margin-top: 2%; margin-bottom: 1%;">
+				<div class="col-12">
+					<h2 style="padding-bottom:2%">Write Review</h2>
+				</div>
+				<div class="col-12">
+					<input class="form-control" type="text" id="feedback" name="feedback"
+						placeholder="write your review here.." required autofocus />
+				</div>
+
+				<!-- <div class="col-sm-auto" style="margin-top: 1%;" id="Report">
+						<ul class="navbar-nav ml-auto">
+							<li>
+								<a href="./index.html" style="color: red;">Report Pet Sitter</a>
+							</li>
+						</ul>
+					</div> -->
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<button type="submit" class="btn btn-primary">
+						SUBMIT
+					</button>
+				</div>
+			</div>
+		</form>
+		<div class="row mb-5">
+			<form action="/sitterReviewForm/Report/{{Booking.id}}" method="POST" class="validated-form" novalidate>
+				<div class="col-sm-auto" id="Report">
+					<ul class="navbar-nav ml-auto">
+						<li>
+							<a href="#">
+								<i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: red;"
+									data-toggle="modal" data-target="#reportModal">
+									REPORT PET OWNER</i>
+							</a>
+						</li>
+					</ul>
+					<!-- Modal -->
+					<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Reasons for Reporting</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- BEGIN FILTER BY CATEGORY -->
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="PoorOnService"
+												name="PoorOnService">
+											Poor on service
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="NotOnTime" name="NotOnTime">
+											Not on time
+										</label>
+									</div>
+
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="Impoliteness" name="Impoliteness">
+											Impoliteness
+										</label>
+									</div>
+									<div class="checkbox">
+										<label class="chb-label">
+											<input type="checkbox" class="icheck" id="Other" name="Other">
+											Other
+											<input class="form-control" type="text" id="reportDescription"
+												name="reportDescription" placeholder="Inform us.." required autofocus />
+										</label>
+									</div>
+									<!-- END FILTER BY CATEGORY -->
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-primary">Report</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<footer class="footer bg-dark text-white py-2 mt-auto fixed-bottom">
+		<div class="container">
+			<span class="text-scg">&copy;Untitled 2020</span>
+		</div>
+	</footer>
+
 {{/default}}

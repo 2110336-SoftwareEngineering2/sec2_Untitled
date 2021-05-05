@@ -7,9 +7,9 @@ $(".frame-icon").hover(function(){
   $(".frame-icon").click(function(){
       if( $(this).hasClass('selected-icon') ) {
             $(this).removeClass("selected-icon");
-            $(this).find(".activity-icon").css("color", "#0d6efd");
+            $(this).find(".activity-icon").css("color", "white");
       } else {
-            $(`.selected-icon`).find(".activity-icon").css("color", "#0d6efd");
+            $(`.selected-icon`).find(".activity-icon").css("color", "white");
             $(`.selected-icon`).removeClass("selected-icon");
             $(this).addClass("selected-icon");
             $(this).find(".activity-icon").css("color", "white");

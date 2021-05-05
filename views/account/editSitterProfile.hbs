@@ -1,26 +1,26 @@
 {{#> default}}
 <link href="/stylesheets/editownerprofile.css" rel="stylesheet">
 <div class="h-100">
-    <div class="card mx-5 my-5">
+    <div class="card mx-5 my-5 shadow" style= "border-radius: 50px;">
         <article class="card-body p-5">
             <h4 class="card-title mb-4 mt-1">Edit Profile</h4>
 
             <form action="/account/edit" method="POST" class="validated-form" novalidate>
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input name="username" class="form-control" placeholder="Pet Owner Username" type="text" id="username" value={{username}}>
+                    <input name="username" class="form-control rounded-pill" placeholder="Pet Owner Username" type="text" id="username" value={{username}}>
                 </div>
                 <div class="form-group">
                         <label for="fname">First Name</label>
-                        <input name="fname" class="form-control" placeholder="First Name" type="text" id="fname" value={{fname}}>
+                        <input name="fname" class="form-control rounded-pill" placeholder="First Name" type="text" id="fname" value={{fname}}>
                 </div>
                 <div class="form-group">
                     <label for="lname">Last Name</label>
-                    <input name="lname" class="form-control" placeholder="Last Name" type="text" id="lname" value={{lname}}>
+                    <input name="lname" class="form-control rounded-pill" placeholder="Last Name" type="text" id="lname" value={{lname}}>
                 </div>
                 <div class="form-group">
                     <label for="gender">Gender</label>
-                    <select name="gender" class="form-control" placeholder="Gender" id="gender">
+                    <select name="gender" class="form-control rounded-pill" placeholder="Gender" id="gender">
                         {{#select gender}}
                             <option value="M">Male</option>
                             <option value="F">Female</option>
@@ -29,27 +29,27 @@
                 </div>
                 <div class="form-group">
                     <label for="priceRate">Price Rate</label>
-                    <input name="priceRate" class="form-control" placeholder="Price Rate" type="text" id="priceRate" value={{priceRate}}>
+                    <input name="priceRate" class="form-control rounded-pill" placeholder="Price Rate" type="text" id="priceRate" value={{priceRate}}>
                 </div>
                 <div class="form-group">
                     <label for="locationName">Location Name</label>
-                    <input name="locationName" class="form-control" placeholder="Location Name" type="text" id="locationName" value={{locationName}}>
+                    <input name="locationName" class="form-control rounded-pill" placeholder="Location Name" type="text" id="locationName" value={{locationName}}>
                 </div>
                 <div class="form-group">
                     <label for="location">Location Address</label>
-                    <input name="location" class="form-control" placeholder="Address" type="text" id="location" value={{location}}>
+                    <input name="location" class="form-control rounded-pill" placeholder="Address" type="text" id="location" value={{location}}>
                 </div>
                 <div class="form-group">
                     <label for="bank">Bank</label>
-                    <input name="bank" class="form-control" placeholder="Bank Name" type="text" id="bank" value={{bank}}>
+                    <input name="bank" class="form-control rounded-pill" placeholder="Bank Name" type="text" id="bank" value={{bank}}>
                 </div>
                 <div class="form-group">
                     <label for="bankAccount">Bank Account</label>
-                    <input name="bankAccount" class="form-control" placeholder="Bank Account" type="text" pattern="[0-9]{10}" id="bankAccount" value={{bankAccount}}>
+                    <input name="bankAccount" class="form-control rounded-pill" placeholder="Bank Account" type="text" pattern="[0-9]{10}" id="bankAccount" value={{bankAccount}}>
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-dark btn-block mt-4"> Submit </button>
+                    <button type="submit" class="btn btn-dark btn-block mt-4 rounded-pill"> Submit </button>
                 </div>
 
             </form>

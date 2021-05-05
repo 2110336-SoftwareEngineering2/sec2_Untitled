@@ -1,8 +1,7 @@
 body {
-	background-image: url("/image/0home.png");
+	background-image: url("/image/bg-profile2.png");
 	background-repeat: no-repeat;
-	background-position: 0px -91vh;
-	background-size: 100% 100%;
+
 }
 
 .circular--landscape {
@@ -75,7 +74,7 @@ body {
 }
 
   .hl {
-	  border-top: 1px solid rgb(202, 202, 202);
+	  border-top: 1px solid rgb(170, 170, 170);
 	  width: 100%;
   }
 
@@ -87,7 +86,7 @@ body {
   }
 
   .vl-middle-page {
-	border-right: 2px solid rgb(202, 202, 202);
+	border-right: 2px solid rgb(255, 255, 255);
 		position: fixed;
 		top: 100px;
 		right: 50%;

@@ -79,7 +79,7 @@
 			<p>{{capFirstChar otherUserInfo.fullName}}</p>
 
 		</div>
-		<div class="messages bg-glassy mb-5">
+		<div class="messages bg-glassy">
 			<ul id="messageList">
 			{{#each messages}}
 				{{#if isMe}}
@@ -100,10 +100,10 @@
 			</ul>
 		</div>
 
-		<div class="message-input rounded-left bg-white" style="border-radius: 30px;">
+		<div class="message-input">
 			<div class="wrap">
 				<input type="text" name="messageInput" placeholder="Write your message..." />
-				
+				<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
 				<button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 			</div>
 		</div>

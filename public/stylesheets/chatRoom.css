@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@300&display=swap');
 body {
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Montserrat', sans-serif, 'Mitr';
 	background-image: url("/image/bg-profile.png");
 	background-repeat: no-repeat;
     background-size: 100% auto;
     background-position: center top;
     background-attachment: fixed;
-    color:#32465a;
+    color:#343a40;
     align-items: center;
     justify-content: center;
   text-rendering: optimizeLegibility;
@@ -15,6 +15,7 @@ body {
   -webkit-font-smoothing: antialiased;
   width: 100%;
 }
+
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,
 th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,
 hgroup,menu,output,ruby,section,summary,time,mark,audio,video
@@ -43,7 +44,7 @@ table{border-collapse:collapse;border-spacing:0}
   height: 92vh;
   min-height: 300px;
   max-height: 720px;
-  background: #E6EAEA;
+
   margin:0;
     padding:0;
 }
@@ -59,7 +60,7 @@ table{border-collapse:collapse;border-spacing:0}
   max-width: 600px;
   width: 40%;
   height: 100%;
-  background: #2c3e50;
+  background: #343a40;
   color: #f5f5f5;
   overflow: hidden;
   position: relative;
@@ -79,7 +80,7 @@ table{border-collapse:collapse;border-spacing:0}
     width: 100%;
     margin: 0 auto;
     padding: 5px 0 0 0;
-    background: #32465a;
+    background-color:#343a40 ; 
   }
 }
 #frame #sidepanel #profile.expanded .wrap {
@@ -115,7 +116,7 @@ table{border-collapse:collapse;border-spacing:0}
   width: 50px;
   border-radius: 50%;
   padding: 3px;
-  border: 2px solid #e74c3c;
+  border: 2px solid #ffffff;
   height: auto;
   float: left;
   cursor: pointer;
@@ -156,7 +157,7 @@ table{border-collapse:collapse;border-spacing:0}
   margin-top: 23px;
   font-size: 0.8em;
   cursor: pointer;
-  color: #435f7a;
+  color: #565f68;
 }
 @media screen and (max-width: 735px) {
   #frame #sidepanel #profile .wrap i.expand-button {
@@ -172,7 +173,7 @@ table{border-collapse:collapse;border-spacing:0}
   border-radius: 6px;
   z-index: 99;
   line-height: initial;
-  background: #435f7a;
+  background: #6c7175;
   -moz-transition: 0.3s all ease;
   -o-transition: 0.3s all ease;
   -webkit-transition: 0.3s all ease;
@@ -201,7 +202,7 @@ table{border-collapse:collapse;border-spacing:0}
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-bottom: 8px solid #435f7a;
+  border-bottom: 8px solid #677581;
   margin: -8px 0 0 24px;
 }
 @media screen and (max-width: 735px) {
@@ -301,7 +302,7 @@ table{border-collapse:collapse;border-spacing:0}
 #frame #sidepanel #profile .wrap #expanded input {
   border: none;
   margin-bottom: 6px;
-  background: #32465a;
+  background: #343a40;
   border-radius: 3px;
   color: #f5f5f5;
   padding: 7px;
@@ -309,11 +310,11 @@ table{border-collapse:collapse;border-spacing:0}
 }
 #frame #sidepanel #profile .wrap #expanded input:focus {
   outline: none;
-  background: #435f7a;
+  background: #62676b;
 }
 #frame #sidepanel #search {
-  border-top: 1px solid #32465a;
-  border-bottom: 1px solid #32465a;
+  border-top: 1px solid #343a40;
+  border-bottom: 1px solid #343a40;
   font-weight: 300;
 }
 @media screen and (max-width: 735px) {
@@ -330,12 +331,12 @@ table{border-collapse:collapse;border-spacing:0}
   padding: 10px 0 10px 46px;
   width: calc(100% - 25px);
   border: none;
-  background: #32465a;
+  background:#202020;
   color: #f5f5f5;
 }
 #frame #sidepanel #search input:focus {
   outline: none;
-  background: #435f7a;
+  background: #676e74;
 }
 #frame #sidepanel #search input::-webkit-input-placeholder {
   color: #f5f5f5;
@@ -386,14 +387,14 @@ table{border-collapse:collapse;border-spacing:0}
   }
 }
 #frame #sidepanel #contacts ul li.contact:hover {
-  background: #32465a;
+  background: #202020;
 }
 #frame #sidepanel #contacts ul li.contact.active {
-  background: #32465a;
-  border-right: 5px solid #435f7a;
+  background: #202020;
+  border-right: 5px solid #3a3a3a;
 }
 #frame #sidepanel #contacts ul li.contact.active span.contact-status {
-  border: 2px solid #32465a !important;
+  border: 2px solid #202020 !important;
 }
 #frame #sidepanel #contacts ul li.contact .wrap {
   width: 88%;
@@ -477,7 +478,7 @@ table{border-collapse:collapse;border-spacing:0}
   border: none;
   width: 50%;
   padding: 10px 0;
-  background: #32465a;
+  background: #202020;
   color: #f5f5f5;
   cursor: pointer;
   font-size: 0.85em;
@@ -503,7 +504,7 @@ table{border-collapse:collapse;border-spacing:0}
   }
 }
 #frame #sidepanel #bottom-bar button:hover {
-  background: #435f7a;
+  background: #3a3a3a;
 }
 #frame #sidepanel #bottom-bar button i {
   margin-right: 3px;
@@ -564,7 +565,7 @@ table{border-collapse:collapse;border-spacing:0}
   margin-right: 20px;
 }
 #frame .content .contact-profile .social-media i:hover {
-  color: #435f7a;
+  color: #3a3a3a;
 }
 #frame .content .messages {
   height: auto;
@@ -601,7 +602,7 @@ table{border-collapse:collapse;border-spacing:0}
   margin: 0px 8px 0 0;
 }
 #frame .content .messages ul li.sent p {
-  background: #435f7a;
+  background: #3a3a3a;
   color: #f5f5f5;
 }
 #frame .content .messages ul li.replies img {
@@ -639,12 +640,12 @@ table{border-collapse:collapse;border-spacing:0}
   position: relative;
 }
 #frame .content .message-input .wrap input {
-  font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
+  font-family: "mitr";
   float: left;
   border: none;
-  width: calc(100% - 90px);
-  padding: 11px 32px 10px 8px;
-  color: #32465a;
+  /* width: calc(100% - 90px); */
+  padding: 11px 520px 11px 8px;
+  color: #202020;
 }
 @media screen and (max-width: 735px) {
   #frame .content .message-input .wrap input {
@@ -660,7 +661,7 @@ table{border-collapse:collapse;border-spacing:0}
   z-index: 4;
   margin-top: 10px;
   font-size: 1.1em;
-  color: #435f7a;
+  color: #3a3a3a;
   opacity: .5;
   cursor: pointer;
 }
@@ -679,8 +680,7 @@ table{border-collapse:collapse;border-spacing:0}
   width: 50px;
   padding: 12px 0;
   cursor: pointer;
-  background: #32465a;
-  color: #f5f5f5;
+  background: #ffffff;
 }
 @media screen and (max-width: 735px) {
   #frame .content .message-input .wrap button {
@@ -688,7 +688,7 @@ table{border-collapse:collapse;border-spacing:0}
   }
 }
 #frame .content .message-input .wrap button:hover {
-  background: #435f7a;
+  background: #666e75;
 }
 #frame .content .message-input .wrap button:focus {
   outline: none;
