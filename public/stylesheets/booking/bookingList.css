@@ -8,6 +8,14 @@ body {
     background-size:190px, 100% 100%;  
 	background-attachment:scroll ,fixed;
 }
+.status{
+	font-size:1rem;
+	background-color:rgb(0, 187, 72);
+	font-weight: 500;
+}
+.detail{
+	font-size: small;
+}
 
 .bg-glassy {
     background: rgba( 255, 255, 255, 0.25 );

@@ -2,17 +2,17 @@
 <meta name="petSitterId" content={{petSitter.id}}>
 <link rel="stylesheet" href="/stylesheets/booking/booking_info.css">
 {{!-- line in the middle page --}}
-<div class="vl-middle-page"></div>
 
-<div class="container mt-4" style='width:100%'>
+<div class="container mt-4" style='width:1200px'>
+    <div class='mb-4 mx-3'>
+                <p><a href="/search">SEARCH RESULTS</a> > <span class='font-weight-bolder'>{{petSitter.fullName}}</span></p>
+            </div>
     <div class="row">
         {{!-- column left --}}
         
-        <div class="col-12 col-lg-6 book-info-padding mb-5">
+        <div class=" col-lg-6 book-info-padding shadow" style="background: white; border-radius: 50px;">
             {{!-- show path --}}
-            <div class='mb-4'>
-                <p><a href="/search">SEARCH RESULTS</a> / <span class='font-weight-bolder'>{{petSitter.fullName}}</span></p>
-            </div>
+            
             {{!-- pet sitter infomation --}}
             <div class='container'>
                 <div class='row'>
@@ -42,7 +42,7 @@
                 </div>
             </div>
             {{!-- pet sitter year experince && price rate --}}
-            <div class='d-flex align-items-center bg-gray-info justify-content-center mt-3 mb-4' style='font-size: 0.9rem'>
+            <div class='d-flex align-items-center bg-gray-info justify-content-center mt-3 mb-4 rounded-pill' style='font-size: 0.9rem'>
                 <div class='mr-4'>
                     <i class="fa fa-clock-o" aria-hidden="true" style='font-size:20px'></i>
                     {{#if (gt petSitter.exp.value 0)}}
@@ -53,10 +53,10 @@
                 </div>
                 <div>
                     <i class="fa fa-usd" aria-hidden="true" style='font-size:20px'></i>  
-                    <span>{{petSitter.priceRate}} / day / pet</span>
+                    <span>{{petSitter.priceRate}}/day</span>
                 </div>
             </div>
-            <h3>Pet care experince</h3>
+            <h3>Pet care experiences</h3>
             <div class="d-flex flex-wrap my-4">
                 <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-dog text-muted mr-2"></span>Dog</div>
                 <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-horse text-muted mr-2"></span>Horse</div>
@@ -64,19 +64,19 @@
                 <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-paw text-muted mr-2"></span>Livestock</div>
                 <div class="mr-3 mb-3 py-2 px-3 bg-experince"><span class="fas fa-dragon text-muted mr-2"></span>Reptile</div>
             </div>
-            <div class='mb-2'>
-                <button id="sendAMessageDiv" type="button" class="btn btn-light btn-outline-dark py-2" style="width:100%">
+             <div class='mb-2'>
+                <button type="button" class="btn btn-light btn-outline-dark py-2 rounded-pill" style="width:100%">
                     <span class='font-weight-bolder'>SEND A MESSAGE</span>
                 </button>
             </div>
             <div class='mb-4' id="bookAServiceDiv">
-                <button type="button" class="btn btn-dark py-2" style="width:100%;">
+                <button type="button" class="btn btn-dark py-2 rounded-pill" style="width:100%;">
                     <span class='font-weight-bolder'>BOOK A SERVICE</span>
                 </button>
             </div>
         </div>
         {{!-- column right --}}
-        <div class="col-12 col-lg-6 book-info-padding" style='margin-top:55px'>
+        <div class="col-12 col-lg-6 book-info-padding" style='margin-top:5px'>
             <div class="warapper-scrollable">
                 <h3 class='mb-4'>About Me</h3>
                 {{#if petSitter.description.length}}
@@ -99,7 +99,7 @@
                         </div>
                     {{/each}}
                     </div>
-                    <h6 class='font-weight-bolder'>Responsibility include:</h6>
+                    <h6 class='font-weight-bolder'>Responsibilities include:</h6>
                     <div class='d-flex my-4'>
                         <div class='flex-fill'>
                             <span class="fa fa-moon-o mr-2"></span>Overnight care
@@ -110,22 +110,22 @@
                         <i class="fas fa-file" style='font-size: 20px'></i>
                     </div>
                     <div class="text-muted mb-3 text-noFound">
-                        Please contact for more informations
+                        Please contact for more information
                     </div>
                 {{/if}}
-                <div class='mt-5'>
-                    <div class='d-flex flex-row font-weight-bolder justify-content-between'>
-                        <div>Reviews({{petSitter.reviews.length}})</div>
+                <div class='mt-5 background-white'style="border-radius: 30px;">
+                    <div class='d-flex flex-row font-weight-bolder justify-content-between ' >
+                        <div>REVIEWS ({{petSitter.reviews.length}})</div>
                         {{#if petSitter.reviews.length}}
-                        <div><a name="more_reviews" href="/sitterReviews/{{petSitter.id}}">More Reviews</a> ></div>
+                        <div><a name="more_reviews" href="/sitterReviews/{{petSitter.id}}">more reviews >></a></div>
                         {{/if}}
                     </div>
                     <div class="hl my-3"></div>
     {{!-- add reviews --}}
                     {{#if petSitter.reviews.length}}
                         {{#each petSitter.reviews}}
-                                <div class=" d-flex flex-row">
-                                    <div class='flex'>
+                                <div class=" d-flex flex-row p-3 rounded-pill shadow-sm my-2" style="background-color:white;background-opacity:50%;border-radius: 50px;">
+                                    <div class='flex align-self-center'>
                                         <div class="circular--landscape--review align-self-center">
                                             {{#ifNotEquals owner.picUrl null}}
                                                 <img src='{{owner.picUrl}}' style='width:75px;height:110px'>
@@ -145,7 +145,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="hl my-3"></div>
+                                
                         {{/each}}
                     {{else}}
                         <div class="d-flex justify-content-center mb-2 mt-5">
@@ -162,20 +162,10 @@
     </div>
 </div>
 <script>
-    $(document).ready(() => {
-        // event listenings
-        $("#bookAServiceDiv").on('click', function(){
-            window.location += "/options"
-        })
-
-        $("#sendAMessageDiv").on('click', function(){
-            let petSitterId = $("meta[name='petSitterId']").attr('content')
-            window.location = `/chat/${petSitterId}`
-        })
+    $("#bookAServiceDiv").on('click', function(){
+        window.location += "/options"
     })
 </script>
 <script src="/javascripts/booking/starsHandler.js"></script>
 
 {{/default}} 
-{{!-- </body>
-</html> --}}

@@ -1,9 +1,12 @@
 body {
-	background-image: url("/image/0home.png");
+	background-image: url("/image/bg-profile.png");
 	background-repeat: no-repeat;
-	background-position: 0px -91vh;
-	background-size: 100% 100%;
+
 }
+.wow {
+	flex-direction: row ;
+	justify-content: space-between ;
+  }
 
 .circular--landscape {
 	display: inline-block;
@@ -51,13 +54,12 @@ body {
 	font-size: 170%;
   }
 
-  .book-info-padding {
-	  padding-right: 5%;
-	  padding-left: 5%;
-  }
-  
+.book-info-padding {
+	padding:3%;
+	margin-bottom: 3%;
+}
   .hl {
-	  border-top: 1px solid rgb(202, 202, 202);
+	  border-top: 1px solid rgb(160, 160, 160);
 	  width: 100%;
   }
 

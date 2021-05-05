@@ -1,8 +1,7 @@
 body {
-	background-image: url("/image/0home.png");
+	background-image: url("/image/bg-profile.png");
 	background-repeat: no-repeat;
-	background-position: 0px -91vh;
-	background-size: 100% 100%;
+
 }
 
 .tipBannerStyled {
@@ -31,11 +30,16 @@ body {
 
 .bd-callout {
     padding: 1.25rem;
+	padding-left: 2rem;
+	padding-right: 2rem;
     margin-top: 1.25rem;
     margin-bottom: 1.25rem;
+	background: white;
+	/*
     border: 1px solid #eee;
     border-left-width: .25rem;
     border-radius: .25rem;
+	*/
 }
 
 .bd-callout-successs {
