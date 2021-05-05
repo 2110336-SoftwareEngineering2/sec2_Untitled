@@ -7,7 +7,7 @@
     <script src='/javascripts/booking/fullCalendar/lib/main.js'></script>
 
 
-    <link rel="stylesheet" href="/stylesheets/booking/bookingList.css">
+    <link rel="stylesheet" href="/stylesheets/booking/booking_info.css">
     <script>
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -41,67 +41,62 @@
     </script>
     <div class="container mt-4" style='width:100%'>
         <div class="row">
-            <div class="col-12 bg-glassy " style="border-radius: 50px;">
-                <div class="col" >
-                    <div class="card-body d-flex flex-wrap d-none">
-                        {{!-- <div class="col-12 col-lg-5">
+            <div class="col-12">
+                <div class="card shadow" style="border-radius: 50px;">
+                    <div class="card-body d-flex flex-wrap">
+                        <div class="col-12 col-lg-5">
                             <div id='calendar'></div>
-                        </div> --}}
-                        
-                            <h2 class="text-white font-weight-bold">
-                                    INCOMING BOOKING
+                        </div>
+                        <div class="col-12 col-lg-7 pr-0">
+                            <h2>
+                                    Incoming Booking
                             </h2>
-                            <div class='d-flex justify-content-center flex-wrap flex-row-8 flex-col-8 d-none'>
+                            <div class='d-flex flex-wrap'>
                                 {{#each bookingList}}
-                                
-                 <div class="card my-3 mr-3 shadow" 
-                 name="booking_request" booking_id={{id}} style="border-radius: 50px;">
-                    <div class="card-body">
-                        <div class="wow d-flex">
-                            
-                            <div class="d-flex flex-column mx-4" style='max-width:160px'>
-                                
-                                        
-                                           
-                                                <div class="info card-title">
-                                                    <p>Pet owner: {{owner.fullName}}</p>
+                                <div class="card my-3 mr-3" name="booking_request" booking_id={{id}} style='width:370px'>
+                                    
+                                    <div class="row no-gutters">
+                                        <div class="col-8">
+                                            <div class="card-body">
+                                                <div class="card-title">
+                                                    <p>By owner: {{owner.fullName}}</p>
                                                     <p>Pet Name: {{pet.name}}</p>
+                                                </div>
+                                                <div class="card-text">
                                                     <p>From: {{formatDate startDate "DD MMMM YYYY"}}</p>
                                                     <p>To: {{formatDate endDate "DD MMMM YYYY"}}</p>
-                                                    {{!-- <h6><strong>Status: {{status}}</strong></h6> --}}
-                                                    <div class="align-self-center mb-3"><img src="/image/{{status}}.png"></div>
                                                 </div>
-                                                
-                                                 <div class="d-flex align-self-center flex-column">
+                                                <div class="card-text">
+                                                    <p>Status: {{status}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 d-flex align-self-center">
+                                            <div class="d-flex flex-column">
                                                 {{#if (eq status "Requesting")}}
-                                                    
+                                                    <div>
                                                         <meta name='startDate' content={{formatDate startDate "YYYY-MM-DD"}}>
                                                         <meta name='endDate' content={{formatDate endDate "YYYY-MM-DD"}}>
-                                                        <button class='btn align-self-center btn-primary mb-3 rounded-pill' id='test' ownerID='{{owner.fullName}}' name="accept_booking">ACCEPT</button>
-                                                    
-                                                        <button class='btn align-self-center btn-danger mb-3 rounded-pill' name="deny_booking">DENY</button>
-                                                    
+                                                        <button class='btn btn-primary mb-3' id='test' ownerID='{{owner.fullName}}' name="accept_booking">ACCEPT</button>
+                                                    </div>
+                                                    <div>
+                                                        <button class='btn btn-danger mb-3' name="deny_booking">DENY</button>
+                                                    </div>
                                                 {{/if}}
                                                 {{#if (isFinished status endDate)}}
                                                     <div>
-                                                        <button class='btn align-self-center btn-dark mb-3 finish-btn rounded-pill ' ownerId = '{{owner.id}}'>Finish</button>
+                                                        <button class='btn btn-danger mb-3 finish-btn' ownerId = '{{owner.id}}'>Finish</button>
                                                     </div>
                                                 {{/if}}
                                                 {{#if (eq status "Finished")}}
                                                     <div>
-                                                        <a class='btn align-self-center btn-warning mb-3 rounded-pill' href="/sitterReviewForm/{{id}}">Review</a>
+                                                        <a class='btn btn-danger mb-3' href="/sitterReviewForm/{{id}}">Review</a>
                                                     </div>
                                                 {{/if}}
                                             </div>
-                                                
-                                            
-
-
-                            </div> 
-                            
-                        </div>       
-                    </div>
-                </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {{/each}}
                             </div>
                         </div>
