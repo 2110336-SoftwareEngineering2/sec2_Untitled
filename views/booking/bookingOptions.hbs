@@ -15,7 +15,7 @@
         {{!-- show path --}}
         <div class="col-12 col-lg-6 book-info-padding">
             <div class='mb-2'>
-                <p><a href="/search">SEARCH RESULTS</a> / <a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a> / <span class='font-weight-bolder'>BOOKING</span></p>
+                <p><a class=href="/search">SEARCH</a> > <a href="/book/{{petSitter.id}}">{{petSitter.fullName}}</a> > <span class='font-weight-bolder'>BOOKING</span></p>
             </div>
         </div>
     </div>
@@ -25,15 +25,25 @@
             <div class="card shadow" style=" border-radius: 30px;">
                 <div class="card-body" >
                     <h2 class="card-head mb-3 font-weight-bolder">
-                        BOOKING
+                        BOOK A SERVICE
                     </h2>
                     <h5 class="card-head">
                         Pet list
                     </h5>
                     <p style='font-size: 0.9em'>List of your pets</p>
-                    <div class='dropzone center'>
+                    <div class='dropzone d-flex flex-wrap justify-content-center center'>
                         {{#each pets}}
-                        <p class='draggable font-weight-bolder' draggable='true' pet-id={{id}}>{{name}} ({{capFirstChar type}})</p>
+                        <p class='draggable rounded-pill m-2 p-2 shadow' 
+                        draggable='true' pet-id={{id}}> 
+                            
+                            
+                                <img style="width:30px; height:30px"src="/image/icons/{{type}}.png"> 
+                            
+                           
+                       <strong>{{capFirstChar type}}</strong> {{name}} 
+                       {{!-- ({{capFirstChar type}}) --}}
+                       </p>
+                        
                         {{/each}}
 					</div>
                     <div class='d-flex justify-content-center'>
@@ -43,7 +53,7 @@
                         Selected pet list
                     </h5>
                     <p style='font-size: 0.9em'>This is the list of pets which will be serviced</p>
-                    <div class='dropzone dropzonesSeleted' id="selectedPetZone">
+                    <div class='dropzone d-flex flex-wrap justify-content-center dropzonesSeleted' id="selectedPetZone">
 					</div>
                      <h5 class="card-head  mt-4">
                         Select date

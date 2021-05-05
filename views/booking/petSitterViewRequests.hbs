@@ -44,14 +44,15 @@
         <div class="col-12 bg-glassy " style="border-radius: 50px;">
             <div class="col">
                 <div class="card-body">
-                    <div class="col-10 mx-auto" id="calenderWrapper">
+                    <h2 class="text-black text-center font-weight-bold">
+                            INCOMING BOOKING
+                        </h2>
+                    <div class="col-10 mx-auto shadow" id="calenderWrapper">
                         <div id='calendar'></div>
                     </div>
 
                     <div class="d-flex flex-wrap mt-3">
-                        <h2 class="text-black text-center font-weight-bold">
-                            INCOMING BOOKING
-                        </h2>
+                        
                         <div class='d-flex justify-content-center flex-wrap flex-row-8 flex-col-8 d-none'>
                             {{#each bookingList}}
                             <div class="card my-3 mr-3 shadow" name="booking_request" booking_id={{id}}
