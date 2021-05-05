@@ -18,8 +18,7 @@ export class AdminController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
     @Get('')
-    renderAdmin(@Req() req, @Res() res){
-        console.log(req.user)
+    renderAdmin(@Res() res){
         res.render('./admin/index')
     }
 }

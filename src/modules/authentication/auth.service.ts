@@ -10,8 +10,8 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) {}
 
-    register(@Body() dto){
-        return this.accountService.createAccount(dto.role,dto)
+    async register(@Body() dto){
+        return await this.accountService.createAccount(dto.role,dto)
     }
 
     logout(@Res() res){

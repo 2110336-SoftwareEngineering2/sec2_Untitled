@@ -9,18 +9,18 @@ export class AuthController {
 
     @Post('/register')
     @Redirect('/')
-    register(@Body() dto){
-    return this.authService.register(dto)
+    async register(@Body() dto){
+    return await this.authService.register(dto)
     }
     
     @UseGuards(LocalAuthGuard)
     @Post('/login')
-    async login(@Req() {user}: Request, @Res() res: Response){
+    async login(@Req() {user}, @Res() res){
         return this.authService.login(user, res)
     }
 
     @Get('/logout')
-    logout(@Res() res: Response){
+    logout(@Res() res){
         return this.authService.logout(res);
     }
 }

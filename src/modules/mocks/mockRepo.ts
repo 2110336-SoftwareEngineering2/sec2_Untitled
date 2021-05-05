@@ -9,7 +9,7 @@ export const mockRepo = {
 
 export const mockPetOwner = {
     entityList:[
-        {id: 1000001, username: 'gark', fname: 'Pabhanuwat', lname: 'Pongsawad', signUpDate: new Date('2021-02-22'), rating: 5, gender: 'M'},
+        {id: 1000001, username: 'gark', fname: 'Pabhanuwat', lname: 'Pongsawad', signUpDate: new Date('2021-02-22'), rating: 5, gender: 'M', password: '$2a$10$yuLU9RtBz3Ge.erhj0t4xOCxZdSIZTzfUmxzUSQgAHNWFCK4ug6fu'},
         {id: 1000002, username: 'arm', fname: 'Ong-art', lname: 'Pisansathienwong', signUpDate: new Date('2021-02-14'), rating: 4, gender: 'M', picUrl: "ong-art_pic"},
         {id: 1000003, username: 'fokenama', fname: 'Suchon', lname: 'Chatavaraha', signUpDate: new Date('2021-11-12'), rating: 0, gender: 'F', picUrl: "suchon_pic"},
         {id: 1000004, username: 'golf', fname: 'Patipan', lname: 'Buranangura', signUpDate: new Date('2021-01-01'), rating: 1, gender: 'M', picUrl: "patipan_pic"},
